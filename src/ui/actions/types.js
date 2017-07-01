@@ -1,0 +1,4 @@
+export const LOGIN_STARTED = 'LOGIN_STARTED'
+export const LOGIN_SUCCESS = 'LOG_IN_SUCCESS'
+export const LOGIN_FAILED = 'LOGIN_FAILED'
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
