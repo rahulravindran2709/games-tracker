@@ -1,4 +1,5 @@
-import {LOGIN_SUCCESS} from '../actions/types'
+import { LOGIN_SUCCESS } from '../actions/types';
+
 const initialState = {
   userDetails: {
     username: null

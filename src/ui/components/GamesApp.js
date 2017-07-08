@@ -1,27 +1,38 @@
 import React from 'react'
-import FacebookLogin from 'react-facebook-login'
 import {connect} from 'react-redux'
 import {startLogin,loginSucceeded} from '../actions'
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter,
+  Switch
+} from 'react-router-dom'
+import Dashboard from './dashboard';
+import LoginForm from './login'
 const mapStateToProps = (state) => {
+  const {authreducer} = state;
   return {
-    userDetails: state.userDetails
+    userDetails: authreducer.userDetails,
+    isAuthenticated:!!authreducer.userDetails.username
   }
 }
 
 class GamesApp extends React.Component {
-  initiatedLogin = ()=>{
-  	this.props.dispatch(startLogin())
-  }
+  handleLoginStart= () => this.props.dispatch(startLogin())
   handleLoginSuccess=(userData)=>{
   	this.props.dispatch(loginSucceeded(userData))
   }
   render () {
-    return (<FacebookLogin
-      appId='714754525386059'
-      fields='name,email,picture'
-      onClick={this.initiatedLogin}
-      callback={this.handleLoginSuccess} />)
+  	let  loginForm = <LoginForm onLoginStart={this.handleLoginStart} onLoginSuccess={this.handleLoginSuccess} />
+    return (<div>
+      <Switch>
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/login" render={()=>loginForm} />
+      <Route path="/" render={()=>loginForm} />
+    </Switch>
+    </div>)
   }
 }
 export default connect(mapStateToProps)(GamesApp)
