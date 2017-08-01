@@ -1,18 +1,21 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
-const ENTRY_FILENAME = 'app.js'
-const SRC_UI_ENTRY_PATH = path.resolve(__dirname, 'src/ui')
-const OUTPUT_PATH = path.resolve(__dirname, 'dist')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const babelPluginTransformRestSpread = require('babel-plugin-transform-object-rest-spread');
 
-var devFlagPlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
-})
+const ENTRY_FILENAME = 'app.js';
+const SRC_UI_ENTRY_PATH = path.resolve(__dirname, 'src/ui');
+const OUTPUT_PATH = path.resolve(__dirname, 'dist');
+
+const devFlagPlugin = new webpack.DefinePlugin({
+  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
+});
 module.exports = {
-  entry: [path.resolve(SRC_UI_ENTRY_PATH, ENTRY_FILENAME)],
+  entry: ['webpack-hot-middleware/client', path.resolve(SRC_UI_ENTRY_PATH, ENTRY_FILENAME)],
   output: {
     path: OUTPUT_PATH,
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/',
   },
   module: {
     rules: [{
@@ -21,13 +24,14 @@ module.exports = {
       loader: 'babel-loader',
       options: {
         presets: ['es2015', 'react', 'stage-1'],
-        plugins: [require('babel-plugin-transform-object-rest-spread')]
-      }
-    }]
+        plugins: [babelPluginTransformRestSpread],
+      },
+    }],
   },
-  plugins: [devFlagPlugin, new HtmlWebpackPlugin({
-    title: 'Games Tracker',
-    inject: 'body',
-    template: path.resolve(SRC_UI_ENTRY_PATH, 'index.html')
-  })]
-}
+  plugins: [devFlagPlugin, new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(), new HtmlWebpackPlugin({
+      title: 'Games Tracker',
+      inject: 'body',
+      template: path.resolve(SRC_UI_ENTRY_PATH, 'index.html'),
+    })],
+};

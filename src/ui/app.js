@@ -10,4 +10,4 @@ import GamesTrackerApp from './components/GamesApp';
 
 injectTapEventPlugin();
 const App = () => (<Provider store={store}><GamesTrackerApp /></Provider>);
-ReactDOM.render(<Router hashType="slash"><App /></Router>, document.getElementById('app'));
+ReactDOM.render(<Router ><App /></Router>, document.getElementById('app'));
