@@ -1,2 +1,2 @@
 require('babel-core/register');
-require('./hapi');
+require('./server');

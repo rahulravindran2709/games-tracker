@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --content-base dist --hot --port 3000",
     "build": "webpack -p",
-    "start": "node src/server/index"
+    "start": "node src/backend/index"
   },
   "dependencies": {
     "babel-core": "^6.25.0",
