@@ -1,9 +1,9 @@
+const apiControllers = require('../controllers').api;
+console.log(apiControllers, 'Api controllers')
 module.exports = [
   {
     method: 'GET',
     path: '/api',
-    handler: (request, reply) => {
-      reply('hello world');
-    },
+    handler: apiControllers.getGames,
   },
 ];
