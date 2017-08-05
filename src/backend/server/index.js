@@ -29,6 +29,7 @@ wsServer.register({
   }
   console.log('Web server configured');
 });
+apiServer.realm.modifiers.route.prefix = '/api';
 apiServer.register({
   register: apiServerPlugin,
 }, (err) => {

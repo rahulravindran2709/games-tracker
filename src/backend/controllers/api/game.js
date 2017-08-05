@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 function GameController() {}
 const controllerMethods = {};
 controllerMethods.getGames = (request, reply) => {
