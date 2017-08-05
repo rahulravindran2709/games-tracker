@@ -3,6 +3,7 @@ import good from 'good';
 import Blipp from 'blipp';
 import webServerPlugin from './ws';
 import apiServerPlugin from './api';
+import config from '../config';
 
 const server = new hapi.Server();
 const host = '127.0.0.1';
@@ -25,25 +26,16 @@ const apiServer = server.select('api');
 
 wsServer.register({
   register: webServerPlugin,
-}, (err) => {
-  if (err) {
-    console.error(err, 'Error occurred');
-  }
-  console.log('Web server configured');
-});
+})
+.then(() => console.log('WS server is configured'))
+.catch(err => console.error(err, 'Error occurred while confguring web server'));
 apiServer.realm.modifiers.route.prefix = '/api';
 apiServer.register({
   register: apiServerPlugin,
-}, (err) => {
-  if (err) {
-    console.error(err, 'Error occurred in api server');
-  }
-  console.log('Api server configured');
-});
-server.register([good, Blipp]);
-server.start((err) => {
-  if (err) {
-    throw err;
-  }
-  server.connections.forEach(connection => console.log('Server running at:', connection.info.uri));
-});
+})
+.then(() => console.log('Api server configured'))
+.catch(err => console.error(err, 'Error occurred'));
+server.register([{ register: good, options: config.good }, { register: Blipp }])
+.then(() => server.start())
+.then(() => server.connections.forEach(connection => console.log('Server running at:', connection.info.uri)))
+.catch(err => console.error(err, 'Error occurred while trying to start server'));
