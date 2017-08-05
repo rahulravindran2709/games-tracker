@@ -1,5 +1,5 @@
+const GameController = require('./game');
+
 module.exports = {
-  getGames: (request, reply) => {
-    reply('hello world1');
-  },
+  GameController,
 };
