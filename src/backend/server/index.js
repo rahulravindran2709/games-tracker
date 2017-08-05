@@ -1,4 +1,6 @@
 import hapi from 'hapi';
+import good from 'good';
+import Blipp from 'blipp';
 import webServerPlugin from './ws';
 import apiServerPlugin from './api';
 
@@ -38,6 +40,7 @@ apiServer.register({
   }
   console.log('Api server configured');
 });
+server.register([good, Blipp]);
 server.start((err) => {
   if (err) {
     throw err;
