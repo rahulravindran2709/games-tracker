@@ -1,9 +1,13 @@
-import axios from 'axios';
+import services from '../../services';
 
+const { igdbService } = services;
 function GameController() {}
 const controllerMethods = {};
 controllerMethods.getGames = (request, reply) => {
-  reply('Hello world from get game');
+  igdbService.getGames().then(games => reply(games));
+};
+controllerMethods.getGameById = (request, reply) => {
+  igdbService.getGameById(request.params.id).then(game => reply(game));
 };
 GameController.prototype = controllerMethods;
 const gameControllerInstance = new GameController();
