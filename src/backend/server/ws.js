@@ -12,6 +12,11 @@ function register(server, options, next) {
     wsPort,
     historyApiFallback: true,
     publicPath: Config.output.publicPath,
+    stats: {
+      colors: true,
+      chunks: false,
+      modules: false,
+    },
   });
   const hotMiddleware = require('webpack-hot-middleware')(compiler, {
     log: () => {},
