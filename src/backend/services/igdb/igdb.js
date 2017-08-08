@@ -12,7 +12,7 @@ serviceMethods.getGames = () => {
     limit: 10, // Limit to 5 results
     offset: 15, // Index offset for results
   }).then(response => response.body)
-  .catch( (error) => {
+  .catch((error) => {
     console.log(error, 'Error occurred');
     throw error;
   });
@@ -26,7 +26,7 @@ serviceMethods.getGameById = (id) => {
     console.log(error, 'Error occurred');
     throw error;
   });
-}
+};
 IGDBService.prototype = serviceMethods;
 const igdbService = new IGDBService();
 module.exports = igdbService;
