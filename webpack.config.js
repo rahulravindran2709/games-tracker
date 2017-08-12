@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const babelPluginTransformRestSpread = require('babel-plugin-transform-object-rest-spread');
 const babelPluginClassProperties = require('babel-plugin-transform-class-properties');
 
-const ENTRY_FILENAME = 'app.js';
+const ENTRY_FILENAME = 'main.js';
 const SRC_UI_ENTRY_PATH = path.resolve(__dirname, 'src/ui');
 const OUTPUT_PATH = path.resolve(__dirname, 'dist');
 
