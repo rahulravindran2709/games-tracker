@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const babelPluginTransformRestSpread = require('babel-plugin-transform-object-rest-spread');
+const babelPluginClassProperties = require('babel-plugin-transform-class-properties');
 
 const ENTRY_FILENAME = 'app.js';
 const SRC_UI_ENTRY_PATH = path.resolve(__dirname, 'src/ui');
@@ -17,6 +18,11 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/',
   },
+  resolve: {
+    modules: [
+      SRC_UI_ENTRY_PATH, path.resolve('./node_modules'),
+    ],
+  },
   module: {
     rules: [{
       test: /\.jsx?$/,
@@ -24,8 +30,12 @@ module.exports = {
       loader: 'babel-loader',
       options: {
         presets: ['es2015', 'react', 'stage-1'],
-        plugins: [babelPluginTransformRestSpread],
+        plugins: [babelPluginTransformRestSpread, babelPluginClassProperties],
       },
+    },
+    {
+      test: /\.css$/,
+      loader: ['style-loader', 'css-loader'],
     }],
   },
   plugins: [devFlagPlugin, new webpack.optimize.OccurrenceOrderPlugin(),
