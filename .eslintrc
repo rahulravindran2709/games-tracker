@@ -6,10 +6,8 @@
   "node": true,
   },
 "settings": {
-    "import/resolver": {
-      "webpack": {
-        "paths": ["src/ui"]
-      }
+        "import/resolver": {
+        "webpack": "webpack.config.js"
     }
   },
 "parser": "babel-eslint",

@@ -3,6 +3,7 @@ import Webpack from 'webpack';
 
 const devMiddlewareFn = require('webpack-dev-middleware');
 const hotMiddlewareFn = require('webpack-hot-middleware');
+
 function register(server, options, next) {
   const configFilePath = path.resolve(process.cwd(), 'webpack.config.js');
   const Config = require(configFilePath);
