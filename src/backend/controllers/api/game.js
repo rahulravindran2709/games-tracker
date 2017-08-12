@@ -4,8 +4,8 @@ const { igdbService } = services;
 function GameController() {}
 const controllerMethods = {};
 controllerMethods.getGames = (request, reply) => {
-  const { cache } = request.server
   igdbService.getGames().then((games) => {
+    console.log('In get games');
     return reply(games);
   });
 };

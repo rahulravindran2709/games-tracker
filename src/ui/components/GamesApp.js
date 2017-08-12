@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Navbar from 'components/core/navbar';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { startLogin, loginSucceeded, toggleDrawer } from 'actions';
@@ -12,10 +12,14 @@ import LoginForm from './login';
 const propTypes = {
   isDrawerOpen: PropTypes.bool,
   toggleNavDrawer: PropTypes.func,
+  onLoginStart: PropTypes.func,
+  onLoginSuccess: PropTypes.func,
 };
 const defaultProps = {
   isDrawerOpen: false,
   toggleNavDrawer: null,
+  onLoginStart: null,
+  onLoginSuccess: null,
 };
 const mapStateToProps = (state) => {
   const { authreducer, corereducer } = state;
@@ -28,12 +32,12 @@ const mapStateToProps = (state) => {
 
 class GamesApp extends React.Component {
   handleToggleDrawer = () => {
-    console.log('Here')
+    console.log('Here');
     this.props.toggleNavDrawer();
   }
-  handleLoginStart= () => this.props.dispatch(startLogin())
+  handleLoginStart= () => this.props.onLoginStart();
   handleLoginSuccess=(userData) => {
-    this.props.dispatch(loginSucceeded(userData));
+    this.props.onLoginSuccess(userData);
   }
   render() {
     const { isDrawerOpen } = this.props;
@@ -63,6 +67,8 @@ class GamesApp extends React.Component {
 const mapDispatchToProps = dispatch =>
   ({
     toggleNavDrawer: () => dispatch(toggleDrawer()),
+    onLoginStart: () => dispatch(startLogin()),
+    onLoginSuccess: userData => dispatch(loginSucceeded(userData)),
   });
 GamesApp.propTypes = propTypes;
 GamesApp.defaultProps = defaultProps;

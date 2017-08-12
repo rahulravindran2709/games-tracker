@@ -8,5 +8,6 @@ import GamesTrackerApp from 'components/GamesApp';
 import store from './store/gametracker';
 
 injectTapEventPlugin();
-const App = () => (<MuiThemeProvider><Provider store={store}><GamesTrackerApp /></Provider></MuiThemeProvider>);
+const App = () => (<MuiThemeProvider>
+  <Provider store={store}><GamesTrackerApp /></Provider></MuiThemeProvider>);
 ReactDOM.render(<Router ><App /></Router>, document.getElementById('app'));

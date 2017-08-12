@@ -1,13 +1,15 @@
 import path from 'path';
 import Webpack from 'webpack';
 
+const devMiddlewareFn = require('webpack-dev-middleware');
+const hotMiddlewareFn = require('webpack-hot-middleware');
 function register(server, options, next) {
   const configFilePath = path.resolve(process.cwd(), 'webpack.config.js');
   const Config = require(configFilePath);
   const host = '127.0.0.1';
   const wsPort = 3000;
   const compiler = Webpack(Config);
-  const devMiddleware = require('webpack-dev-middleware')(compiler, {
+  const devMiddleware = devMiddlewareFn(compiler, {
     host,
     wsPort,
     historyApiFallback: true,
@@ -18,7 +20,7 @@ function register(server, options, next) {
       modules: false,
     },
   });
-  const hotMiddleware = require('webpack-hot-middleware')(compiler, {
+  const hotMiddleware = hotMiddlewareFn(compiler, {
     log: () => {},
   });
 

@@ -5,6 +5,13 @@
   "es6": true,
   "node": true,
   },
+"settings": {
+    "import/resolver": {
+      "webpack": {
+        "paths": ["src/ui"]
+      }
+    }
+  },
 "parser": "babel-eslint",
 "globals": {
     "beforeEach": true,
@@ -12,7 +19,8 @@
     "expect": true,
     "it": true,
     "xdescribe": true,
-    "xit": true
+    "xit": true,
+    "__DEV__": true,
   },
 "rules": {
   "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
