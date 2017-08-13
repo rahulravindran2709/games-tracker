@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import normalize from 'normalize.css';
 import Navbar from 'components/core/navbar';
 import { Route, Switch } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
