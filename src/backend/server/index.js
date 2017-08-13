@@ -40,15 +40,15 @@ const apiServer = server.select('api');
 wsServer.register({
   register: webServerPlugin,
 })
-.then(() => console.log('WS server is configured'))
+.then(() => server.log('WS server is configured'))
 .catch(err => console.error(err, 'Error occurred while confguring web server'));
 apiServer.realm.modifiers.route.prefix = '/api';
 apiServer.register({
   register: apiServerPlugin,
 })
-.then(() => console.log('Api server configured'))
+.then(() => server.log('Api server configured'))
 .catch(err => console.error(err, 'Error occurred'));
 server.register([{ register: good, options: config.good }, { register: Blipp }])
 .then(() => server.start())
-.then(() => server.connections.forEach(connection => console.log('Server running at:', connection.info.uri)))
+.then(() => server.connections.forEach(connection => server.log('Server running at:', connection.info.uri)))
 .catch(err => console.error(err, 'Error occurred while trying to start server'));

@@ -1,26 +1,27 @@
-import React from 'react'
-import { createStore as initialCreateStore, compose } from 'redux'
+import React from 'react';
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+import { createStore as initialCreateStore, compose } from 'redux';
+import devTools from 'redux-devtools';
 
-export let createStore = initialCreateStore
+export let createStore = initialCreateStore;
 
 if (__DEV__) {
   createStore = compose(
-    require('redux-devtools').devTools(),
-    require('redux-devtools').persistState(
-      window.location.href.match(/[?&]debug_session=([^&]+)\b/)
+    devTools.devTools(),
+    devTools.persistState(
+      window.location.href.match(/[?&]debug_session=([^&]+)\b/),
     ),
-    createStore
-  )
+    createStore,
+  );
 }
 
-export function renderDevTools (store) {
+export function renderDevTools(store) {
   if (__DEV__) {
-    let {DevTools, DebugPanel, LogMonitor} = require('redux-devtools/lib/react')
     return (
       <DebugPanel top right bottom>
         <DevTools store={store} monitor={LogMonitor} />
       </DebugPanel>
-    )
+    );
   }
-  return null
+  return null;
 }

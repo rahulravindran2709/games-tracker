@@ -1,1 +1,26 @@
-{"extends":"airbnb"}
+{
+"extends":"airbnb",
+"env": {
+  "browser": true,
+  "es6": true,
+  "node": true,
+  },
+"settings": {
+        "import/resolver": {
+        "webpack": "webpack.config.js"
+    }
+  },
+"parser": "babel-eslint",
+"globals": {
+    "beforeEach": true,
+    "describe": true,
+    "expect": true,
+    "it": true,
+    "xdescribe": true,
+    "xit": true,
+    "__DEV__": true,
+  },
+"rules": {
+  "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+  }
+}
