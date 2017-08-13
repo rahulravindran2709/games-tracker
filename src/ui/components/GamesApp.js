@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import normalize from 'normalize.css';
 import Navbar from 'components/core/navbar';
 import { Route, Switch } from 'react-router-dom';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/Menu/MenuItem';
+import MenuList from 'components/core/menulist';
 import { startLogin, loginSucceeded, toggleDrawer } from 'actions';
 import Dashboard from './dashboard';
 import LoginForm from './login';
@@ -48,15 +47,7 @@ class GamesApp extends React.Component {
     />);
     return (<div>
       <Navbar handleToggleDrawer={this.handleToggleDrawer} />
-      <Drawer
-        docked={false}
-        width={200}
-        open={isDrawerOpen}
-        onRequestChange={this.handleToggleDrawer}
-      >
-        <MenuItem onTouchTap={this.handleClose}>Home</MenuItem>
-        <MenuItem onTouchTap={this.handleClose}>Analytics</MenuItem>
-      </Drawer>
+      <MenuList isOpen={isDrawerOpen} onRequestChange={this.handleToggleDrawer} />
       <Switch>
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/login" render={() => loginForm} />
