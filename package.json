@@ -22,7 +22,8 @@
     "good-squeeze": "^5.0.2",
     "hapi": "^16.5.0",
     "igdb-api-node": "^3.0.2",
-    "material-ui": "^0.18.5",
+    "material-ui": "next",
+    "material-ui-icons": "^1.0.0-alpha.19",
     "normalize.css": "^7.0.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
@@ -35,6 +36,7 @@
     "redux": "^3.7.1",
     "redux-devtools": "^3.4.0",
     "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
     "webpack": "^3.4.1",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2"
