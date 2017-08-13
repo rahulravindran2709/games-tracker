@@ -5,7 +5,7 @@ import normalize from 'normalize.css';
 import Navbar from 'components/core/navbar';
 import { Route, Switch } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
+import MenuItem from 'material-ui/Menu/MenuItem';
 import { startLogin, loginSucceeded, toggleDrawer } from 'actions';
 import Dashboard from './dashboard';
 import LoginForm from './login';
