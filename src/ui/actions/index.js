@@ -1,4 +1,5 @@
 import { getJSONFromServer } from 'utils/xhr';
+import { push } from 'react-router-redux';
 import { LOGIN_STARTED, LOGIN_SUCCESS, TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
 export const startLogin = () =>
@@ -14,11 +15,13 @@ export const toggleDrawer = () => ({
   type: TOGGLE_DRAWER,
 });
 
-export const search = (searchCriteria) => {
-  return {
+export const search = (searchCriteria) => (dispatch, getState) => {
+  return dispatch({
     type: SEARCH,
-    payload: getJSONFromServer('/search', searchCriteria),
-  };
+    payload: {
+      promise: getJSONFromServer('/search', searchCriteria),
+    },
+  }).then(response => dispatch(push('/')));
 };
 export const searchSuccess = results => ({
   type: SEARCH_FULFILLED,
