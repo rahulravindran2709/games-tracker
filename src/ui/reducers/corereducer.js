@@ -11,15 +11,16 @@ const initialState = {
 
 const corereducer = (state = initialState, action) => {
   const { type, payload } = action;
+
   switch (type) {
     case TOGGLE_DRAWER:
       return { ...state, isDrawerOpen: !state.isDrawerOpen };
     case SEARCH_FULFILLED:
-      console.log(payload, 'payload');
+      const { data } = payload;
       return { ...state,
         search: {
           ...state.search,
-          results: payload,
+          results: data,
         } };
     default:
       return state;

@@ -14,12 +14,12 @@ export const toggleDrawer = () => ({
   type: TOGGLE_DRAWER,
 });
 
-export const search = (searchCriteria) => {
-  return {
+export const search = searchCriteria => (
+  {
     type: SEARCH,
     payload: getJSONFromServer('/search', searchCriteria),
-  };
-};
+  }
+);
 export const searchSuccess = results => ({
   type: SEARCH_FULFILLED,
   payload: results,
