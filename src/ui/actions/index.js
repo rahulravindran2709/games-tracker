@@ -1,5 +1,4 @@
-import axios from 'axios';
-import queryString from 'query-string';
+import { getJSONFromServer } from 'utils/xhr';
 import { LOGIN_STARTED, LOGIN_SUCCESS, TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
 export const startLogin = () =>
@@ -16,10 +15,9 @@ export const toggleDrawer = () => ({
 });
 
 export const search = (searchCriteria) => {
-  const query = queryString.stringify(searchCriteria);
   return {
     type: SEARCH,
-    payload: axios.get('http://localhost:3010/api/search', query),
+    payload: getJSONFromServer('/search', searchCriteria),
   };
 };
 export const searchSuccess = results => ({
