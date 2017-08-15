@@ -32,7 +32,6 @@ const mapStateToProps = (state) => {
 
 class GamesApp extends React.Component {
   handleToggleDrawer = () => {
-    console.log('Here');
     this.props.toggleNavDrawer();
   }
   handleLoginStart= () => this.props.onLoginStart();

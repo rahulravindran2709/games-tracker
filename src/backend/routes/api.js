@@ -4,10 +4,10 @@ const { GameController } = apiControllers;
 module.exports = [
   {
     method: 'GET',
-    path: '/games',
+    path: '/search',
     handler: GameController.getGames,
     config: {
-      description: 'Get all the games',
+      description: 'Search for given term in the IGDB',
       notes: 'Just get all the games',
       tags: ['api', 'game'],
     },

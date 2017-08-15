@@ -1,4 +1,6 @@
-import { LOGIN_STARTED, LOGIN_SUCCESS, TOGGLE_DRAWER, SEARCH_GAMES, GET_GAME_BY_ID } from './types';
+import axios from 'axios';
+import queryString from 'query-string';
+import { LOGIN_STARTED, LOGIN_SUCCESS, TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
 export const startLogin = () =>
   ({
@@ -13,10 +15,18 @@ export const toggleDrawer = () => ({
   type: TOGGLE_DRAWER,
 });
 
-export const searchGames = () => ({
-  type: SEARCH_GAMES,
+export const search = (searchCriteria) => {
+  const query = queryString.stringify(searchCriteria);
+  return {
+    type: SEARCH,
+    payload: axios.get('http://localhost:3010/api/search', query),
+  };
+};
+export const searchSuccess = results => ({
+  type: SEARCH_FULFILLED,
+  payload: results,
 });
-export const lookupGamesByName = searchTerm => dispatch => ({
+export const lookupGamesByName = searchTerm => ({
   type: GET_GAME_BY_ID,
   payload: searchTerm,
 });
