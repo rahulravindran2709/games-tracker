@@ -2,10 +2,8 @@ import React from 'react';
 
 class Dashboard extends React.Component {
   constructor(props) {
+    console.log(props,'Props for dashboard')
     super(props);
-    this.state = {
-      name: 'My',
-    };
   }
   render() {
     return (<div>Dashboard</div>);
