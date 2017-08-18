@@ -4,8 +4,9 @@ const { igdbService } = services;
 function GameController() {}
 const controllerMethods = {};
 controllerMethods.getGames = (request, reply) => {
-  igdbService.getGames().then((games) => {
-    console.log('In get games');
+  const { term, zone } = request.query
+  igdbService.getGames({ term, zone }).then((games) => {
+    console.log(request.query, 'In search games controller');
     return reply(games);
   });
 };
