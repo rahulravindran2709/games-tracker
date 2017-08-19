@@ -11,15 +11,15 @@ const propTypes = {
 const defaultProps = {
   game: {},
 };
-
+const getImageCoverUrl = (url) => url.replace('t_thumb', 't_cover_big')
 const SearchResultItem = ({ game }) => (
   <div>
-    <img src="http://via.placeholder.com/250x200" alt="someimage" />
+    <img src={getImageCoverUrl(game.cover.url)} alt={game.name} />
     <GridListTileBar
       title={game.name}
       subtitle={
         <span>
-         by: "Author"
+         Released: {game.first_release_date}
        </span>
      }
       actionIcon={
