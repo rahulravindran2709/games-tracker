@@ -10,13 +10,14 @@ import ListItemIcon from 'material-ui/List/ListItemIcon';
 import SettingsApplications from 'material-ui-icons/SettingsApplications';
 import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew';
 import Games from 'material-ui-icons/Games';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
 
-const styleSheet = createStyleSheet({
+const styleSheet = theme => ({
   list: {
     width: 250,
     flex: 'initial',
+    background: theme.palette.background.paper,
   },
   listFull: {
     width: 'auto',
