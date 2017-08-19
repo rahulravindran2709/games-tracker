@@ -16,7 +16,7 @@ const SearchResultItem = ({ game }) => (
   <div>
     <img src="http://via.placeholder.com/250x200" alt="someimage" />
     <GridListTileBar
-      title="My title"
+      title={game.name}
       subtitle={
         <span>
          by: "Author"
