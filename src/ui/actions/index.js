@@ -21,7 +21,7 @@ export const search = (searchCriteria) => (dispatch, getState) => {
     payload: {
       promise: getJSONFromServer('/search', searchCriteria),
     },
-  }).then(response => dispatch(push('/')));
+  }).then(response => dispatch(push('/searchresults')));
 };
 export const searchSuccess = results => ({
   type: SEARCH_FULFILLED,

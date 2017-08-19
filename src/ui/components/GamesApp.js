@@ -7,6 +7,7 @@ import 'normalize.css';
 import Navbar from 'components/core/navbar';
 import { Route, Switch } from 'react-router-dom';
 import MenuList from 'components/core/menulist';
+import SearchResultsView from 'components/views/searchresults';
 import { startLogin, loginSucceeded, toggleDrawer } from 'actions';
 import Dashboard from './dashboard';
 import LoginForm from './login';
@@ -52,6 +53,7 @@ class GamesApp extends React.Component {
       <Switch>
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/login" render={() => loginForm} />
+        <Route path="/searchresults" component={SearchResultsView} />
         <Route path="/" render={() => loginForm} />
       </Switch>
     </div>);

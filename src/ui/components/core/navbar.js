@@ -10,7 +10,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import { search } from 'actions';
 
 const propTypes = {
@@ -21,7 +21,7 @@ const defaultProps = {
   handleToggleDrawer: null,
 };
 
-const styleSheet = createStyleSheet({
+const styleSheet = theme => ({
   root: {
     width: '100%',
   },
