@@ -13,7 +13,7 @@ const createSearchOptions = (options) => {
   };
   return { ...defaultSearchOptions, ...options.search };
 };
-serviceMethods.getGames = (term, zone) => {
+export const getGames = (term, zone) => {
   console.log('In search games');
   const data = require(require('path').resolve(process.cwd(), 'data/search.json'));
   const searchOptions = createSearchOptions({
@@ -33,7 +33,7 @@ serviceMethods.getGames = (term, zone) => {
     throw error;
   });*/
 };
-serviceMethods.getGameById = (id) => {
+export const getGameById = (id) => {
   console.log(id, 'In get game by id');
   const data = require(require('path').resolve(process.cwd(), 'data/search.json'));
   return new Promise((resolve, reject) => resolve(data.find(game => game.id == id)));
@@ -45,6 +45,3 @@ serviceMethods.getGameById = (id) => {
     throw error;
   });*/
 };
-IGDBService.prototype = serviceMethods;
-const igdbService = new IGDBService();
-module.exports = igdbService;

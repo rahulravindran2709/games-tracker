@@ -7,6 +7,7 @@ import webServerPlugin from './ws';
 import apiServerPlugin from './api';
 import config from '../config';
 import configure from '../plugins/configure';
+import igdbservice from '../services/igdb';
 
 const server = new hapi.Server({
   cache: [
@@ -42,13 +43,16 @@ const apiServer = server.select('api');
 wsServer.register({
   register: webServerPlugin,
 })
-.then(() => server.log('WS server is configured'))
+.then(() => server.log(['server', 'ws'], 'Web server is configured'))
 .catch(err => console.error(err, 'Error occurred while confguring web server'));
 apiServer.realm.modifiers.route.prefix = '/api';
-apiServer.register({
+apiServer.register([{
   register: apiServerPlugin,
-})
-.then(() => server.log('Api server configured'))
+},
+{
+  register: igdbservice,
+}])
+.then(() => server.log(['api'], 'Api configured'))
 .catch(err => console.error(err, 'Error occurred'));
 server.register([{ register: good, options: config.good },
   { register: Blipp },
