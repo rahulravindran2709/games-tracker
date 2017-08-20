@@ -11,8 +11,8 @@ const createSearchOptions = (options) => {
     limit: 10,
     offset: 0,
   };
-  return { ...defaultSearchOptions, ...options.search, };
-}
+  return { ...defaultSearchOptions, ...options.search };
+};
 serviceMethods.getGames = (term, zone) => {
   console.log('In search games');
   const data = require(require('path').resolve(process.cwd(), 'data/search.json'));
@@ -20,9 +20,9 @@ serviceMethods.getGames = (term, zone) => {
     search: term,
   });
   console.log(searchOptions, 'Final search options');
-  const filteredData = data.filter((game) => game.name.toLowerCase().indexOf(searchOptions.term.toLowerCase()) !== -1)
-  return new Promise((resolve, reject) =>resolve(filteredData))
-  /*return client.games({
+  const filteredData = data.filter(game => game.name.toLowerCase().indexOf(searchOptions.term.toLowerCase()) !== -1);
+  return new Promise((resolve, reject) => resolve(filteredData));
+  /* return client.games({
     fields: '*',
     limit: 10,
     offset: 15,
@@ -34,14 +34,16 @@ serviceMethods.getGames = (term, zone) => {
   });*/
 };
 serviceMethods.getGameById = (id) => {
-  console.log('In get game by id');
-  return client.games({
+  console.log(id, 'In get game by id');
+  const data = require(require('path').resolve(process.cwd(), 'data/search.json'));
+  return new Promise((resolve, reject) => resolve(data.find(game => game.id == id)));
+  /* return client.games({
     ids: [id],
   }).then(response => response.body)
   .catch((error) => {
     console.log(error, 'Error occurred');
     throw error;
-  });
+  });*/
 };
 IGDBService.prototype = serviceMethods;
 const igdbService = new IGDBService();
