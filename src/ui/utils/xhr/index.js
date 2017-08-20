@@ -7,7 +7,6 @@ const apiServerInstance = axios.create(config.serverConfig);
 
 export const getJSONFromServer = (relativeUrl, queryObject) => {
   const query = queryString.stringify(queryObject);
-  console.log(query, 'query')
   return apiServerInstance.get(`${relativeUrl}?${query}`);
 };
 

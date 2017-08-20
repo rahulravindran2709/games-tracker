@@ -1,4 +1,4 @@
-const apiRoutes = require('./api');
+import apiRoutes from './api';
 
 module.exports = {
   api: apiRoutes,

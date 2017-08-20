@@ -15,14 +15,13 @@ export const toggleDrawer = () => ({
   type: TOGGLE_DRAWER,
 });
 
-export const search = (searchCriteria) => (dispatch, getState) => {
-  return dispatch({
+export const search = searchCriteria => dispatch =>
+  dispatch({
     type: SEARCH,
     payload: {
       promise: getJSONFromServer('/search', searchCriteria),
     },
-  }).then(response => dispatch(push('/searchresults')));
-};
+  }).then(() => dispatch(push('/searchresults')));
 export const searchSuccess = results => ({
   type: SEARCH_FULFILLED,
   payload: results,

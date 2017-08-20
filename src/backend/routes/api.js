@@ -1,7 +1,6 @@
-const apiControllers = require('../controllers').api;
+import GameController from '../controllers/api';
 
-const { GameController } = apiControllers;
-module.exports = [
+const routes = [
   {
     method: 'GET',
     path: '/search',
@@ -23,3 +22,5 @@ module.exports = [
     },
   },
 ];
+
+export default routes;
