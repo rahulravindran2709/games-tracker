@@ -1,0 +1,18 @@
+{
+  "postgres": {
+    "host": "135.32.4.1"
+  },
+  "igdb": {
+
+  },
+  "redis": {
+
+  },
+  "apiServer":{
+    "port": 8081
+  },
+  "webServer":{
+    "host": "",
+    "port": 0
+  }
+}
