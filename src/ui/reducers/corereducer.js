@@ -1,4 +1,5 @@
 import { TOGGLE_DRAWER, SEARCH_FULFILLED } from 'actions/types';
+import { prop, pathOr } from 'ramda';
 
 const initialState = {
   isDrawerOpen: false,
@@ -8,15 +9,16 @@ const initialState = {
     results: [],
   },
 };
+const getActionType = prop('type');
+const getPayloadData = pathOr({}, ['payload', 'data']);
 
 const corereducer = (state = initialState, action) => {
-  const { type, payload } = action;
-
+  const type = getActionType(action);
+  const data = getPayloadData(action);
   switch (type) {
     case TOGGLE_DRAWER:
       return { ...state, isDrawerOpen: !state.isDrawerOpen };
     case SEARCH_FULFILLED:
-      const { data } = payload;
       return { ...state,
         search: {
           ...state.search,

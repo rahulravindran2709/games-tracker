@@ -13,14 +13,15 @@ const createSearchOptions = (options) => {
   };
   return { ...defaultSearchOptions, ...options.search };
 };
-serviceMethods.getGames = (term, zone) => {
-  console.log('In search games');
+export const getGames = (searchCriteria) => {
+  console.log(searchCriteria, 'In search games');
   const data = require(require('path').resolve(process.cwd(), 'data/search.json'));
   const searchOptions = createSearchOptions({
-    search: term,
+    search: { term: searchCriteria.term },
   });
   console.log(searchOptions, 'Final search options');
-  const filteredData = data.filter(game => game.name.toLowerCase().indexOf(searchOptions.term.toLowerCase()) !== -1);
+  const filteredData = data.filter(game =>
+    game.name.toLowerCase().indexOf(searchOptions.term.toLowerCase()) !== -1);
   return new Promise((resolve, reject) => resolve(filteredData));
   /* return client.games({
     fields: '*',
@@ -33,7 +34,7 @@ serviceMethods.getGames = (term, zone) => {
     throw error;
   });*/
 };
-serviceMethods.getGameById = (id) => {
+export const getGameById = (id) => {
   console.log(id, 'In get game by id');
   const data = require(require('path').resolve(process.cwd(), 'data/search.json'));
   return new Promise((resolve, reject) => resolve(data.find(game => game.id == id)));
@@ -45,6 +46,3 @@ serviceMethods.getGameById = (id) => {
     throw error;
   });*/
 };
-IGDBService.prototype = serviceMethods;
-const igdbService = new IGDBService();
-module.exports = igdbService;

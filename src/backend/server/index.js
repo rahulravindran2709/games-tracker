@@ -2,9 +2,12 @@ import hapi from 'hapi';
 import good from 'good';
 import Blipp from 'blipp';
 import Disk from 'catbox-disk';
+import path from 'path';
 import webServerPlugin from './ws';
 import apiServerPlugin from './api';
 import config from '../config';
+import configure from '../plugins/configure';
+import igdbservice from '../services/igdb';
 
 const server = new hapi.Server({
   cache: [
@@ -40,15 +43,25 @@ const apiServer = server.select('api');
 wsServer.register({
   register: webServerPlugin,
 })
-.then(() => server.log('WS server is configured'))
+.then(() => server.log(['server', 'ws'], 'Web server is configured'))
 .catch(err => console.error(err, 'Error occurred while confguring web server'));
 apiServer.realm.modifiers.route.prefix = '/api';
-apiServer.register({
+apiServer.register([{
   register: apiServerPlugin,
-})
-.then(() => server.log('Api server configured'))
+},
+{
+  register: igdbservice,
+}])
+.then(() => server.log(['api'], 'Api configured'))
 .catch(err => console.error(err, 'Error occurred'));
-server.register([{ register: good, options: config.good }, { register: Blipp }])
+server.register([{ register: good, options: config.good },
+  { register: Blipp },
+  { register: configure,
+    options: {
+      configFolder: path.resolve(process.cwd(), 'src/backend/config'),
+    },
+  }])
 .then(() => server.start())
 .then(() => server.connections.forEach(connection => server.log('Server running at:', connection.info.uri)))
+.then(() => console.log(server.plugins['configure'].CurrentConfiguration.get('postgres:host')))
 .catch(err => console.error(err, 'Error occurred while trying to start server'));

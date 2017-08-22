@@ -1,5 +1,3 @@
-const GameController = require('./game');
+import GameController from './game';
 
-module.exports = {
-  GameController,
-};
+export default GameController;
