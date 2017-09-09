@@ -3,6 +3,7 @@ $font-color: #fff;
   position:relative;
   height: 550px;
   background-image:url('http://via.placeholder.com/1440x550');
+  background-attachment:fixed;
   color: #fff;
   .text{
     color: $font-color;
