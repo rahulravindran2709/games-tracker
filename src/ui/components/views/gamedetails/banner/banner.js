@@ -32,19 +32,9 @@ const GameDetailsBanner = ({ classes }) => (<div className="banner">
     <Grid container className={classes.root}>
       <Grid item md={3} />
       <Grid item md={3}>
-        <div className="user-rating">
-          <span className="stars">
-            <i className="fa fa-star" aria-hidden="true" />
-            <i className="fa fa-star" aria-hidden="true" />
-            <i className="fa fa-star" aria-hidden="true" />
-            <i className="fa fa-star" aria-hidden="true" />
-            <i className="fa fa-star" aria-hidden="true" />
-          </span>
           <Typography type="subheading" className="shadow text"><span className="ratings-text">
                           4.1/5 <span className="reviews-number">(33 reviews)</span>
           </span></Typography>
-
-        </div>
       </Grid>
       <Grid item md={3}>
         <div className="release-date">

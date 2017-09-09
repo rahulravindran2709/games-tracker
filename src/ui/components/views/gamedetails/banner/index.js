@@ -1,3 +1,3 @@
-import GameDetailsBanner from './gamedetailsbanner';
+import GameDetailsBanner from './banner';
 
 export default GameDetailsBanner;
