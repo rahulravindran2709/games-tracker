@@ -5,6 +5,8 @@ import Typography from 'material-ui/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getGameById } from 'actions';
+import GameDetailsBanner from './banner';
+import GameDetailsBody from './body';
 import style from './style.scss';
 
 const propTypes = {
@@ -22,11 +24,11 @@ class GameDetailsView extends React.Component {
   render() {
     const { gameDetails } = this.props;
     console.log(gameDetails);
-    return (<Paper><div className="gameDetailsBanner" ><Typography type="headline" component="h1" className="gameDetailsHeader">
-      {gameDetails.name}
-    </Typography>
-      <img style={{ width: '100%', height: '500px' }} src={getImageCoverUrl(gameDetails.cover.url)} alt={gameDetails.name} />
-    </div>
+    return (<Paper>
+      <div className="game-details">
+        <GameDetailsBanner />
+        <GameDetailsBody />
+      </div>
     </Paper>);
   }
 }
