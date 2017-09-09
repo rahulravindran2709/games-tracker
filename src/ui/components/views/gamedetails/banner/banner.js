@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
+import Rating from 'components/widgets/rating';
 import style from './style.scss';
 
 const styles = () => ({
@@ -32,6 +33,7 @@ const GameDetailsBanner = ({ classes }) => (<div className="banner">
     <Grid container className={classes.root}>
       <Grid item md={3} />
       <Grid item md={3}>
+          <Rating value={3} />
           <Typography type="subheading" className="shadow text"><span className="ratings-text">
                           4.1/5 <span className="reviews-number">(33 reviews)</span>
           </span></Typography>
