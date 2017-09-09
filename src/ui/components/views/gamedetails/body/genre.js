@@ -26,7 +26,7 @@ const styles = theme => ({
 });
 
 const GenreSection = ({ classes, genres }) => {
-  const genreList = map(genre => (<Grid item>
+  const genreList = map(genre => (<Grid item key={genre}>
     <Chip
       avatar={<Avatar className={classes.avatar}>A</Avatar>}
       label={genre}
