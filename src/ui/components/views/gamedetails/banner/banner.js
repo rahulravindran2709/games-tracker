@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
+import { SpeedDial, SpeedDialItem } from 'react-mui-speeddial';
+import Add from 'material-ui-icons/Add';
+import PlaylistAdd from 'material-ui-icons/PlaylistAdd';
+import NoteAdd from 'material-ui-icons/NoteAdd';
+import Close from 'material-ui-icons/Close';
 import style from './style.scss';
 import GameDetailsBannerMeta from './meta'
 
@@ -10,11 +16,22 @@ const styles = () => ({
     flexGrow: 1,
   },
 });
-const GameDetailsBanner = ({ classes }) => (<div className="banner">
+const addToCollection = () => {
+  console.log('Add to collection was clicked')
+}
+
+const addToWishlist = () => {
+  console.log('Add to wishlist was clicked')
+}
+
+const GameDetailsBanner = ({ classes, details: {
+  name,
+  first_release_date,
+} }) => (<div className="banner">
   <div className="header">
     <Grid container className={classes.root}>
       <Grid item md={6}>
-        <Typography type="display2" gutterBottom className="shadow text">Storm blade</Typography>
+        <Typography type="display2" gutterBottom className="shadow text">{name}</Typography>
       </Grid>
       <Grid item md={1}>
         <div className="ageRatings">
@@ -29,10 +46,28 @@ const GameDetailsBanner = ({ classes }) => (<div className="banner">
       </Grid>
     </Grid>
   </div>
-  <GameDetailsBannerMeta />
-  <div className="game-details__actions">
-    <button className="mui-btn mui-btn--fab mui-btn--primary">+</button>
+  <GameDetailsBannerMeta details={{ releaseDate: first_release_date }} />
+  <div className="actions">
+    <SpeedDial
+      fabContentOpen={<Add />}
+      fabContentClose={<Close />}
+    >
+      <SpeedDialItem
+        label="Add to collection"
+        fabContent={<PlaylistAdd />}
+        onTouchTap={addToCollection}
+      />
+      <SpeedDialItem
+        label="Add to wishlist"
+        fabContent={<NoteAdd />}
+        onTouchTap={addToWishlist}
+      />
+    </SpeedDial>
   </div>
 </div>);
+
+GameDetailsBanner.propTypes = {
+  details: PropTypes.shape().isRequired,
+};
 const stylesHOC = withStyles(styles);
 export default stylesHOC(GameDetailsBanner);

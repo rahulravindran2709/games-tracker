@@ -37,7 +37,7 @@ const GameDetailsBody = ({ classes }) => (
       <DevPubGrid classes={classes} />
       <GenreSection classes={classes} genres={['Action', 'Adventure']} />
       <SummarySection description={'Some short shitty summary'} />
-      <ScreenshotSection screenshots={[{ id: 1, url: 'http://via.placeholder.com/350x150' }, { id: 2, url: 'http://via.placeholder.com/350x150' }]} />
+      <ScreenshotSection screenshots={[{ id: 1, url: 'http://via.placeholder.com/350x150' }, { id: 2, url: 'http://via.placeholder.com/350x150' },{ id: 3, url: 'http://via.placeholder.com/350x150' },{ id: 4, url: 'http://via.placeholder.com/350x150' },{ id: 5, url: 'http://via.placeholder.com/350x150' }]} />
     </Grid>
   </Grid>);
 GameDetailsBody.propTypes = {

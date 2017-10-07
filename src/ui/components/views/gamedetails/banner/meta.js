@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from 'material-ui/Grid';
+import moment from 'moment';
 import Typography from 'material-ui/Typography';
 import Rating from 'components/widgets/rating';
 import { withStyles } from 'material-ui/styles';
@@ -9,7 +10,9 @@ const styles = () => ({
     flexGrow: 1,
   },
 });
-const GameDetailsBanner = ({ classes }) => (<div className="meta">
+const GameDetailsBanner = ({ classes, details: {
+  releaseDate,
+} }) => (<div className="meta">
   <Grid container className={classes.root}>
     <Grid item md={3} />
     <Grid item md={3}>
@@ -20,7 +23,7 @@ const GameDetailsBanner = ({ classes }) => (<div className="meta">
     </Grid>
     <Grid item md={3}>
       <div className="release-date">
-        <Typography type="subheading" className="shadow text">Released 19th July, 2017</Typography>
+        <Typography type="subheading" className="shadow text">Released {moment(releaseDate).format('MMMM Do, YYYY')}</Typography>
       </div>
     </Grid>
   </Grid>

@@ -5,6 +5,7 @@ import Typography from 'material-ui/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getGameById } from 'actions';
+
 import GameDetailsBanner from './banner';
 import GameDetailsBody from './body';
 import style from './style.scss';
@@ -26,8 +27,8 @@ class GameDetailsView extends React.Component {
     console.log(gameDetails);
     return (<Paper>
       <div className="game-details">
-        <GameDetailsBanner />
-        <GameDetailsBody />
+        <GameDetailsBanner details={gameDetails} />
+        <GameDetailsBody details={gameDetails} />
       </div>
     </Paper>);
   }

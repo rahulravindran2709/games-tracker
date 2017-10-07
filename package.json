@@ -36,6 +36,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-facebook-login": "^3.6.2",
+    "react-mui-speeddial": "git+https://github.com/rahulravindran2709/react-mui-speeddial.git",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
