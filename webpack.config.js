@@ -35,7 +35,16 @@ module.exports = {
     },
     {
       test: /\.css$/,
-      loader: ['style-loader', 'css-loader'],
+      loader: ['style-loader', 'css-loader', 'sass-loader'],
+    }, {
+      test: /\.scss$/,
+      use: [{
+        loader: 'style-loader',
+      }, {
+        loader: 'css-loader',
+      }, {
+        loader: 'sass-loader',
+      }],
     }],
   },
   plugins: [devFlagPlugin, new webpack.optimize.OccurrenceOrderPlugin(),

@@ -30,3 +30,10 @@ export const lookupGamesByName = searchTerm => ({
   type: GET_GAME_BY_ID,
   payload: searchTerm,
 });
+
+export const getGameById = id => dispatch => dispatch({
+  type: GET_GAME_BY_ID,
+  payload: {
+    promise: getJSONFromServer(`/games/${id}`),
+  },
+});
