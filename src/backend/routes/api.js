@@ -9,6 +9,10 @@ const routes = [
       description: 'Search for given term in the IGDB',
       notes: 'Just get all the games',
       tags: ['api', 'game'],
+      cache: {
+          expiresIn: 30 * 1000,
+          privacy: 'private'
+      },
     },
   },
   {
@@ -20,6 +24,7 @@ const routes = [
       notes: 'Get game by id',
       tags: ['api', 'game'],
     },
+
   },
 ];
 

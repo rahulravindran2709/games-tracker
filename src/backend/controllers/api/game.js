@@ -4,7 +4,10 @@ const getServerMethod = methodName => path(['server', 'methods', methodName]);
 const getRequestParam = paramName => path(['params', paramName]);
 const getIdRequestParam = getRequestParam('id');
 
-const callback = reply => (err, data) => reply(data);
+const callback = reply => (err, result) => {
+  console.log(err, 'In callback');
+  return reply(result);
+};
 
 export const getGames = (request, reply) => {
   const { term, zone } = request.query;
