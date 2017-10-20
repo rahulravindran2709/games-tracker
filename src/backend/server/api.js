@@ -2,6 +2,7 @@ import routes from '../routes';
 
 function register(server, options, next) {
   server.route(routes.api);
+  server.route(routes.enumerated);
   return next();
 }
 register.attributes = {
