@@ -23,25 +23,26 @@ const styles = theme => ({
 
 const SummarySection = ({ description }) => (
   <Grid container>
-    <Grid item md={6}><Typography type="headline">Summary</Typography>
-      <Typography gutterBottom noWrap>
+    <Grid item md={10}><Typography type="headline">Summary</Typography>
+      <Typography gutterBottom>
         {`
     ${description}
   `}
       </Typography></Grid></Grid>);
 
 
-const GameDetailsBody = ({ classes }) => (
+const GameDetailsBody = ({ classes, details: { summary } }) => (
   <Grid container className={classes.root} justify={'center'}>
     <Grid item md={6}>
       <DevPubGrid classes={classes} />
       <GenreSection classes={classes} genres={['Action', 'Adventure']} />
-      <SummarySection description={'Some short shitty summary'} />
+      <SummarySection description={summary} />
       <ScreenshotSection screenshots={[{ id: 1, url: 'http://via.placeholder.com/350x150' }, { id: 2, url: 'http://via.placeholder.com/350x150' },{ id: 3, url: 'http://via.placeholder.com/350x150' },{ id: 4, url: 'http://via.placeholder.com/350x150' },{ id: 5, url: 'http://via.placeholder.com/350x150' }]} />
     </Grid>
   </Grid>);
 GameDetailsBody.propTypes = {
   classes: PropTypes.shape().isRequired,
+  details: PropTypes.shape().isRequired,
 };
 const stylesHOC = withStyles(styles);
 export default stylesHOC(GameDetailsBody);

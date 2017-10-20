@@ -13,9 +13,8 @@ const game = (state = initialState, action) => {
   switch (type) {
     case GET_GAME_BY_ID_FULFILLED: {
       const { data } = payload;
-      console.log(data, 'In reducer')
       return { ...state,
-        details: data,
+        details: data[0],
       };
     }
     default:
