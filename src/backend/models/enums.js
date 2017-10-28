@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+const Sequelize = require('sequelize');
 
 const enums = [{
   name: 'Genre',
@@ -13,8 +13,13 @@ const enums = [{
 }, {
   name: 'Pegi_rating',
   model: {
-
+    pegi_rating_id: {
+      type: Sequelize.INTEGER,
+    },
+    name: {
+      type: Sequelize.STRING,
+    },
   },
 }];
 
-export default enums;
+module.exports = enums;

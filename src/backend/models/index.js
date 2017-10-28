@@ -1,3 +1,3 @@
-import enums from './enums';
+const enums = require('./enums');
 
-export default [].concat(enums);
+module.exports = [].concat(enums);
