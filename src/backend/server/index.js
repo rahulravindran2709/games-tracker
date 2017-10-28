@@ -7,6 +7,7 @@ import webServerPlugin from './ws';
 import apiServerPlugin from './api';
 import config from '../config';
 import configure from '../plugins/configure';
+import datastore from '../datastore';
 import igdbservice from '../services/igdb';
 
 const server = new hapi.Server({
@@ -47,6 +48,8 @@ wsServer.register({
 .catch(err => console.error(err, 'Error occurred while confguring web server'));
 apiServer.realm.modifiers.route.prefix = '/api';
 apiServer.register([{
+  register: datastore,
+}, {
   register: apiServerPlugin,
 },
 {
