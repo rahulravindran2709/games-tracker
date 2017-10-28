@@ -9,6 +9,7 @@ import config from '../config';
 import configure from '../plugins/configure';
 import datastore from '../datastore';
 import igdbservice from '../services/igdb';
+import enumService from '../services/enums';
 
 const server = new hapi.Server({
   cache: [
@@ -40,23 +41,30 @@ server.connection({
 });
 const wsServer = server.select('ws');
 const apiServer = server.select('api');
-
+/* Web server specific plugin registration */
 wsServer.register({
   register: webServerPlugin,
 })
 .then(() => server.log(['server', 'ws'], 'Web server is configured'))
 .catch(err => console.error(err, 'Error occurred while confguring web server'));
+
+/* API server specific plugin registration */
 apiServer.realm.modifiers.route.prefix = '/api';
 apiServer.register([{
-  register: datastore,
-}, {
   register: apiServerPlugin,
 },
 {
+  register: datastore,
+},
+{
   register: igdbservice,
+}, {
+  register: enumService,
 }])
-.then(() => server.log(['api'], 'Api configured'))
-.catch(err => console.error(err, 'Error occurred'));
+.then(() => server.log(['server', 'api'], 'API server is configured'))
+.catch(err => console.error(err, 'Error occurred while configuring api server'));
+
+/* Common plugin registration */
 server.register([{ register: good, options: config.good },
   { register: Blipp },
   { register: configure,
@@ -66,5 +74,4 @@ server.register([{ register: good, options: config.good },
   }])
 .then(() => server.start())
 .then(() => server.connections.forEach(connection => server.log('Server running at:', connection.info.uri)))
-.then(() => console.log(server.plugins['configure'].CurrentConfiguration.get('postgres:host')))
 .catch(err => console.error(err, 'Error occurred while trying to start server'));
