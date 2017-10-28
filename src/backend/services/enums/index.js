@@ -1,3 +1,4 @@
+import { path } from 'ramda';
 import { getGenreById, getPegiRatingById, getEsrbRatingById } from './enums';
 
 const serverMethodOptions = {
@@ -11,9 +12,11 @@ const serverMethodOptions = {
 };
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'enumService' plugin");
-  console.log(server.plugins.datastore.DatabaseModels, 'server plugins')
+  const [Genre, Pegi_rating] = path(['plugins', 'datastore', 'DatabaseModels'])(server);
   const methodOptionsWithDb = { ...serverMethodOptions,
-    bind: { model: server.plugins.datastore.DatabaseModels } };
+    bind: { model: Genre } };
+
+
   server.method('getGenreById', getGenreById, methodOptionsWithDb);
   server.method('getPegiRatingById', getPegiRatingById, methodOptionsWithDb);
   server.method('getEsrbRatingById', getEsrbRatingById, methodOptionsWithDb);

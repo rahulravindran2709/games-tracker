@@ -16,7 +16,7 @@ const enums = [{
     pegi_rating_id: {
       type: Sequelize.INTEGER,
     },
-    name: {
+    age: {
       type: Sequelize.STRING,
     },
   },
