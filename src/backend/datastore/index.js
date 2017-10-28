@@ -28,12 +28,13 @@ const register = (server, options, next) => {
       .then((syncedModels) => {
         console.log(syncedModels, 'Finished');
         server.expose('DatabaseModels', syncedModels);
+        return next();
       });
     })
     .catch((err) => {
       server.log('Unable to connect to the database:', err);
+      throw err;
     });
-  return next();
 };
 
 
