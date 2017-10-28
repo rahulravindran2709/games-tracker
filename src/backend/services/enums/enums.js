@@ -1,9 +1,15 @@
-import { pick } from 'ramda'
+import { pick } from 'ramda';
 
 export function getGenreById(id) {
   console.log('this inside getgenrebyid');
   return this.model.findOne({ where: { genre_id: id } })
   .then(elem => pick(['name', 'genre_id'])(elem));
 }
-export const getPegiRatingById = (id) => {};
-export const getEsrbRatingById = (id) => {};
+export function getPegiRatingById(id) {
+  console.log(this.model, 'this inside getpegiratingbyid');
+  return this.model.findOne({ where: { pegi_rating_id: id } })
+  .then(elem => pick(['age', 'pegi_rating_id'])(elem));
+};
+export function getEsrbRatingById(id){
+  
+};

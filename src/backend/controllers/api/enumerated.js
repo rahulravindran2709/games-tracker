@@ -9,7 +9,7 @@ export const getGenreById = (request, reply) =>
 getServerMethod('getGenreById')(request)(getIdRequestParam(request), callback(reply));
 
 export const getPegiRatingById = (request, reply) =>
-  getServerMethod('getGameById')(request)(getIdRequestParam(request), callback(reply));
+  getServerMethod('getPegiRatingById')(request)(getIdRequestParam(request), callback(reply));
 
 export const getEsrbRatingById = (request, reply) =>
     getServerMethod('getGameById')(request)(getIdRequestParam(request), callback(reply));
