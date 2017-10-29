@@ -20,6 +20,16 @@ const enums = [{
       type: Sequelize.STRING,
     },
   },
+}, {
+  name: 'Esrb_rating',
+  model: {
+    esrb_rating_id: {
+      type: Sequelize.INTEGER,
+    },
+    rating: {
+      type: Sequelize.STRING,
+    },
+  },
 }];
 
 module.exports = enums;

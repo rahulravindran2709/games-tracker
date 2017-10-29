@@ -12,13 +12,13 @@ const serverMethodOptions = {
 };
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'enumService' plugin");
-  const [Genre, Pegi_rating] = path(['plugins', 'datastore', 'DatabaseModels'])(server);
+  const [Genre, PegiRating, EsrbRating] = path(['plugins', 'datastore', 'DatabaseModels'])(server);
   const genreMethodOptions = { ...serverMethodOptions,
     bind: { model: Genre } };
   const pegiMethodOptions = { ...serverMethodOptions,
-    bind: { model: Pegi_rating } };
+    bind: { model: PegiRating } };
   const esrbMethodOptions = { ...serverMethodOptions,
-    bind: { model: Genre } };
+    bind: { model: EsrbRating } };
 
 
     console.log(pegiMethodOptions, 'pegiMethodOptions')

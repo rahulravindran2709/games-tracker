@@ -12,7 +12,7 @@ export const getPegiRatingById = (request, reply) =>
   getServerMethod('getPegiRatingById')(request)(getIdRequestParam(request), callback(reply));
 
 export const getEsrbRatingById = (request, reply) =>
-    getServerMethod('getGameById')(request)(getIdRequestParam(request), callback(reply));
+    getServerMethod('getEsrbRatingById')(request)(getIdRequestParam(request), callback(reply));
 
 export default {
   getGenreById,
