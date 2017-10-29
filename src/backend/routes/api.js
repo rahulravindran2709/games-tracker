@@ -15,10 +15,11 @@ const routes = [
       },
     },
   },
+
   {
     method: 'GET',
-    path: '/games/{id}',
-    handler: GameController.getGameById,
+    path: '/gamesgenre/{id}',
+    handler: GameController.getGameGenreById,
     config: {
       description: 'Get a particular game by its id',
       notes: 'Get game by id',

@@ -17,7 +17,11 @@ export const getGames = (request, reply) => {
 export const getGameById = (request, reply) =>
   getServerMethod('getGameById')(request)(getIdRequestParam(request), callback(reply));
 
+export const getGameGenreById = (request, reply) =>
+  getServerMethod('getGenreGameById')(request)(getIdRequestParam(request), callback(reply));
+
 export default {
   getGames,
   getGameById,
+  getGameGenreById,
 };

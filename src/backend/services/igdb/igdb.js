@@ -44,7 +44,6 @@ export const getGameById = (id) => {
 export const getGenreById = (id) => {
   console.log(id, 'In get genre by id');
   return client.genres({
-    ids: [id],
   }, [
     'name', 'id'],
 ).then((response) => {
