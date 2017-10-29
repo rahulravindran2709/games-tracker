@@ -1,5 +1,4 @@
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import PropTypes from 'prop-types';
@@ -13,8 +12,11 @@ import style from './style.scss';
 const propTypes = {
   id: PropTypes.string.isRequired,
   getGameDetailsWithId: PropTypes.func.isRequired,
+  gameDetails: PropTypes.shape(),
 };
-const defaultProps = {};
+const defaultProps = {
+  gameDetails: {},
+};
 const getImageCoverUrl = url => url.replace('t_thumb', 't_screenshot_big');
 class GameDetailsView extends React.Component {
   componentWillMount() {
@@ -24,7 +26,6 @@ class GameDetailsView extends React.Component {
 
   render() {
     const { gameDetails } = this.props;
-    console.log(gameDetails);
     return (<Paper>
       <div className="game-details">
         <GameDetailsBanner details={gameDetails} />
@@ -35,12 +36,9 @@ class GameDetailsView extends React.Component {
 }
 GameDetailsView.propTypes = propTypes;
 GameDetailsView.defaultProps = defaultProps;
-const mapStateToProps = (state) => {
-  console.log(state.gameDetails);
-  return ({
-    gameDetails: state.gameDetails.details,
-  });
-};
+const mapStateToProps = state => ({
+  gameDetails: state.gameDetails.details,
+});
 const mapDispatchToProps = dispatch =>
   ({
     getGameDetailsWithId: id => dispatch(getGameById(id)),
