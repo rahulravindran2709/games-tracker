@@ -3,7 +3,7 @@ import EnumeratedController from '../controllers/api/enumerated';
 const routes = [
   {
     method: 'GET',
-    path: '/genre/{id}',
+    path: '/genre/{id?}',
     handler: EnumeratedController.getGenreById,
     config: {
       description: 'Get the genre details by Id',
@@ -13,7 +13,7 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/pegi/{id}',
+    path: '/pegi/{id?}',
     handler: EnumeratedController.getPegiRatingById,
     config: {
       description: 'Get the pegi rating details by its id',
@@ -24,7 +24,7 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/esrb/{id}',
+    path: '/esrb/{id?}',
     handler: EnumeratedController.getEsrbRatingById,
     config: {
       description: 'Get the esrb rating details by its id',
