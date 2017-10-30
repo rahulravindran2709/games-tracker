@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import PropTypes from 'prop-types';
@@ -7,6 +8,7 @@ import { getGameById } from 'actions';
 
 import GameDetailsBanner from './banner';
 import GameDetailsBody from './body';
+import selector from './gamedetails.selector';
 import style from './style.scss';
 
 const propTypes = {
@@ -25,20 +27,20 @@ class GameDetailsView extends React.Component {
   }
 
   render() {
-    const { gameDetails } = this.props;
+    const { gameDetails, selectedGenres } = this.props;
+    console.log(this.props,'this.props')
     return (<Paper>
       <div className="game-details">
         <GameDetailsBanner details={gameDetails} />
-        <GameDetailsBody details={gameDetails} />
+        <GameDetailsBody details={gameDetails} genres={selectedGenres} />
       </div>
     </Paper>);
   }
 }
 GameDetailsView.propTypes = propTypes;
 GameDetailsView.defaultProps = defaultProps;
-const mapStateToProps = state => ({
-  gameDetails: state.gameDetails.details,
-});
+
+const mapStateToProps = state => selector(state);
 const mapDispatchToProps = dispatch =>
   ({
     getGameDetailsWithId: id => dispatch(getGameById(id)),
