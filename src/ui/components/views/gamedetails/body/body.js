@@ -31,11 +31,11 @@ const SummarySection = ({ description }) => (
       </Typography></Grid></Grid>);
 
 
-const GameDetailsBody = ({ classes, details: { summary } }) => (
+const GameDetailsBody = ({ classes, details: { summary }, genres }) => (
   <Grid container className={classes.root} justify={'center'}>
     <Grid item md={6}>
       <DevPubGrid classes={classes} />
-      <GenreSection classes={classes} genres={['Action', 'Adventure']} />
+      <GenreSection classes={classes} genres={genres} />
       <SummarySection description={summary} />
       <ScreenshotSection screenshots={[{ id: 1, url: 'http://via.placeholder.com/350x150' }, { id: 2, url: 'http://via.placeholder.com/350x150' },{ id: 3, url: 'http://via.placeholder.com/350x150' },{ id: 4, url: 'http://via.placeholder.com/350x150' },{ id: 5, url: 'http://via.placeholder.com/350x150' }]} />
     </Grid>

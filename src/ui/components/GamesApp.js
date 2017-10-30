@@ -10,6 +10,7 @@ import MenuList from 'components/core/menulist';
 import SearchResultsView from 'components/views/searchresults';
 import GameDetailsView from 'components/views/gamedetails';
 import { startLogin, loginSucceeded, toggleDrawer } from 'actions';
+import { loadEnumData } from 'actions/enums';
 import Dashboard from './dashboard';
 import LoginForm from './login';
 
@@ -26,15 +27,19 @@ const defaultProps = {
   onLoginSuccess: null,
 };
 const mapStateToProps = (state) => {
-  const { authreducer, corereducer } = state;
+  const { authreducer, corereducer, enums } = state;
   return {
     userDetails: authreducer.userDetails,
     isAuthenticated: !!authreducer.userDetails.username,
     isDrawerOpen: corereducer.isDrawerOpen,
+    enums,
   };
 };
 
 class GamesApp extends React.Component {
+  componentWillMount() {
+    this.props.loadEnumData();
+  }
   handleToggleDrawer = () => {
     this.props.toggleNavDrawer();
   }
@@ -42,6 +47,7 @@ class GamesApp extends React.Component {
   handleLoginSuccess=(userData) => {
     this.props.onLoginSuccess(userData);
   }
+
   render() {
     const { isDrawerOpen } = this.props;
     const loginForm = (<LoginForm
@@ -66,6 +72,7 @@ const mapDispatchToProps = dispatch =>
     toggleNavDrawer: () => dispatch(toggleDrawer()),
     onLoginStart: () => dispatch(startLogin()),
     onLoginSuccess: userData => dispatch(loginSucceeded(userData)),
+    loadEnumData: () => dispatch(loadEnumData()),
   });
 GamesApp.propTypes = propTypes;
 GamesApp.defaultProps = defaultProps;

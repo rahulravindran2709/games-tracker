@@ -5,7 +5,7 @@ import Typography from 'material-ui/Typography';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import deepPurple from 'material-ui/colors/deepPurple';
-import { map } from 'ramda';
+import { map, compose, toUpper, head } from 'ramda';
 import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
@@ -24,12 +24,12 @@ const styles = theme => ({
     backgroundColor: deepPurple[500],
   },
 });
-
+const getChipAvatarCharacter = compose(toUpper, head);
 const GenreSection = ({ classes, genres }) => {
-  const genreList = map(genre => (<Grid item key={genre}>
+  const genreList = map(genre => (<Grid item key={genre.genre_id}>
     <Chip
-      avatar={<Avatar className={classes.avatar}>A</Avatar>}
-      label={genre}
+      avatar={<Avatar className={classes.avatar}>{getChipAvatarCharacter(genre.name)}</Avatar>}
+      label={genre.name}
       className={classes.chip}
     /></Grid>))(genres);
   return (<Grid container className={classes.meta}>
