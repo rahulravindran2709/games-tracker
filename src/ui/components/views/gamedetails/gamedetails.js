@@ -15,6 +15,7 @@ const propTypes = {
   id: PropTypes.string.isRequired,
   getGameDetailsWithId: PropTypes.func.isRequired,
   gameDetails: PropTypes.shape(),
+  selectedGenres: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 const defaultProps = {
   gameDetails: {},
@@ -28,7 +29,7 @@ class GameDetailsView extends React.Component {
 
   render() {
     const { gameDetails, selectedGenres } = this.props;
-    console.log(this.props,'this.props')
+    console.log(this.props, 'this.props')
     return (<Paper>
       <div className="game-details">
         <GameDetailsBanner details={gameDetails} />

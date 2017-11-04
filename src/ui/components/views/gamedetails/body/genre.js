@@ -50,7 +50,7 @@ const GenreSection = ({ classes, genres }) => {
   </Grid>);
 };
 GenreSection.propTypes = {
-  genres: PropTypes.arrayOf(PropTypes.string),
+  genres: PropTypes.arrayOf(PropTypes.shape()),
   classes: PropTypes.shape().isRequired,
 };
 
