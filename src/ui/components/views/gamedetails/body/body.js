@@ -33,7 +33,7 @@ SummarySection.propTypes = {
   description: PropTypes.string.isRequired,
 };
 
-const GameDetailsBody = ({ classes, details: { summary }, genres }) => (
+const GameDetailsBody = ({ classes, details: { summary = '' }, genres }) => (
   <Grid container className={classes.root} justify={'center'}>
     <Grid item md={6}>
       <DevPubGrid classes={classes} />
@@ -45,7 +45,7 @@ const GameDetailsBody = ({ classes, details: { summary }, genres }) => (
 GameDetailsBody.propTypes = {
   classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
-  genres: PropTypes.shape().isRequired,
+  genres: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 const stylesHOC = withStyles(styles);
 export default stylesHOC(GameDetailsBody);

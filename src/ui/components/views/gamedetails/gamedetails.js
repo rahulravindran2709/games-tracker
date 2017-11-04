@@ -16,9 +16,13 @@ const propTypes = {
   getGameDetailsWithId: PropTypes.func.isRequired,
   gameDetails: PropTypes.shape(),
   selectedGenres: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  selectedEsrb: PropTypes.shape(),
+  selectedPegi: PropTypes.shape(),
 };
 const defaultProps = {
   gameDetails: {},
+  selectedEsrb: {},
+  selectedPegi: {},
 };
 const getImageCoverUrl = url => url.replace('t_thumb', 't_screenshot_big');
 class GameDetailsView extends React.Component {
@@ -28,11 +32,15 @@ class GameDetailsView extends React.Component {
   }
 
   render() {
-    const { gameDetails, selectedGenres } = this.props;
+    const { gameDetails, selectedGenres, selectedEsrb, selectedPegi } = this.props;
     console.log(this.props, 'this.props')
     return (<Paper>
       <div className="game-details">
-        <GameDetailsBanner details={gameDetails} />
+        <GameDetailsBanner
+          details={gameDetails}
+          selectedEsrb={selectedEsrb}
+          selectedPegi={selectedPegi}
+        />
         <GameDetailsBody details={gameDetails} genres={selectedGenres} />
       </div>
     </Paper>);

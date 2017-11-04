@@ -8,8 +8,10 @@ import Add from 'material-ui-icons/Add';
 import PlaylistAdd from 'material-ui-icons/PlaylistAdd';
 import NoteAdd from 'material-ui-icons/NoteAdd';
 import Close from 'material-ui-icons/Close';
+import { ESRB_ICONS, PEGI_ICONS } from 'constants/enums/urls'
 import style from './style.scss';
 import GameDetailsBannerMeta from './meta'
+
 
 const styles = () => ({
   root: {
@@ -27,7 +29,7 @@ const addToWishlist = () => {
 const GameDetailsBanner = ({ classes, details: {
   name,
   first_release_date,
-} }) => (<div className="banner">
+}, selectedEsrb: { rating: esrbRating = '' }, selectedPegi: { rating: pegiRating = '' } }) => (<div className="banner">
   <div className="header">
     <Grid container className={classes.root}>
       <Grid item md={6}>
@@ -36,11 +38,22 @@ const GameDetailsBanner = ({ classes, details: {
       <Grid item md={1}>
         <div className="ageRatings">
           <h1>
-            <a title="By PEGI, extrahiert von StG1990 [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3APEGI_18.svg">
-              <img width={16} alt="PEGI 18" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/PEGI_18.svg/16px-PEGI_18.svg.png" />
-            </a>
-            <a title="By Entertainment Software Association (Personal correspondence) [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AESRB_2013_Rating_Pending.svg">
-              <img width={16} alt="ESRB 2013 Rating Pending" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/ESRB_2013_Rating_Pending.svg/16px-ESRB_2013_Rating_Pending.svg.png" /></a>
+            {PEGI_ICONS[pegiRating] && <a title="By PEGI, extrahiert von StG1990 [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3APEGI_18.svg">
+              <img
+                width={16}
+                alt={PEGI_ICONS[pegiRating].altText}
+                src={PEGI_ICONS[pegiRating].url}
+              />
+            </a>}
+            {
+              ESRB_ICONS[esrbRating] && <a title="By Entertainment Software Association (Personal correspondence) [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AESRB_2013_Rating_Pending.svg">
+                <img
+                  width={16}
+                  alt={ESRB_ICONS[esrbRating].altText}
+                  src={ESRB_ICONS[esrbRating].url}
+                />
+              </a>
+            }
           </h1>
         </div>
       </Grid>
@@ -68,6 +81,14 @@ const GameDetailsBanner = ({ classes, details: {
 
 GameDetailsBanner.propTypes = {
   details: PropTypes.shape().isRequired,
+  selectedEsrb: PropTypes.shape(),
+  selectedPegi: PropTypes.shape(),
 };
+
+GameDetailsBanner.defaultProps = {
+  selectedEsrb: {},
+  selectedPegi: {},
+};
+
 const stylesHOC = withStyles(styles);
 export default stylesHOC(GameDetailsBanner);

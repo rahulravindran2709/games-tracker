@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { pathOr, curry, __, map, evolve, innerJoin, propOr, toString, propEq, compose, find } from 'ramda';
 
+
 const getGameDetails = pathOr({}, ['gameDetails', 'details']);
 const getGenres = pathOr([], ['enums', 'genres']);
 const getEsrbRatings = pathOr([], ['enums', 'esrb']);
