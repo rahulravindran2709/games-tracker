@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = function (models) {
     User.belongsToMany(models.Collection, { through: models.User_Collection });
+    User.belongsToMany(models.Wishlist, { through: models.User_Wishlist });
   };
   return User;
 };
