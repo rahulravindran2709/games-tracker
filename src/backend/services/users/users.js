@@ -14,7 +14,8 @@ const pickFieldsFromArrayResponse = fields => output => map(pick(fields))(output
 export function getUserById(id) {
   console.log(id, 'this inside getUserById');
   const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
-  return this.model.findAll(whereSelector);
+  return this.model.findAll(whereSelector)
+  .then(pickFieldsFromArrayResponse(['email', 'first_name', 'last_name']));
 }
 
 export function getUserCollections(id) {
