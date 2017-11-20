@@ -10,6 +10,7 @@ import configure from '../plugins/configure';
 import datastore from '../datastore';
 import igdbservice from '../services/igdb';
 import enumService from '../services/enums';
+import userService from '../services/users';
 
 const server = new hapi.Server({
   cache: [
@@ -60,6 +61,8 @@ apiServer.register([{
   register: igdbservice,
 }, {
   register: enumService,
+}, {
+  register: userService,
 }])
 .then(() => server.log(['server', 'api'], 'API server is configured'))
 .catch(err => console.error(err, 'Error occurred while configuring api server'));

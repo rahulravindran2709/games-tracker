@@ -1,5 +1,5 @@
 import { path } from 'ramda';
-import { getUserById, getPegiRatingById, getEsrbRatingById } from './users';
+import { getUserById } from './users';
 
 const serverMethodOptions = {
   callback: false,
@@ -19,7 +19,7 @@ const register = (server, options, next) => {
   return next();
 };
 register.attributes = {
-  name: 'enumService',
+  name: 'userService',
   dependencies: 'datastore',
 };
 export default register;
