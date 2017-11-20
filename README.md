@@ -40,10 +40,12 @@ TODO
   * [React router](https://reacttraining.com/react-router/) - For view navigation
   * [Ramda.js](http://ramdajs.com) - The FP toolkit
   * [Recompose](https://github.com/acdlite/recompose) - The React HOC toolkit
+  * [Material UI](http://material-ui.com) - UI components inspired by Google's material design
 
 ###Back end
   * [Hapi.js](https://hapijs.com) - API endpoints plus web server
-  * [mongo db](https://www.mongodb.com) - Persistent data store
+  * [sequelize](http://docs.sequelizejs.com/) - ORM framework
+  * [postgresql](https://www.postgresql.org/) - Postgresql for storing time tracking and user data
 
 ###Tools
   * [webpack](https://webpack.js.org) - For module bundling and asset optimization
@@ -72,4 +74,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * My blinding love for games
 * The kind people at [IGDB](http://igdb.com/api) for offering a free API to play with
-* [Mongolab](https://mlab.com) for offering free database store
+
