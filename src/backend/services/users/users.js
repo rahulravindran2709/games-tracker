@@ -27,10 +27,27 @@ export function getUserCollectionsByUserId(id) {
       attributes: ['collection_name', ['id', 'collection_id']],
       model: Collection,
       through: {
-        attributes: []
-      }
+        attributes: [],
+      },
     }],
     attributes: [['id', 'user_id']],
     ...whereSelector,
-  })
+  });
+}
+
+export function getUserWishlistsByUserId(id) {
+  console.log(id, 'Inside getUserWishlists');
+  const { User, Wishlist } = this.models;
+  const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
+  return User.findAll({ include: [
+    {
+      attributes: ['wishlist_name', ['id', 'wishlist_id']],
+      model: Wishlist,
+      through: {
+        attributes: [],
+      },
+    }],
+    attributes: [['id', 'user_id']],
+    ...whereSelector,
+  });
 }
