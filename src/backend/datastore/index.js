@@ -1,13 +1,13 @@
-const db = require('../models')
+const db = require('../models');
 
 
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'datastore' plugin");
   const { sequelize, Sequelize, ...models } = db;
-  console.log(models, 'Models')
+  console.log(models, 'Models');
   sequelize
     .authenticate()
-    .catch(() => {
+    .catch((err) => {
       server.log('Unable to connect to the database:', err);
       throw err;
     })
@@ -17,7 +17,7 @@ const register = (server, options, next) => {
       return next();
     })
     .catch((err) => {
-      server.log(['plugin', 'datastore'], 'Error while trying to get models' + err)
+      server.log(['plugin', 'datastore'], `Error while trying to get models${err}`);
       throw err;
     });
 };

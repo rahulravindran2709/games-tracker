@@ -3,6 +3,10 @@
     "username": "gametracker",
     "password": "t3rr1ble",
     "database": "gametracker_enum",
+    "databases": {
+      "enums": "gametracker_enum",
+      "main": "gametracker_main"
+    },
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

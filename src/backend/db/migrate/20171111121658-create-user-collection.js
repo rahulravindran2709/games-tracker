@@ -1,17 +1,19 @@
 
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Esrb_ratings', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('User_Collections', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    esrb_rating_id: {
-      type: Sequelize.STRING,
+    collection_id: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
-    rating: {
-      type: Sequelize.STRING,
+    user_id: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
     createdAt: {
       allowNull: false,
@@ -22,5 +24,5 @@ module.exports = {
       type: Sequelize.DATE,
     },
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Esrb_ratings'),
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('User_Collections'),
 };
