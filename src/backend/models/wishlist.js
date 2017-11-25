@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Wishlist.associate = function (models) {
     Wishlist.belongsToMany(models.User, { through: models.User_Wishlist, foreignKey: 'wishlist_id' });
+    Wishlist.belongsToMany(models.Game, { through: models.Game_Wishlist, foreignKey: 'wishlist_id' });
   };
   return Wishlist;
 };
