@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Game = sequelize.define('Game', {
     game_id: {
       allowNull: false,
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
     },
     name: {
       type: DataTypes.STRING,
@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   Game.associate = (models) => {
-    Game.belongsToMany(models.Collection, { through: models.Collection_Game, foreignKey: 'game_id' });
+    Game.belongsToMany(models.Collection, { through: models.Game_Collection, foreignKey: 'game_id' });
+    Game.belongsToMany(models.Wishlist, { through: models.Game_Wishlist, foreignKey: 'game_id' });
   };
   return Game;
 };

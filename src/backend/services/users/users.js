@@ -51,3 +51,38 @@ export function getUserWishlistsByUserId(id) {
     ...whereSelector,
   });
 }
+
+export function getGamesByCollectionId(id) {
+  console.log(id, 'Inside getGamesByCollection');
+  const { Game, Collection } = this.models;
+  const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
+  return Collection.findAll({ include: [
+    {
+      attributes: ['name', ['id', 'game_id']],
+      model: Game,
+      through: {
+        attributes: [],
+      },
+    }],
+    attributes: [['id', 'collection_id']],
+    ...whereSelector,
+  });
+}
+
+
+export function getGamesByWishlistId(id) {
+  console.log(id, 'Inside getGamesByWishlist');
+  const { Game, Wishlist } = this.models;
+  const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
+  return Wishlist.findAll({ include: [
+    {
+      attributes: ['name', ['id', 'game_id']],
+      model: Game,
+      through: {
+        attributes: [],
+      },
+    }],
+    attributes: [['id', 'wishlist_id']],
+    ...whereSelector,
+  });
+}
