@@ -12,4 +12,4 @@ export const getUserCollections = (request, reply) =>
   getServerMethod('getUserCollectionsByUserId')(request)(getIdRequestParam(request), callback(reply));
 
 export const getUserWishLists = (request, reply) =>
-    getServerMethod('getUserWishListsByUserId')(request)(getIdRequestParam(request), callback(reply));
+  getServerMethod('getUserWishListsByUserId')(request)(getIdRequestParam(request), callback(reply));
