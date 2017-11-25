@@ -1,5 +1,5 @@
 import { path } from 'ramda';
-import { getUserById, getUserCollectionsByUserId } from './users';
+import { getUserById, getUserCollectionsByUserId, getUserWishlistsByUserId } from './users';
 
 const serverMethodOptions = {
   callback: false,
@@ -12,7 +12,7 @@ const serverMethodOptions = {
 };
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'userservice' plugin");
-  const { User, Collection, User_Collection: UserCollection } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
+  const { User, Collection, Wishlist } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
   const userMethodOptions = { ...serverMethodOptions,
     bind: { model: User } };
   const userCollectionMethodOptions = {
@@ -23,8 +23,17 @@ const register = (server, options, next) => {
       },
     },
   };
+  const userWishlistMethodOptions = {
+    ...serverMethodOptions,
+    bind: {
+      models: {
+        User, Wishlist,
+      },
+    },
+  };
   server.method('getUserById', getUserById, userMethodOptions);
   server.method('getUserCollectionsByUserId', getUserCollectionsByUserId, userCollectionMethodOptions);
+  server.method('getUserWishListsByUserId', getUserWishlistsByUserId, userWishlistMethodOptions);
   return next();
 };
 register.attributes = {
