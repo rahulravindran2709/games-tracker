@@ -43,25 +43,7 @@ module.exports = {
       name: 'Simulator',
       createdAt: new Date(),
       updatedAt: new Date() },
-  ], {}),    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
-
+  ], {}),
 
   down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Genres', null, {}),
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('Person', null, {});
-    */
-
 };

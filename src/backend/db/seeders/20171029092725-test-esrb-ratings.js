@@ -36,25 +36,6 @@ module.exports = {
     rating: 'AO',
     createdAt: new Date(),
     updatedAt: new Date(),
-  }], {}),    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
-
-
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Esrb_ratings', null, {})
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('Person', null, {});
-    */
-  ,
+  }], {}),
+  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Esrb_ratings', null, {}),
 };
