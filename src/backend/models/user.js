@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     last_name: DataTypes.STRING,
   });
   User.associate = function (models) {
-    User.belongsToMany(models.Collection, { through: models.User_Collection });
-    User.belongsToMany(models.Wishlist, { through: models.User_Wishlist });
+    User.belongsToMany(models.Collection, { through: models.User_Collection, foreignKey: 'user_id' });
+    User.belongsToMany(models.Wishlist, { through: models.User_Wishlist, foreignKey: 'user_id' });
   };
   return User;
 };

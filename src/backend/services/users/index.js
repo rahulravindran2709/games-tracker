@@ -1,5 +1,5 @@
 import { path } from 'ramda';
-import { getUserById } from './users';
+import { getUserById, getUserCollectionsByUserId } from './users';
 
 const serverMethodOptions = {
   callback: false,
@@ -13,9 +13,18 @@ const serverMethodOptions = {
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'userservice' plugin");
   const { User, Collection, User_Collection: UserCollection } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
-  const genreMethodOptions = { ...serverMethodOptions,
+  const userMethodOptions = { ...serverMethodOptions,
     bind: { model: User } };
-  server.method('getUserById', getUserById, genreMethodOptions);
+  const userCollectionMethodOptions = {
+    ...serverMethodOptions,
+    bind: {
+      models: {
+        User, Collection,
+      },
+    },
+  };
+  server.method('getUserById', getUserById, userMethodOptions);
+  server.method('getUserCollectionsByUserId', getUserCollectionsByUserId, userCollectionMethodOptions);
   return next();
 };
 register.attributes = {

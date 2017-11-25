@@ -18,6 +18,19 @@ export function getUserById(id) {
   .then(pickFieldsFromArrayResponse(['email', 'first_name', 'last_name']));
 }
 
-export function getUserCollections(id) {
-
+export function getUserCollectionsByUserId(id) {
+  console.log(id, 'Inside getUserCollections');
+  const { User, Collection } = this.models;
+  const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
+  return User.findAll({ include: [
+    {
+      attributes: ['collection_name', ['id', 'collection_id']],
+      model: Collection,
+      through: {
+        attributes: []
+      }
+    }],
+    attributes: [['id', 'user_id']],
+    ...whereSelector,
+  })
 }

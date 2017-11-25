@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     collection_name: DataTypes.STRING,
   });
   Collection.associate = function (models) {
-    Collection.belongsToMany(models.User, { through: models.User_Collection });
+    Collection.belongsToMany(models.User, { through: models.User_Collection, foreignKey: 'collection_id' });
   };
   return Collection;
 };
