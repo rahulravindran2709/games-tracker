@@ -5,6 +5,7 @@ function register(server, options, next) {
   server.route(routes.api);
   server.route(routes.enumerated);
   server.route(routes.user);
+  server.route(routes.collection);
   return next();
 }
 register.attributes = {

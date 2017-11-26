@@ -1,4 +1,4 @@
-import { getUserById, getUserCollections, getUserWishLists, getGamesInCollection, getGamesInWishlist } from '../controllers/api/user';
+import { getUserById, getUserCollections, getUserWishLists } from '../controllers/api/user';
 
 const routes = [
   {
@@ -19,28 +19,6 @@ const routes = [
       description: 'Get all collections associated to a user',
       notes: 'Get active collections',
       tags: ['api', 'user', 'collections'],
-    },
-
-  },
-  {
-    method: 'GET',
-    path: '/collections/{id}/games',
-    handler: getGamesInCollection,
-    config: {
-      description: 'Get all games associated to a collection',
-      notes: 'Get games in collection',
-      tags: ['api', 'user', 'collections', 'games'],
-    },
-
-  },
-  {
-    method: 'GET',
-    path: '/wishlists/{id}/games',
-    handler: getGamesInWishlist,
-    config: {
-      description: 'Get all games associated to a wishlist',
-      notes: 'Get games in wishlist',
-      tags: ['api', 'user', 'wishlists', 'games'],
     },
 
   },
