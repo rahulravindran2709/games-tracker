@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     gameCollectionId: DataTypes.INTEGER,
   });
   Timesheet.associate = (models) => {
-    Timesheet.belongsTo(models.Game_Collection);
+    Timesheet.belongsTo(models.Game_Collection, { foreignKey: 'gameCollectionId' });
   };
 
   return Timesheet;

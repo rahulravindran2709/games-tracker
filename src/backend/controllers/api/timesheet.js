@@ -1,4 +1,4 @@
-import { getServerMethod, getIdRequestParam } from '../shared/utils';
+import { getServerMethod, getIdRequestParam, getGameIdRequestParam } from '../shared/utils';
 
 const callback = reply => (err, result) => {
   console.log(err, 'In callback');
@@ -6,7 +6,7 @@ const callback = reply => (err, result) => {
 };
 
 export const getTimesheetsByGameEntry = (request, reply) =>
-  getServerMethod('getGamesByWishlistId')(request)(getIdRequestParam(request), callback(reply));
+  getServerMethod('getTimesheetsByGameEntry')(request)(getIdRequestParam(request), getGameIdRequestParam(request), callback(reply));
 
 export const addTimesheet = (request, reply) =>
   getServerMethod('addTimesheetToGame')(request)(getIdRequestParam(request), callback(reply));
