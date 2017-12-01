@@ -84,6 +84,14 @@ export function addNewUser(user) {
   console.log(user, 'New user');
   const { User } = this.models;
   const userModelObject = mapUserApiObjectToModel(user);
-  console.log(userModelObject, 'Model object')
   return User.create(userModelObject);
+}
+
+export function updateUser(id, user) {
+  console.log(user, 'New user');
+  const { User } = this.models;
+  const userModelObject = mapUserApiObjectToModel(user);
+  return User.findById(id)
+  .then(userFromDb => User.update(userModelObject, { where: { id } }))
+  .catch((err) => console.error(err.message, 'Something broke'))
 }

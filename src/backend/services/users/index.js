@@ -1,6 +1,6 @@
 import { path } from 'ramda';
 import { getUserById, getUserCollectionsByUserId, getUserWishlistsByUserId,
-  getGamesByWishlistId, getGamesByCollectionId, addNewUser } from './users';
+  getGamesByWishlistId, getGamesByCollectionId, addNewUser, updateUser } from './users';
 
 const serverMethodOptions = {
   callback: false,
@@ -62,6 +62,7 @@ const register = (server, options, next) => {
   server.method('getGamesByCollectionId', getGamesByCollectionId, gameCollectionMethodOptions);
   server.method('getGamesByWishlistId', getGamesByWishlistId, gameWishlistMethodOptions);
   server.method('createUser', addNewUser, addUserOptions);
+  server.method('updateUser', updateUser, addUserOptions);
   return next();
 };
 register.attributes = {

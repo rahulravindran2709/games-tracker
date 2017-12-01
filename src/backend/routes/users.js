@@ -1,5 +1,5 @@
-import { getUserById, getUserCollections, getUserWishLists, createUser } from '../controllers/api/user';
-import { userPost } from '../validation/schemas/user';
+import { getUserById, getUserCollections, getUserWishLists, createUser, updateUser } from '../controllers/api/user';
+import { userPost, userPut } from '../validation/schemas/user';
 
 const routes = [
   {
@@ -44,6 +44,20 @@ const routes = [
       },
       description: 'Add a new user',
       notes: 'Add a new user to database',
+      tags: ['api', 'user'],
+    },
+
+  },
+  {
+    method: 'PUT',
+    path: '/users/{id}',
+    handler: updateUser,
+    config: {
+      validate: {
+        payload: userPut,
+      },
+      description: 'Updates the details of an existing user',
+      notes: 'Updates existing user in database',
       tags: ['api', 'user'],
     },
 
