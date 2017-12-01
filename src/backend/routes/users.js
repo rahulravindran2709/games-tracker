@@ -1,4 +1,5 @@
-import { getUserById, getUserCollections, getUserWishLists } from '../controllers/api/user';
+import { getUserById, getUserCollections, getUserWishLists, createUser } from '../controllers/api/user';
+import { userPost } from '../validation/schemas/user';
 
 const routes = [
   {
@@ -30,6 +31,20 @@ const routes = [
       description: 'Get all wishlists associated to a user',
       notes: 'Get active wishlists',
       tags: ['api', 'user', 'wishlists'],
+    },
+
+  },
+  {
+    method: 'POST',
+    path: '/users/',
+    handler: createUser,
+    config: {
+      validate: {
+        payload: userPost,
+      },
+      description: 'Add a new user',
+      notes: 'Add a new user to database',
+      tags: ['api', 'user'],
     },
 
   },

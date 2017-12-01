@@ -4,3 +4,4 @@ export const getServerMethod = methodName => path(['server', 'methods', methodNa
 export const getRequestParam = paramName => path(['params', paramName]);
 export const getIdRequestParam = getRequestParam('id');
 export const getGameIdRequestParam = getRequestParam('gameid');
+export const getPostBody = path(['payload']);

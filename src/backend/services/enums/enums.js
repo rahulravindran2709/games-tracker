@@ -1,16 +1,7 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
-import { pick, compose, identity, complement, objOf, assoc, ifElse, isEmpty, map } from 'ramda';
+import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
 
-const transformToEmptyObject = () => identity({});
-const getWhereAttr = field => value =>
-compose(objOf('where'), assoc(field, value), objOf(field))(field);
-const getWhereSelectorIfParamNotEmpty = fieldName => ifElse(
-  complement(isEmpty),
-  getWhereAttr(fieldName),
-  transformToEmptyObject,
-);
-const pickFieldsFromArrayResponse = fields => output => map(pick(fields))(output);
 export function getGenreById(id) {
   console.log(id, 'this inside getgenrebyid');
   const whereSelector = getWhereSelectorIfParamNotEmpty('genre_id')(id);
