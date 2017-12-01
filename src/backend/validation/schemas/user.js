@@ -8,4 +8,8 @@ export const userPost = {
   lastName: Joi.string().required(),
 };
 
+export const userPut = {
+  firstName: Joi.string(),
+  lastName: Joi.string(),
+};
 export const userParam = Joi.string().required();

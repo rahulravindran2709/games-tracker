@@ -17,3 +17,6 @@ export const getUserWishLists = (request, reply) =>
 
 export const createUser = (request, reply) =>
   getServerMethod('createUser')(request)(getPostBody(request)).then(data => reply(data));
+
+export const updateUser = (request, reply) =>
+  getServerMethod('updateUser')(request)(getIdRequestParam(request), getPostBody(request)).then(data => reply(data));
