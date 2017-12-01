@@ -1,16 +1,9 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
-import { pick, compose, identity, complement, objOf, assoc, ifElse, isEmpty, map } from 'ramda';
+import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
+import { mapUserApiObjectToModel } from '../../mappers/index';
 
-const transformToEmptyObject = () => identity({});
-const getWhereAttr = field => value =>
-compose(objOf('where'), assoc(field, value), objOf(field))(field);
-const getWhereSelectorIfParamNotEmpty = fieldName => ifElse(
-  complement(isEmpty),
-  getWhereAttr(fieldName),
-  transformToEmptyObject,
-);
-const pickFieldsFromArrayResponse = fields => output => map(pick(fields))(output);
+
 export function getUserById(id) {
   console.log(id, 'this inside getUserById');
   const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
@@ -85,4 +78,12 @@ export function getGamesByWishlistId(id) {
     attributes: [['id', 'wishlist_id']],
     ...whereSelector,
   });
+}
+
+export function addNewUser(user) {
+  console.log(user, 'New user');
+  const { User } = this.models;
+  const userModelObject = mapUserApiObjectToModel(user);
+  console.log(userModelObject, 'Model object')
+  return User.create(userModelObject);
 }
