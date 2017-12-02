@@ -20,3 +20,6 @@ export const createUser = (request, reply) =>
 
 export const updateUser = (request, reply) =>
   getServerMethod('updateUser')(request)(getIdRequestParam(request), getPostBody(request)).then(data => reply(data));
+
+export const createUserCollection = (request, reply) =>
+  getServerMethod('createUserCollection')(request)(getIdRequestParam(request), getPostBody(request)).then(data => reply(data));

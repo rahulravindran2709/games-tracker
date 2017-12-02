@@ -1,5 +1,7 @@
-import { getUserById, getUserCollections, getUserWishLists, createUser, updateUser } from '../controllers/api/user';
+import { getUserById, getUserCollections, getUserWishLists,
+  createUser, updateUser, createUserCollection } from '../controllers/api/user';
 import { userPost, userPut } from '../validation/schemas/user';
+import { collectionPost } from '../validation/schemas/collection';
 
 const routes = [
   {
@@ -19,6 +21,20 @@ const routes = [
     config: {
       description: 'Get all collections associated to a user',
       notes: 'Get active collections',
+      tags: ['api', 'user', 'collections'],
+    },
+
+  },
+  {
+    method: 'POST',
+    path: '/users/{id}/collections',
+    handler: createUserCollection,
+    config: {
+      validate: {
+        payload: collectionPost,
+      },
+      description: 'Create a new collection associated to a user',
+      notes: 'Create new active collections',
       tags: ['api', 'user', 'collections'],
     },
 
