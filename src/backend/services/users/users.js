@@ -1,7 +1,7 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
 import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
-import { mapUserApiObjectToModel, mapCollectionApiObjectToModel } from '../../mappers/index';
+import { mapUserApiObjectToModel, mapCollectionApiObjectToModel, mapWishlistApiObjectToModel } from '../../mappers/index';
 
 
 export function getUserById(id) {
@@ -107,6 +107,21 @@ export function createUserCollection(userId, collection) {
     }
     return User.findById(userId).then(userModelFromDB =>
       userModelFromDB.addCollection(collectionModel));
+  })
+    .catch(error => console.error(error, 'Error occurred'));
+}
+
+export function createUserWishlist(userId, wishlist) {
+  console.log(wishlist, 'New collection');
+  const { User, Wishlist } = this.models;
+  const wishlistModelObject = mapWishlistApiObjectToModel(wishlist);
+  return Wishlist.create(wishlistModelObject)
+  .then((wishlistModel) => {
+    if (!wishlistModel) {
+      throw new Error('Insert failed');
+    }
+    return User.findById(userId).then(userModelFromDB =>
+      userModelFromDB.addWishlist(wishlistModel));
   })
     .catch(error => console.error(error, 'Error occurred'));
 }

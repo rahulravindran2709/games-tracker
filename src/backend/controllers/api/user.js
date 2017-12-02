@@ -23,3 +23,6 @@ export const updateUser = (request, reply) =>
 
 export const createUserCollection = (request, reply) =>
   getServerMethod('createUserCollection')(request)(getIdRequestParam(request), getPostBody(request)).then(data => reply(data));
+
+export const createUserWishlist = (request, reply) =>
+    getServerMethod('createUserWishlist')(request)(getIdRequestParam(request), getPostBody(request)).then(data => reply(data));
