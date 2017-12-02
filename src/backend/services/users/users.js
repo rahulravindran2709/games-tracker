@@ -1,7 +1,7 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
 import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
-import { mapUserApiObjectToModel } from '../../mappers/index';
+import { mapUserApiObjectToModel, mapCollectionApiObjectToModel, mapWishlistApiObjectToModel } from '../../mappers/index';
 
 
 export function getUserById(id) {
@@ -93,5 +93,35 @@ export function updateUser(id, user) {
   const userModelObject = mapUserApiObjectToModel(user);
   return User.findById(id)
   .then(userFromDb => User.update(userModelObject, { where: { id } }))
-  .catch((err) => console.error(err.message, 'Something broke'))
+  .catch(err => console.error(err.message, 'Something broke'));
+}
+
+export function createUserCollection(userId, collection) {
+  console.log(collection, 'New collection');
+  const { User, Collection } = this.models;
+  const collectionModelObject = mapCollectionApiObjectToModel(collection);
+  return Collection.create(collectionModelObject)
+  .then((collectionModel) => {
+    if (!collectionModel) {
+      throw new Error('Insert failed');
+    }
+    return User.findById(userId).then(userModelFromDB =>
+      userModelFromDB.addCollection(collectionModel));
+  })
+    .catch(error => console.error(error, 'Error occurred'));
+}
+
+export function createUserWishlist(userId, wishlist) {
+  console.log(wishlist, 'New collection');
+  const { User, Wishlist } = this.models;
+  const wishlistModelObject = mapWishlistApiObjectToModel(wishlist);
+  return Wishlist.create(wishlistModelObject)
+  .then((wishlistModel) => {
+    if (!wishlistModel) {
+      throw new Error('Insert failed');
+    }
+    return User.findById(userId).then(userModelFromDB =>
+      userModelFromDB.addWishlist(wishlistModel));
+  })
+    .catch(error => console.error(error, 'Error occurred'));
 }

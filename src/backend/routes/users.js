@@ -1,5 +1,9 @@
-import { getUserById, getUserCollections, getUserWishLists, createUser, updateUser } from '../controllers/api/user';
+import { getUserById, getUserCollections, getUserWishLists,
+  createUser, updateUser, createUserCollection,
+createUserWishlist } from '../controllers/api/user';
 import { userPost, userPut } from '../validation/schemas/user';
+import { collectionPost } from '../validation/schemas/collection';
+import { wishlistPost } from '../validation/schemas/wishlist';
 
 const routes = [
   {
@@ -24,12 +28,39 @@ const routes = [
 
   },
   {
+    method: 'POST',
+    path: '/users/{id}/collections',
+    handler: createUserCollection,
+    config: {
+      validate: {
+        payload: collectionPost,
+      },
+      description: 'Create a new collection associated to a user',
+      notes: 'Create new active collections',
+      tags: ['api', 'user', 'collections'],
+    },
+
+  },
+  {
     method: 'GET',
     path: '/users/{id}/wishlists',
     handler: getUserWishLists,
     config: {
       description: 'Get all wishlists associated to a user',
       notes: 'Get active wishlists',
+      tags: ['api', 'user', 'wishlists'],
+    },
+
+  },{
+    method: 'POST',
+    path: '/users/{id}/wishlists',
+    handler: createUserWishlist,
+    config: {
+      validate: {
+        payload: wishlistPost,
+      },
+      description: 'Create a new wishlist associated to a user',
+      notes: 'Create new active collections',
       tags: ['api', 'user', 'wishlists'],
     },
 
