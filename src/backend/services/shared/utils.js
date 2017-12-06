@@ -1,8 +1,9 @@
-import { pick, compose, identity, complement, objOf, assoc, ifElse, isEmpty, map, propOr } from 'ramda';
+import { pick, compose, identity, complement, objOf, assoc, ifElse, isEmpty, map, propOr, path } from 'ramda';
 
 const transformToEmptyObject = () => identity({});
 const getWhereAttr = field => value =>
 compose(objOf('where'), assoc(field, value), objOf(field))(field);
+export const isNotEmpty = complement(isEmpty);
 export const getWhereSelectorIfParamNotEmpty = fieldName => ifElse(
   complement(isEmpty),
   getWhereAttr(fieldName),
@@ -11,3 +12,4 @@ export const getWhereSelectorIfParamNotEmpty = fieldName => ifElse(
 export const pickFieldsFromArrayResponse = fields => output => map(pick(fields))(output);
 
 export const getBodyFromServiceResponse = propOr([], 'body');
+export const getDatabaseModels = path(['plugins', 'datastore', 'DatabaseModels']);

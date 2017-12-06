@@ -12,6 +12,7 @@ import igdbservice from '../services/igdb';
 import enumService from '../services/enums';
 import userService from '../services/users';
 import timeService from '../services/time';
+import collectionService from '../services/collection';
 
 const server = new hapi.Server({
   cache: [
@@ -62,6 +63,8 @@ apiServer.register([{
   register: igdbservice,
 }, {
   register: enumService,
+}, {
+  register: collectionService,
 }, {
   register: userService,
 }, {

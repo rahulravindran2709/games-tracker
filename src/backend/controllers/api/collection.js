@@ -1,7 +1,11 @@
-import { getServerMethod, getIdRequestParam } from '../shared/utils';
+import { getServerMethod, getIdRequestParam,
+  getCollectionIdRequestParam, getGameIdRequestParam } from '../shared/utils';
 
 const callback = reply => (err, result) => {
-  console.log(err, 'In callback');
+  if (err) {
+    console.log(err.message, 'Error occurred')
+    return reply(err);
+  }
   return reply(result);
 };
 
@@ -10,3 +14,7 @@ export const getGamesInCollection = (request, reply) =>
 
 export const getGamesInWishlist = (request, reply) =>
   getServerMethod('getGamesByWishlistId')(request)(getIdRequestParam(request), callback(reply));
+
+export const getGameMetaDataByCollection = (request, reply) =>
+  getServerMethod('getGameMetaDataByCollection')(request)(getCollectionIdRequestParam(request),
+getGameIdRequestParam(request), callback(reply));
