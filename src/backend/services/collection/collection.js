@@ -4,6 +4,7 @@ import { reduce, props, apply, prop, compose, subtract, evolve, head } from 'ram
 import { isNotEmpty } from '../shared/utils';
 
 const getTotalTimePlayed = reduce((accum, current) => {
+  console.log(current, 'Value of current')
   const currentPlainObject = current.get({ plain: true });
   const parseTimesheetDates = evolve({
     timesheetIn: Date.parse,
@@ -14,6 +15,7 @@ const getTotalTimePlayed = reduce((accum, current) => {
   getTimesInOrder, parseTimesheetDates)(currentPlainObject);
   return accum + timeDifference;
 }, 0);
+
 const getLastPlayed = compose(prop('timesheetOut'), head);
 export function getGameMetaDataByCollection(collectionId, gameId) {
   const { Game_Collection, Timesheet } = this.models;
@@ -22,6 +24,7 @@ export function getGameMetaDataByCollection(collectionId, gameId) {
     attributes: ['timesheetIn', 'timesheetOut'],
     order: [['timesheetOut', 'DESC']],
     include: [{
+      attributes: ['playthroughs'],
       model: Game_Collection,
       where: {
         collection_id: collectionId,
@@ -34,5 +37,8 @@ export function getGameMetaDataByCollection(collectionId, gameId) {
     lastPlayed: getLastPlayed(response),
     collectionId,
     gameId,
+    ...response[0].Game_Collection.get({
+      plain: true,
+    }),
   }) : {});
 }
