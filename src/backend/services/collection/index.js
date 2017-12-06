@@ -13,11 +13,11 @@ const serverMethodOptions = {
 };
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'collectionService' plugin");
-  const { Game_Collection } = getDatabaseModels(server);
+  const { Game_Collection, Timesheet } = getDatabaseModels(server);
   const getGameMetadataOptions = { ...serverMethodOptions,
     bind: {
       models: {
-        Game_Collection,
+        Game_Collection, Timesheet,
       } } };
   server.method('getGameMetaDataByCollection', getGameMetaDataByCollection, getGameMetadataOptions);
   return next();

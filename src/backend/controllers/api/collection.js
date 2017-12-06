@@ -2,7 +2,10 @@ import { getServerMethod, getIdRequestParam,
   getCollectionIdRequestParam, getGameIdRequestParam } from '../shared/utils';
 
 const callback = reply => (err, result) => {
-  console.log(err, 'In callback');
+  if (err) {
+    console.log(err.message, 'Error occurred')
+    return reply(err);
+  }
   return reply(result);
 };
 
