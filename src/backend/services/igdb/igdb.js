@@ -1,6 +1,6 @@
 import igdb from 'igdb-api-node';
 import { head, compose, pick, mergeAll, prop, objOf } from 'ramda';
-import { getBodyFromServiceResponse } from '../shared/utils';
+import { getBodyFromServiceResponse, getWhereSelectorIfParamNotEmpty } from '../shared/utils';
 
 global['3scaleKey'] = '422b0b250799d114e611860b340af41d';
 const client = igdb();
@@ -29,22 +29,18 @@ export const getGames = (searchCriteria) => {
     throw error;
   });
 };
+const pickRelevantFields = pick(['id', 'name',
+  'created_at', 'updated_at', 'summary', 'first_release_date']);
 export function getGameById(igdbGameId) {
-  // TODO Add db call to check whether the game id exists
   console.log(igdbGameId, 'In get game by id');
   const { Game } = this.models;
-
-  return client.games({
-    ids: [igdbGameId],
-  }).then((response) => {
+  return client.games({ ids: [igdbGameId] })
+  .then((response) => {
     const gameObject = compose(head, getBodyFromServiceResponse)(response);
-    const pickRelevantFields = pick(['id', 'name',
-      'created_at', 'updated_at', 'summary', 'first_release_date']);
+    const whereSelector = getWhereSelectorIfParamNotEmpty('game_id')(igdbGameId);
     const defaultObject = pickRelevantFields(gameObject);
     return Game.findCreateFind({
-      where: {
-        game_id: igdbGameId,
-      },
+      ...whereSelector,
       defaults: {
         name: defaultObject.name,
         game_createdAt: defaultObject.created_at,
