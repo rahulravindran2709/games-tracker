@@ -1,5 +1,5 @@
 import { getTimesheetsByGameEntry } from '../controllers/api/timesheet';
-import { getGamesInCollection, getGamesInWishlist } from '../controllers/api/collection';
+import { getGamesInCollection, getGamesInWishlist, getGameMetaDataByCollection } from '../controllers/api/collection';
 
 const routes = [{
   method: 'GET',
@@ -17,6 +17,17 @@ const routes = [{
   handler: getGamesInCollection,
   config: {
     description: 'Get all games associated to a collection',
+    notes: 'Get games in collection',
+    tags: ['api', 'user', 'collections', 'games'],
+  },
+
+},
+{
+  method: 'GET',
+  path: '/collections/{collectionid}/games/{gameid}',
+  handler: getGameMetaDataByCollection,
+  config: {
+    description: 'Get metadata for a specific game in a collection',
     notes: 'Get games in collection',
     tags: ['api', 'user', 'collections', 'games'],
   },
