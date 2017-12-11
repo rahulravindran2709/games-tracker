@@ -1,9 +1,9 @@
 import { getServerMethod, getIdRequestParam,
-  getCollectionIdRequestParam, getGameIdRequestParam } from '../shared/utils';
+  getCollectionIdRequestParam, getGameIdRequestParam, getPostBody } from '../shared/utils';
 
 const callback = reply => (err, result) => {
   if (err) {
-    console.log(err.message, 'Error occurred')
+    console.log(err.message, 'Error occurred');
     return reply(err);
   }
   return reply(result);
@@ -18,3 +18,6 @@ export const getGamesInWishlist = (request, reply) =>
 export const getGameMetaDataByCollection = (request, reply) =>
   getServerMethod('getGameMetaDataByCollection')(request)(getCollectionIdRequestParam(request),
 getGameIdRequestParam(request), callback(reply));
+
+export const addGameToCollection = (request, reply) =>
+getServerMethod('addGameToCollection')(request)(getCollectionIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request)).then(data => reply(data));

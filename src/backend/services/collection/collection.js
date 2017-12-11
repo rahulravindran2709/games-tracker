@@ -1,7 +1,7 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
 import { reduce, props, apply, prop, compose, subtract, evolve, head } from 'ramda';
-import { isNotEmpty } from '../shared/utils';
+import { getWhereSelectorIfParamNotEmpty, isNotEmpty } from '../shared/utils';
 
 const getTotalTimePlayed = reduce((accum, current) => {
   console.log(current, 'Value of current')
@@ -41,4 +41,11 @@ export function getGameMetaDataByCollection(collectionId, gameId) {
       plain: true,
     }),
   }) : {});
+}
+
+export function addGameToCollection(collectionId, gameId, gameCollectionBody) {
+  const { Collection, Game } = this.models;
+  console.log(`Adding ${gameId} to collection ${collectionId} ${gameCollectionBody}`)
+  const whereSelector = getWhereSelectorIfParamNotEmpty('collection_id')(collectionId);
+  return new Promise((resolve, reject) => resolve('Done'));
 }
