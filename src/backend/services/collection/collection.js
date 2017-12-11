@@ -43,15 +43,13 @@ export function getGameMetaDataByCollection(collectionId, gameId) {
   }) : {});
 }
 
-export function addGameToCollection(collectionId, gameId, gameCollectionBody = {
-  playthroughs: 0,
-}) {
-  const { Collection, Game } = this.models;
+export function addGameToCollection(collectionId, gameId, gameCollectionBody) {
+  const { Collection } = this.models;
   console.log(`Adding ${gameId} to collection ${collectionId} ${gameCollectionBody}`);
   return Collection.findById(collectionId).then((collectionObject) => {
     if (!collectionObject) {
       throw new Error('Collection not found');
     }
-    return collectionObject.addGame(gameId, { through: { playthroughs: 0 } });
+    return collectionObject.addGame(gameId, { through: gameCollectionBody });
   });
 }

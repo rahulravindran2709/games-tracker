@@ -1,7 +1,7 @@
 import { getTimesheetsByGameEntry } from '../controllers/api/timesheet';
 import { getGamesInCollection, getGamesInWishlist,
    getGameMetaDataByCollection, addGameToCollection } from '../controllers/api/collection';
-import { gameCollectionPost } from '../validation/schemas/collection';
+import { gameCollectionPost } from '../validation/schemas/gamecollection';
 
 const routes = [{
   method: 'GET',
