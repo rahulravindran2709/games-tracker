@@ -4,7 +4,7 @@ import { reduce, props, apply, prop, compose, subtract, evolve, head } from 'ram
 import { getWhereSelectorIfParamNotEmpty, isNotEmpty } from '../shared/utils';
 
 const getTotalTimePlayed = reduce((accum, current) => {
-  console.log(current, 'Value of current')
+  console.log(current, 'Value of current');
   const currentPlainObject = current.get({ plain: true });
   const parseTimesheetDates = evolve({
     timesheetIn: Date.parse,
@@ -43,9 +43,15 @@ export function getGameMetaDataByCollection(collectionId, gameId) {
   }) : {});
 }
 
-export function addGameToCollection(collectionId, gameId, gameCollectionBody) {
+export function addGameToCollection(collectionId, gameId, gameCollectionBody = {
+  playthroughs: 0,
+}) {
   const { Collection, Game } = this.models;
-  console.log(`Adding ${gameId} to collection ${collectionId} ${gameCollectionBody}`)
-  const whereSelector = getWhereSelectorIfParamNotEmpty('collection_id')(collectionId);
-  return new Promise((resolve, reject) => resolve('Done'));
+  console.log(`Adding ${gameId} to collection ${collectionId} ${gameCollectionBody}`);
+  return Collection.findById(collectionId).then((collectionObject) => {
+    if (!collectionObject) {
+      throw new Error('Collection not found');
+    }
+    return collectionObject.addGame(gameId, { through: { playthroughs: 0 } });
+  });
 }

@@ -20,4 +20,8 @@ export const getGameMetaDataByCollection = (request, reply) =>
 getGameIdRequestParam(request), callback(reply));
 
 export const addGameToCollection = (request, reply) =>
-getServerMethod('addGameToCollection')(request)(getCollectionIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request)).then(data => reply(data));
+getServerMethod('addGameToCollection')(request)(getCollectionIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request)).then(data => reply(data))
+.catch(error => {
+  console.error(error);
+  return reply(error);
+});
