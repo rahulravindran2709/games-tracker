@@ -1,6 +1,7 @@
 import { getTimesheetsByGameEntry } from '../controllers/api/timesheet';
 import { getGamesInCollection, getGamesInWishlist,
-   getGameMetaDataByCollection, addGameToCollection } from '../controllers/api/collection';
+   getGameMetaDataByCollection, addGameToCollection,
+ addGameToWishlist } from '../controllers/api/collection';
 import { gameCollectionPost } from '../validation/schemas/gamecollection';
 
 const routes = [{
@@ -46,6 +47,17 @@ const routes = [{
     description: 'Add a game to a collection',
     notes: 'Add games to collection',
     tags: ['api', 'user', 'collections', 'games'],
+  },
+
+},
+{
+  method: 'PUT',
+  path: '/wishlists/{wishlistid}/games/{gameid}',
+  handler: addGameToWishlist,
+  config: {
+    description: 'Add a game to a wishlist',
+    notes: 'Add games to wishlist',
+    tags: ['api', 'user', 'wishlists', 'games'],
   },
 
 },

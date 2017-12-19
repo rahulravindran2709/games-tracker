@@ -1,4 +1,4 @@
-import { getServerMethod, getIdRequestParam,
+import { getServerMethod, getIdRequestParam, getWishlistIdRequestParam,
   getCollectionIdRequestParam, getGameIdRequestParam, getPostBody } from '../shared/utils';
 
 const callback = reply => (err, result) => {
@@ -21,7 +21,14 @@ getGameIdRequestParam(request), callback(reply));
 
 export const addGameToCollection = (request, reply) =>
 getServerMethod('addGameToCollection')(request)(getCollectionIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request)).then(data => reply(data))
-.catch(error => {
+.catch((error) => {
   console.error(error);
+  return reply(error);
+});
+
+
+export const addGameToWishlist = (request, reply) =>
+getServerMethod('addGameToWishlist')(request)(getWishlistIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request)).then(data => reply(data))
+.catch((error) => {
   return reply(error);
 });
