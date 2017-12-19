@@ -67,8 +67,9 @@ export function addGameToWishlist(wishlistId, gameId) {
       throw new Error('Collection not found');
     }
     return wishlistObject.addGame(gameId).catch((error) => {
-      console.error(arguments.length, 'An error occured while adding game to wishlist');
-      throw new Error(error.message);
+      const errorMessage = getDBErrorMessage(error);
+      console.log(errorMessage, 'An error occurred while adding game to collection')
+      throw new Error(errorMessage);
     });
   });
 }
