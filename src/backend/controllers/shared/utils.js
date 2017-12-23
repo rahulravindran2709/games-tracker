@@ -5,4 +5,5 @@ export const getRequestParam = paramName => path(['params', paramName]);
 export const getIdRequestParam = getRequestParam('id');
 export const getGameIdRequestParam = getRequestParam('gameid');
 export const getCollectionIdRequestParam = getRequestParam('collectionid');
+export const getWishlistIdRequestParam = getRequestParam('wishlistid');
 export const getPostBody = path(['payload']);

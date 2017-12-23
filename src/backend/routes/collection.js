@@ -1,5 +1,8 @@
 import { getTimesheetsByGameEntry } from '../controllers/api/timesheet';
-import { getGamesInCollection, getGamesInWishlist, getGameMetaDataByCollection } from '../controllers/api/collection';
+import { getGamesInCollection, getGamesInWishlist,
+   getGameMetaDataByCollection, addGameToCollection,
+ addGameToWishlist } from '../controllers/api/collection';
+import { gameCollectionPost } from '../validation/schemas/gamecollection';
 
 const routes = [{
   method: 'GET',
@@ -30,6 +33,31 @@ const routes = [{
     description: 'Get metadata for a specific game in a collection',
     notes: 'Get games in collection',
     tags: ['api', 'user', 'collections', 'games'],
+  },
+
+},
+{
+  method: 'PUT',
+  path: '/collections/{collectionid}/games/{gameid}',
+  handler: addGameToCollection,
+  config: {
+    validate: {
+      payload: gameCollectionPost,
+    },
+    description: 'Add a game to a collection',
+    notes: 'Add games to collection',
+    tags: ['api', 'user', 'collections', 'games'],
+  },
+
+},
+{
+  method: 'PUT',
+  path: '/wishlists/{wishlistid}/games/{gameid}',
+  handler: addGameToWishlist,
+  config: {
+    description: 'Add a game to a wishlist',
+    notes: 'Add games to wishlist',
+    tags: ['api', 'user', 'wishlists', 'games'],
   },
 
 },
