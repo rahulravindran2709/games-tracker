@@ -1,5 +1,6 @@
 import hapi from 'hapi';
 import good from 'good';
+import cors from 'hapi-cors';
 import Blipp from 'blipp';
 import Disk from 'catbox-disk';
 import path from 'path';
@@ -54,6 +55,11 @@ wsServer.register({
 /* API server specific plugin registration */
 apiServer.realm.modifiers.route.prefix = '/api';
 apiServer.register([{
+  register: cors,
+  options: {
+    origins: ['http://localhost:3000'],
+  },
+}, {
   register: apiServerPlugin,
 },
 {
