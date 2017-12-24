@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
-import Slider from './collectionslide';
+import Slider from './slider';
 
 const styles = theme => ({
   container: {
