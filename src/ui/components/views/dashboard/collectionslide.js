@@ -37,9 +37,9 @@ const styles = theme => ({
   },
 });
 
-const Slider = ({ classes, collections }) => (
+const Slider = ({ classes, collections, headerName }) => (
   <div className={classes.root}>
-    <Typography type="headline">Collections</Typography>
+    <Typography type="headline">{headerName}</Typography>
     <GridList className={classes.gridList} cols={2.5}>
       {collections.map(({ id, url, name }) => (
         <GridListTile key={id}>
@@ -54,10 +54,10 @@ const Slider = ({ classes, collections }) => (
               <IconButton>
                 <StarBorderIcon className={classes.title} />
               </IconButton>
-            }
+              }
           />
         </GridListTile>
-      ))}
+        ))}
     </GridList>
   </div>);
 

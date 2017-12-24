@@ -8,6 +8,7 @@ import { loadUserGameData } from 'actions/collections';
 import Banner from './banner';
 import Meta from './meta';
 import Body from './body';
+import selector from './dashboard.selector';
 
 const propTypes = {
   classes: PropTypes.shape().isRequired,
@@ -35,7 +36,6 @@ class DashboardView extends React.Component {
     };
   }
   componentWillMount() {
-    console.log('In component will mount');
     this.props.loadUserGameData(1);
   }
   render() {
@@ -49,11 +49,7 @@ class DashboardView extends React.Component {
     </div>);
   }
 }
-const mapStateToProps = ({ dashboard }) => ({
-  collections: dashboard.collections,
-  wishlists: dashboard.wishlists,
-  metadata: dashboard.metadata,
-});
+const mapStateToProps = state => selector(state);
 
 const mapDispatchToProps = dispatch =>
   ({

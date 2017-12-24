@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Grid from 'material-ui/Grid';
+import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import Slider from './collectionslide';
 
@@ -20,8 +22,20 @@ const propTypes = {
 };
 const DashboardBody = ({ classes, collections, wishlists }) => (
   <div className="body">
-    <Slider collections={collections} />
-    <Slider collections={wishlists} />
+    <Grid container className={classes.meta}>
+      <Grid item md={12}>
+        <Typography type="headline">{'Collections'}</Typography>
+      </Grid>
+      <Grid item md={12}>
+        <Slider collections={collections} />
+      </Grid>
+      <Grid item md={12}>
+        <Typography type="headline">{'Wishlists'}</Typography>
+      </Grid>
+      <Grid item md={12}>
+        <Slider collections={wishlists} />
+      </Grid>
+    </Grid>
   </div>);
 
 DashboardBody.propTypes = propTypes;
