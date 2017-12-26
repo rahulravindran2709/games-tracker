@@ -5,7 +5,9 @@ const callback = reply => (err, result) => {
   return reply(result);
 };
 
-
+export const authenticateUser = (request, reply) =>
+  getServerMethod('authenticateUser')(request)(getPostBody(request)).then(data => reply(data))
+  .catch(error => reply(error));
 export const getUserById = (request, reply) =>
 getServerMethod('getUserById')(request)(getIdRequestParam(request), callback(reply));
 

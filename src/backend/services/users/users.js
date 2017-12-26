@@ -1,5 +1,6 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
+import Boom from 'boom';
 import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
 import { mapUserApiObjectToModel, mapCollectionApiObjectToModel, mapWishlistApiObjectToModel } from '../../mappers/index';
 
@@ -124,4 +125,24 @@ export function createUserWishlist(userId, wishlist) {
       userModelFromDB.addWishlist(wishlistModel));
   })
     .catch(error => console.error(error, 'Error occurred'));
+}
+
+export function authenticateUser(credentials) {
+  console.log('Trying to authenticate user', credentials.email);
+  const { User } = this.models;
+  const whereSelector = getWhereSelectorIfParamNotEmpty('email')(credentials.email);
+  return User.findOne({
+    ...whereSelector,
+  })
+  .then((userModelObject) => {
+    if (!userModelObject) {
+      throw Boom.badRequest('User not exists');
+    }
+    if (userModelObject.password !== credentials.password) {
+      throw Boom.unauthorized('Wrong password');
+    }
+    return {
+      message: 'Successfully authenticated',
+    };
+  });
 }

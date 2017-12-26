@@ -12,4 +12,9 @@ export const userPut = {
   firstName: Joi.string(),
   lastName: Joi.string(),
 };
+
+export const userAuthPost = {
+  password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+  email: Joi.string().email().required(),
+};
 export const userParam = Joi.string().required();

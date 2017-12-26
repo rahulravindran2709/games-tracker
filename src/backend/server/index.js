@@ -3,7 +3,7 @@ import good from 'good';
 import cors from 'hapi-cors';
 import Blipp from 'blipp';
 import Disk from 'catbox-disk';
-// import authJwt from 'hapi-auth-jwt2';
+import authJwt from 'hapi-auth-jwt2';
 import path from 'path';
 import webServerPlugin from './ws';
 import apiServerPlugin from './api';
@@ -52,12 +52,13 @@ wsServer.register({
 
 /* API server specific plugin registration */
 apiServer.realm.modifiers.route.prefix = '/api';
-// apiServer.register(authJwt);
 apiServer.register([{
   register: cors,
   options: {
     origins: ['http://localhost:3000'],
   },
+}, {
+  register: authJwt,
 }, {
   register: apiServerPlugin,
 },
@@ -68,7 +69,14 @@ apiServer.register([{
   register: serviceRegistry,
 },
 ])
-.then(() => server.log(['server', 'api'], 'API server is configured'))
+.then(() => {
+  /* server.auth.strategy('jwt', 'jwt', {
+    key: 'verylongsecretKey',
+    verifyOptions: { algorithms: ['HS256'] },
+  });
+  server.auth.default('jwt'); */
+  server.log(['server', 'api'], 'API server is configured');
+})
 .catch(err => console.error(err, 'Error occurred while configuring api server'));
 
 /* Common plugin registration */

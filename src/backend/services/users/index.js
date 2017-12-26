@@ -1,6 +1,7 @@
 import { path } from 'ramda';
 import { getUserById, getUserCollectionsByUserId, getUserWishlistsByUserId,
   getGamesByWishlistId, getGamesByCollectionId, addNewUser, updateUser,
+  authenticateUser,
   createUserCollection,
 createUserWishlist } from './users';
 
@@ -72,6 +73,13 @@ const register = (server, options, next) => {
       },
     },
   };
+  const authenticateOptions = {
+    bind: {
+      models: {
+        User,
+      },
+    },
+  };
   server.method('getUserById', getUserById, userMethodOptions);
   server.method('getUserCollectionsByUserId', getUserCollectionsByUserId, userCollectionMethodOptions);
   server.method('getUserWishListsByUserId', getUserWishlistsByUserId, userWishlistMethodOptions);
@@ -81,6 +89,7 @@ const register = (server, options, next) => {
   server.method('updateUser', updateUser, addUserOptions);
   server.method('createUserCollection', createUserCollection, addCollectionOptions);
   server.method('createUserWishlist', createUserWishlist, addWishlistOptions);
+  server.method('authenticateUser', authenticateUser, authenticateOptions);
   return next();
 };
 register.attributes = {

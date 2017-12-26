@@ -1,7 +1,8 @@
 import { getUserById, getUserCollections, getUserWishLists,
   createUser, updateUser, createUserCollection,
+  authenticateUser,
 createUserWishlist } from '../controllers/api/user';
-import { userPost, userPut } from '../validation/schemas/user';
+import { userPost, userAuthPost, userPut } from '../validation/schemas/user';
 import { collectionPost } from '../validation/schemas/collection';
 import { wishlistPost } from '../validation/schemas/wishlist';
 
@@ -51,7 +52,7 @@ const routes = [
       tags: ['api', 'user', 'wishlists'],
     },
 
-  },{
+  }, {
     method: 'POST',
     path: '/users/{id}/wishlists',
     handler: createUserWishlist,
@@ -73,11 +74,26 @@ const routes = [
       validate: {
         payload: userPost,
       },
+      auth: false,
       description: 'Add a new user',
       notes: 'Add a new user to database',
       tags: ['api', 'user'],
     },
 
+  },
+  {
+    method: 'POST',
+    path: '/authenticate',
+    handler: authenticateUser,
+    config: {
+      validate: {
+        payload: userAuthPost,
+      },
+      auth: false,
+      description: 'Authenticates credentials of a user',
+      notes: 'Checks login credentials of a user',
+      tags: ['api', 'user', 'login'],
+    },
   },
   {
     method: 'PUT',

@@ -10,8 +10,8 @@ const routes = [
       notes: 'Just get all the games',
       tags: ['api', 'game'],
       cache: {
-          expiresIn: 30 * 1000,
-          privacy: 'private'
+        expiresIn: 30 * 1000,
+        privacy: 'private',
       },
     },
   },
