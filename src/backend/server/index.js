@@ -23,7 +23,6 @@ const server = new hapi.Server({
   ],
 },
   );
-const host = '127.0.0.1';
 /* Configuring the config plugin */
 server.register([
   { register: configure,
@@ -33,16 +32,19 @@ server.register([
   }])
   /* Creating both server connections */
   .then(() => {
-    const wsPort = getConfiguration(server).get('webServer:port');
+    const configuration = getConfiguration(server);
+    const wsHost = configuration.get('webServer:host');
+    const wsPort = configuration.get('webServer:port');
     server.connection({
       port: wsPort,
-      host,
+      host: wsHost,
       labels: ['ws'],
     });
-    const apiPort = getConfiguration(server).get('apiServer:port');
+    const apiHost = configuration.get('apiServer:host');
+    const apiPort = configuration.get('apiServer:port');
     server.connection({
       port: apiPort,
-      host,
+      host: apiHost,
       labels: ['api'],
     });
   })

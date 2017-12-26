@@ -16,7 +16,6 @@
       }
   },
   "webServer":{
-    "host": "",
     "port": 3000
   }
 }
