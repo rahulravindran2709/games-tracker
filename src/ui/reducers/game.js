@@ -14,7 +14,7 @@ const game = (state = initialState, action) => {
     case GET_GAME_BY_ID_FULFILLED: {
       const { data } = payload;
       return { ...state,
-        details: data[0],
+        details: data,
       };
     }
     default:

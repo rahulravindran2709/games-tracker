@@ -8,10 +8,11 @@ import Navbar from 'components/core/navbar';
 import { Route, Switch } from 'react-router-dom';
 import MenuList from 'components/core/menulist';
 import SearchResultsView from 'components/views/searchresults';
+import DashboardView from 'components/views/dashboard';
 import GameDetailsView from 'components/views/gamedetails';
 import { startLogin, loginSucceeded, toggleDrawer } from 'actions';
 import { loadEnumData } from 'actions/enums';
-import Dashboard from './dashboard';
+
 import LoginForm from './login';
 
 const propTypes = {
@@ -19,6 +20,7 @@ const propTypes = {
   toggleNavDrawer: PropTypes.func,
   onLoginStart: PropTypes.func,
   onLoginSuccess: PropTypes.func,
+  loadEnumData: PropTypes.func.isRequired,
 };
 const defaultProps = {
   isDrawerOpen: false,
@@ -43,8 +45,8 @@ class GamesApp extends React.Component {
   handleToggleDrawer = () => {
     this.props.toggleNavDrawer();
   }
-  handleLoginStart= () => this.props.onLoginStart();
-  handleLoginSuccess=(userData) => {
+  handleLoginStart = () => this.props.onLoginStart();
+  handleLoginSuccess = (userData) => {
     this.props.onLoginSuccess(userData);
   }
 
@@ -58,7 +60,7 @@ class GamesApp extends React.Component {
       <Navbar handleToggleDrawer={this.handleToggleDrawer} />
       <MenuList isOpen={isDrawerOpen} onRequestChange={this.handleToggleDrawer} />
       <Switch>
-        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/dashboard" component={DashboardView} />
         <Route path="/login" render={() => loginForm} />
         <Route path="/searchresults" component={SearchResultsView} />
         <Route path="/gamedetails/:id" component={({ match }) => (<GameDetailsView id={match.params.id} />)} />
