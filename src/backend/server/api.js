@@ -2,14 +2,17 @@ import cors from 'hapi-cors';
 import datastore from '../datastore';
 import serviceRegistry from '../plugins/serviceregistry';
 import routes from '../routes';
+import { getConfiguration } from './shared/utils';
 
 function register(server, options, next) {
   server.log(['plugin', 'info', 'api'], 'Registering the api server plugin');
+  const configurationObject = getConfiguration(server);
+  const corsOptions = configurationObject.get('apiServer:cors');
+  server.log(['plugins', 'info', 'api', 'cors'],
+   `Registering cors with options ${JSON.stringify(corsOptions)}`);
   server.register([{
     register: cors,
-    options: {
-      origins: ['http://localhost:3000'],
-    },
+    options: corsOptions,
   }, {
     register: datastore,
   }, {

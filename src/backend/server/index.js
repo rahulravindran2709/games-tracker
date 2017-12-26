@@ -49,7 +49,7 @@ server.register([{ register: good, options: config.good },
   .then(() => {
     /* API server specific plugin registration */
     apiServer.realm.modifiers.route.prefix = '/api';
-    return apiServer.register([ {
+    return apiServer.register([{
       register: apiServerPlugin,
     },
     ])
