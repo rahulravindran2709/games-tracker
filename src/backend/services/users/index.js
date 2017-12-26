@@ -4,6 +4,7 @@ import { getUserById, getUserCollectionsByUserId, getUserWishlistsByUserId,
   authenticateUser,
   createUserCollection,
 createUserWishlist } from './users';
+import { getConfiguration } from '../../server/shared/utils';
 
 const serverMethodOptions = {
   callback: false,
@@ -16,6 +17,8 @@ const serverMethodOptions = {
 };
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'userservice' plugin");
+  const configurationObject = getConfiguration(server);
+  const secret = configurationObject.get('apiServer:auth:secret');
   const { User, Collection, Wishlist, Game } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
   const userMethodOptions = { ...serverMethodOptions,
     bind: { model: User } };
@@ -77,6 +80,10 @@ const register = (server, options, next) => {
     bind: {
       models: {
         User,
+      },
+      auth: {
+        secret,
+        app: server.app,
       },
     },
   };

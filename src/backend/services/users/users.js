@@ -1,6 +1,8 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
 import Boom from 'boom';
+import JWT from 'jsonwebtoken';
+import aguid from 'aguid';
 import { generateHash, verifyPassword } from '../../util/crypto';
 import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
 import { mapUserApiObjectToModel, mapCollectionApiObjectToModel, mapWishlistApiObjectToModel } from '../../mappers/index';
@@ -136,6 +138,7 @@ export function createUserWishlist(userId, wishlist) {
 export function authenticateUser(credentials) {
   console.log('Trying to authenticate user', credentials.email);
   const { User } = this.models;
+  const { secret, app } = this.auth;
   const whereSelector = getWhereSelectorIfParamNotEmpty('email')(credentials.email);
   return User.findOne({
     ...whereSelector,
@@ -150,8 +153,19 @@ export function authenticateUser(credentials) {
     if (!isValidPassword) {
       throw Boom.unauthorized('Wrong password');
     }
+    const session = {
+      valid: true, // this will be set to false when the person logs out
+      id: aguid(), // a random session id
+      exp: new Date().getTime() + (30 * 60 * 1000),
+    };
+    app.sessions[session.id] = session;
+    const token = JWT.sign(session, secret);
     return {
       message: 'Successfully authenticated',
+      token,
     };
+  })
+  .catch((err) => {
+    throw Boom.badRequest(err.message);
   });
 }
