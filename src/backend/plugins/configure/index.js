@@ -33,6 +33,7 @@ const register = (server, options, next) => {
    .env()
    .file('envConfig', { file: envConfigFilePath })
    .file({ file: baseConfigFilePath });
+   server.log(['plugins'], `${nconf.get('apiServer:port')}`);
   server.expose('CurrentConfiguration', nconf);
   return next();
 };
