@@ -43,35 +43,6 @@ server.connection({
 });
 const wsServer = server.select('ws');
 const apiServer = server.select('api');
-/* Web server specific plugin registration */
-wsServer.register({
-  register: webServerPlugin,
-})
-.then(() => server.log(['server', 'ws'], 'Web server is configured'))
-.catch(err => console.error(err, 'Error occurred while confguring web server'));
-
-/* API server specific plugin registration */
-apiServer.realm.modifiers.route.prefix = '/api';
-// apiServer.register(authJwt);
-apiServer.register([{
-  register: cors,
-  options: {
-    origins: ['http://localhost:3000'],
-  },
-}, {
-  register: apiServerPlugin,
-},
-{
-  register: datastore,
-},
-{
-  register: serviceRegistry,
-},
-])
-.then(() => server.log(['server', 'api'], 'API server is configured'))
-.catch(err => console.error(err, 'Error occurred while configuring api server'));
-
-/* Common plugin registration */
 server.register([{ register: good, options: config.good },
   { register: Blipp },
   { register: configure,
@@ -79,6 +50,35 @@ server.register([{ register: good, options: config.good },
       configFolder: path.resolve(process.cwd(), 'src/backend/config'),
     },
   }])
+  .then(() => {
+    /* API server specific plugin registration */
+    apiServer.realm.modifiers.route.prefix = '/api';
+    return apiServer.register([{
+      register: cors,
+      options: {
+        origins: ['http://localhost:3000'],
+      },
+    }, {
+      register: apiServerPlugin,
+    },
+    {
+      register: datastore,
+    },
+    {
+      register: serviceRegistry,
+    },
+    ])
+    .then(() => server.log(['server', 'api'], 'API server is configured'))
+    .catch(err => console.error(err, 'Error occurred while configuring api server'))
+  })
+  .then(() =>
+    /* Web server specific plugin registration */
+     wsServer.register({
+       register: webServerPlugin,
+     })
+    .then(() => server.log(['server', 'ws'], 'Web server is configured'))
+    .catch(err => console.error(err, 'Error occurred while confguring web server')))
+/* Common plugin registration */
 .then(() => server.start())
 .then(() => server.connections.forEach(connection => server.log('Server running at:', connection.info.uri)))
 .catch(err => console.error(err, 'Error occurred while trying to start server'));
