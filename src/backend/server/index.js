@@ -1,6 +1,5 @@
 import hapi from 'hapi';
 import good from 'good';
-import cors from 'hapi-cors';
 import Blipp from 'blipp';
 import Disk from 'catbox-disk';
 // import authJwt from 'hapi-auth-jwt2';
@@ -9,9 +8,6 @@ import webServerPlugin from './ws';
 import apiServerPlugin from './api';
 import config from '../config';
 import configure from '../plugins/configure';
-import datastore from '../datastore';
-
-import serviceRegistry from '../plugins/serviceregistry';
 
 const server = new hapi.Server({
   cache: [
@@ -53,23 +49,12 @@ server.register([{ register: good, options: config.good },
   .then(() => {
     /* API server specific plugin registration */
     apiServer.realm.modifiers.route.prefix = '/api';
-    return apiServer.register([{
-      register: cors,
-      options: {
-        origins: ['http://localhost:3000'],
-      },
-    }, {
+    return apiServer.register([ {
       register: apiServerPlugin,
-    },
-    {
-      register: datastore,
-    },
-    {
-      register: serviceRegistry,
     },
     ])
     .then(() => server.log(['server', 'api'], 'API server is configured'))
-    .catch(err => console.error(err, 'Error occurred while configuring api server'))
+    .catch(err => console.error(err, 'Error occurred while configuring api server'));
   })
   .then(() =>
     /* Web server specific plugin registration */
