@@ -1,6 +1,7 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
 import Boom from 'boom';
+import { generateHash, verifyPassword } from '../../util/crypto';
 import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
 import { mapUserApiObjectToModel, mapCollectionApiObjectToModel, mapWishlistApiObjectToModel } from '../../mappers/index';
 
@@ -85,7 +86,12 @@ export function addNewUser(user) {
   console.log(user, 'New user');
   const { User } = this.models;
   const userModelObject = mapUserApiObjectToModel(user);
-  return User.create(userModelObject);
+  const hashPr = generateHash(userModelObject.password);
+  return hashPr.then((hash) => {
+    const userModelWithHashPass = { ...userModelObject, password: hash };
+    console.log(userModelWithHashPass);
+    return User.create(userModelWithHashPass);
+  });
 }
 
 export function updateUser(id, user) {
@@ -138,7 +144,10 @@ export function authenticateUser(credentials) {
     if (!userModelObject) {
       throw Boom.badRequest('User not exists');
     }
-    if (userModelObject.password !== credentials.password) {
+    return verifyPassword(credentials.password, userModelObject.password);
+  })
+  .then((isValidPassword) => {
+    if (!isValidPassword) {
       throw Boom.unauthorized('Wrong password');
     }
     return {
