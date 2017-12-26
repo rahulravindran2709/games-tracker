@@ -24,21 +24,32 @@ const server = new hapi.Server({
 },
   );
 const host = '127.0.0.1';
-
-server.register([{ register: good, options: config.good },
+/* Configuring the config plugin */
+server.register([
   { register: configure,
     options: {
       configFolder: path.resolve(process.cwd(), 'src/backend/config'),
     },
   }])
+  /* Creating both server connections */
   .then(() => {
-    /* API server specific plugin registration */
+    const wsPort = getConfiguration(server).get('webServer:port');
+    server.connection({
+      port: wsPort,
+      host,
+      labels: ['ws'],
+    });
     const apiPort = getConfiguration(server).get('apiServer:port');
     server.connection({
       port: apiPort,
       host,
       labels: ['api'],
     });
+  })
+  /* Registering good after both connections have been created */
+  .then(() => server.register([{ register: good, options: config.good }]))
+  .then(() => {
+    /* API server specific plugin registration */
     const apiServer = server.select('api');
     apiServer.realm.modifiers.route.prefix = '/api';
     return apiServer.register([{
@@ -49,12 +60,6 @@ server.register([{ register: good, options: config.good },
     .catch(err => console.error(err, 'Error occurred while configuring api server'));
   })
   .then(() => {
-    const wsPort = getConfiguration(server).get('webServer:port');
-    server.connection({
-      port: wsPort,
-      host,
-      labels: ['ws'],
-    });
     const wsServer = server.select('ws');
     return wsServer.register({
       register: webServerPlugin,
