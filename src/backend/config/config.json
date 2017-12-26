@@ -11,12 +11,15 @@
   "apiServer":{
     "host": "127.0.0.1",
     "port": 8080,
+    "cors": {
+      "origins": ["http://localhost:2000"]
+    },
     "auth": {
       "secret": "az2fVnu0br/NvZHjzlvMiO1QTAciJswEm5J9C7A1PsiwUrpIWg6lWISJkPE5Dv/ktWkrM5EazL0PSEHfn11s7JuT5hSNwKmtm6thq2MG30aftwoTIJIJLJAM7QOd0kwgGRJ07/zD+QQnJmFi2SSbpxh124Cb2zQ8dSSLHMkCZnTWtPgADtYgtv8AHGD2s0Td3uTXq/xmd7oGf4s8yrPH8wzplW/jWv06hqJBvpbul2O9rkJ3OjUCyh0+ZhTCI10xuURa5cv/pwWR5v8cMLo9RPOJL0CcyvDHFF/sEClC4OJKwHKnnowGmScTMZ24IxTXqSWZGh4RRNxdybfC3XVwJQ=="
     }
   },
   "webServer":{
-    "host": "",
+    "host": "127.0.0.1",
     "port": 0
   }
 }

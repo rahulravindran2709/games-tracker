@@ -4,7 +4,6 @@ import { reduce, props, apply, prop, compose, subtract, evolve, head } from 'ram
 import { getWhereSelectorIfParamNotEmpty, isNotEmpty, getDBErrorMessage } from '../shared/utils';
 
 const getTotalTimePlayed = reduce((accum, current) => {
-  console.log(current, 'Value of current');
   const currentPlainObject = current.get({ plain: true });
   const parseTimesheetDates = evolve({
     timesheetIn: Date.parse,

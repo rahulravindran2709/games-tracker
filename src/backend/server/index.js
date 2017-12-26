@@ -1,17 +1,13 @@
 import hapi from 'hapi';
 import good from 'good';
-import cors from 'hapi-cors';
 import Blipp from 'blipp';
 import Disk from 'catbox-disk';
-import authJwt from 'hapi-auth-jwt2';
 import path from 'path';
 import webServerPlugin from './ws';
 import apiServerPlugin from './api';
 import config from '../config';
 import configure from '../plugins/configure';
-import datastore from '../datastore';
-
-import serviceRegistry from '../plugins/serviceregistry';
+import { getConfiguration } from './shared/utils';
 
 const server = new hapi.Server({
   cache: [
@@ -26,67 +22,57 @@ const server = new hapi.Server({
   ],
 },
   );
-const host = '127.0.0.1';
-const wsPort = 3000;
-const apiPort = 3010;
-
-server.connection({
-  port: wsPort,
-  host,
-  labels: ['ws'],
-});
-
-server.connection({
-  port: apiPort,
-  host,
-  labels: ['api'],
-});
-const wsServer = server.select('ws');
-const apiServer = server.select('api');
-/* Web server specific plugin registration */
-wsServer.register({
-  register: webServerPlugin,
-})
-.then(() => server.log(['server', 'ws'], 'Web server is configured'))
-.catch(err => console.error(err, 'Error occurred while confguring web server'));
-
-/* API server specific plugin registration */
-apiServer.realm.modifiers.route.prefix = '/api';
-apiServer.register([{
-  register: cors,
-  options: {
-    origins: ['http://localhost:3000'],
-  },
-}, {
-  register: authJwt,
-}, {
-  register: apiServerPlugin,
-},
-{
-  register: datastore,
-},
-{
-  register: serviceRegistry,
-},
-])
-.then(() => {
-  /* server.auth.strategy('jwt', 'jwt', {
-    key: 'verylongsecretKey',
-    verifyOptions: { algorithms: ['HS256'] },
-  });
-  server.auth.default('jwt'); */
-  server.log(['server', 'api'], 'API server is configured');
-})
-.catch(err => console.error(err, 'Error occurred while configuring api server'));
-
-/* Common plugin registration */
-server.register([{ register: good, options: config.good },
-  { register: Blipp },
+/* Configuring the config plugin */
+server.register([
   { register: configure,
     options: {
       configFolder: path.resolve(process.cwd(), 'src/backend/config'),
     },
   }])
-.then(() => server.start())
-.then(() => server.connections.forEach(connection => server.log('Server running at:', connection.info.uri)))
-.catch(err => console.error(err, 'Error occurred while trying to start server'));
+  /* Creating both server connections */
+  .then(() => {
+    const configuration = getConfiguration(server);
+    const wsHost = configuration.get('webServer:host');
+    const wsPort = configuration.get('webServer:port');
+    server.connection({
+      port: wsPort,
+      host: wsHost,
+      labels: ['ws'],
+    });
+    const apiHost = configuration.get('apiServer:host');
+    const apiPort = configuration.get('apiServer:port');
+    server.connection({
+      port: apiPort,
+      host: apiHost,
+      labels: ['api'],
+    });
+  })
+  /* Registering good after both connections have been created */
+  .then(() => server.register([{ register: good, options: config.good }]))
+  .then(() => {
+    /* API server specific plugin registration */
+    const apiServer = server.select('api');
+    apiServer.realm.modifiers.route.prefix = '/api';
+    return apiServer.register([{
+      register: apiServerPlugin,
+    },
+    ])
+    .then(() => server.log(['server', 'api'], 'API server is configured'))
+    .catch(err => console.error(err, 'Error occurred while configuring api server'));
+  })
+  .then(() => {
+    /* Web server specific plugin registration */
+    const wsServer = server.select('ws');
+    return wsServer.register({
+      register: webServerPlugin,
+    })
+    .then(() => server.log(['server', 'ws'], 'Web server is configured'))
+    .catch(err => console.error(err, 'Error occurred while confguring web server'));
+  })
+
+
+/* Common plugin registration */
+  .then(() => server.register([{ register: Blipp }]))
+  .then(() => server.start())
+  .then(() => server.connections.forEach(connection => server.log(['startup'], `Server running at: ${connection.info.uri}`)))
+  .catch(err => console.error(err, 'Error occurred while trying to start server'));
