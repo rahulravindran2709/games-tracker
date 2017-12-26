@@ -16,7 +16,6 @@ function register(server, options, next) {
   server.log(['plugin', 'info', 'api'], 'Registering the api server plugin');
   const configurationObject = getConfiguration(server);
   const corsOptions = configurationObject.get('apiServer:cors');
-  server.log(['plugins', 'info', 'api', 'cors'], 'Registering cors with options');
   server.register([{
     register: cors,
     options: corsOptions,
