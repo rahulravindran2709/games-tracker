@@ -16,15 +16,12 @@ function register(server, options, next) {
   server.log(['plugin', 'info', 'api'], 'Registering the api server plugin');
   const configurationObject = getConfiguration(server);
   const corsOptions = configurationObject.get('apiServer:cors');
-  server.log(['plugins', 'info', 'api', 'cors'],
-   `Registering cors with options ${JSON.stringify(corsOptions)}`);
+  server.log(['plugins', 'info', 'api', 'cors'], 'Registering cors with options');
   server.register([{
     register: cors,
     options: corsOptions,
   }])
-  .then(() => server.register([{
-    register: authJwt,
-  }]))
+  .then(() => server.register([{ register: authJwt }]))
   .then(() => {
     server.app.sessions = {};
     const secret = configurationObject.get('apiServer:auth:secret');
@@ -34,11 +31,8 @@ function register(server, options, next) {
       verifyOptions: { ignoreExpiration: true, algorithms: ['HS256'] },
     });
   })
-  .then(() => server.register([{
-    register: datastore,
-  }, {
-    register: serviceRegistry,
-  }]))
+  .then(() => server.register([{ register: datastore },
+    { register: serviceRegistry }]))
   .then(() => {
     server.route(routes.api);
     server.route(routes.enumerated);

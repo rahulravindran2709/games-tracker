@@ -134,15 +134,17 @@ export function createUserWishlist(userId, wishlist) {
   })
     .catch(error => console.error(error, 'Error occurred'));
 }
-
+const generateNewSession = () => ({
+  valid: true,
+  id: aguid(),
+  exp: new Date().getTime() + (30 * 60 * 1000),
+});
 export function authenticateUser(credentials) {
   console.log('Trying to authenticate user', credentials.email);
   const { User } = this.models;
   const { secret, app } = this.auth;
   const whereSelector = getWhereSelectorIfParamNotEmpty('email')(credentials.email);
-  return User.findOne({
-    ...whereSelector,
-  })
+  return User.findOne({ ...whereSelector })
   .then((userModelObject) => {
     if (!userModelObject) {
       throw Boom.badRequest('User not exists');
@@ -153,11 +155,7 @@ export function authenticateUser(credentials) {
     if (!isValidPassword) {
       throw Boom.unauthorized('Wrong password');
     }
-    const session = {
-      valid: true, // this will be set to false when the person logs out
-      id: aguid(), // a random session id
-      exp: new Date().getTime() + (30 * 60 * 1000),
-    };
+    const session = generateNewSession();
     app.sessions[session.id] = session;
     const token = JWT.sign(session, secret);
     return {
@@ -165,7 +163,5 @@ export function authenticateUser(credentials) {
       token,
     };
   })
-  .catch((err) => {
-    throw Boom.badRequest(err.message);
-  });
+  .catch((err) => { throw Boom.badRequest(err.message); });
 }
