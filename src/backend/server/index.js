@@ -68,5 +68,5 @@ server.register([{ register: good, options: config.good },
 .then(() => server.register([
     { register: Blipp }]))
 .then(() => server.start())
-.then(() => server.connections.forEach(connection => server.log('Server running at:', connection.info.uri)))
+.then(() => server.connections.forEach(connection => server.log(['startup'], `Server running at: ${connection.info.uri}`)))
 .catch(err => console.error(err, 'Error occurred while trying to start server'));
