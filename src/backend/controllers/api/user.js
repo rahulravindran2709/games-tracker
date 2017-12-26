@@ -6,7 +6,9 @@ const callback = reply => (err, result) => {
 };
 
 export const authenticateUser = (request, reply) =>
-  getServerMethod('authenticateUser')(request)(getPostBody(request)).then(data => reply(data))
+  getServerMethod('authenticateUser')(request)(getPostBody(request)).then(data => reply({
+    text: 'Check Browser Cookie or Auth Header for your Token (JWT)' })
+      .header('Authorization', data.token))
   .catch(error => reply(error));
 export const getUserById = (request, reply) =>
 getServerMethod('getUserById')(request)(getIdRequestParam(request), callback(reply));
