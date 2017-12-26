@@ -9,7 +9,7 @@
 
   },
   "apiServer":{
-    "port": 8081,
+    "port": 3010,
     "cors":
       {
         "origins": ["http://localhost:3000"]
@@ -17,6 +17,6 @@
   },
   "webServer":{
     "host": "",
-    "port": 0
+    "port": 3000
   }
 }

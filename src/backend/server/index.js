@@ -8,6 +8,7 @@ import webServerPlugin from './ws';
 import apiServerPlugin from './api';
 import config from '../config';
 import configure from '../plugins/configure';
+import { getConfiguration } from './shared/utils';
 
 const server = new hapi.Server({
   cache: [
@@ -23,24 +24,8 @@ const server = new hapi.Server({
 },
   );
 const host = '127.0.0.1';
-const wsPort = 3000;
-const apiPort = 3010;
 
-server.connection({
-  port: wsPort,
-  host,
-  labels: ['ws'],
-});
-
-server.connection({
-  port: apiPort,
-  host,
-  labels: ['api'],
-});
-const wsServer = server.select('ws');
-const apiServer = server.select('api');
 server.register([{ register: good, options: config.good },
-  { register: Blipp },
   { register: configure,
     options: {
       configFolder: path.resolve(process.cwd(), 'src/backend/config'),
@@ -48,6 +33,13 @@ server.register([{ register: good, options: config.good },
   }])
   .then(() => {
     /* API server specific plugin registration */
+    const apiPort = getConfiguration(server).get('apiServer:port');
+    server.connection({
+      port: apiPort,
+      host,
+      labels: ['api'],
+    });
+    const apiServer = server.select('api');
     apiServer.realm.modifiers.route.prefix = '/api';
     return apiServer.register([{
       register: apiServerPlugin,
@@ -56,14 +48,25 @@ server.register([{ register: good, options: config.good },
     .then(() => server.log(['server', 'api'], 'API server is configured'))
     .catch(err => console.error(err, 'Error occurred while configuring api server'));
   })
-  .then(() =>
-    /* Web server specific plugin registration */
-     wsServer.register({
-       register: webServerPlugin,
-     })
+  .then(() => {
+    const wsPort = getConfiguration(server).get('webServer:port');
+    server.connection({
+      port: wsPort,
+      host,
+      labels: ['ws'],
+    });
+    const wsServer = server.select('ws');
+    return wsServer.register({
+      register: webServerPlugin,
+    })
     .then(() => server.log(['server', 'ws'], 'Web server is configured'))
-    .catch(err => console.error(err, 'Error occurred while confguring web server')))
+    .catch(err => console.error(err, 'Error occurred while confguring web server'));
+  })
+    /* Web server specific plugin registration */
+
 /* Common plugin registration */
+.then(() => server.register([
+    { register: Blipp }]))
 .then(() => server.start())
 .then(() => server.connections.forEach(connection => server.log('Server running at:', connection.info.uri)))
 .catch(err => console.error(err, 'Error occurred while trying to start server'));
