@@ -3,17 +3,15 @@ import good from 'good';
 import cors from 'hapi-cors';
 import Blipp from 'blipp';
 import Disk from 'catbox-disk';
+// import authJwt from 'hapi-auth-jwt2';
 import path from 'path';
 import webServerPlugin from './ws';
 import apiServerPlugin from './api';
 import config from '../config';
 import configure from '../plugins/configure';
 import datastore from '../datastore';
-import igdbservice from '../services/igdb';
-import enumService from '../services/enums';
-import userService from '../services/users';
-import timeService from '../services/time';
-import collectionService from '../services/collection';
+
+import serviceRegistry from '../plugins/serviceregistry';
 
 const server = new hapi.Server({
   cache: [
@@ -54,6 +52,7 @@ wsServer.register({
 
 /* API server specific plugin registration */
 apiServer.realm.modifiers.route.prefix = '/api';
+// apiServer.register(authJwt);
 apiServer.register([{
   register: cors,
   options: {
@@ -66,16 +65,9 @@ apiServer.register([{
   register: datastore,
 },
 {
-  register: igdbservice,
-}, {
-  register: enumService,
-}, {
-  register: collectionService,
-}, {
-  register: userService,
-}, {
-  register: timeService,
-}])
+  register: serviceRegistry,
+},
+])
 .then(() => server.log(['server', 'api'], 'API server is configured'))
 .catch(err => console.error(err, 'Error occurred while configuring api server'));
 
