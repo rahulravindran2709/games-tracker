@@ -2,7 +2,6 @@ import hapi from 'hapi';
 import good from 'good';
 import Blipp from 'blipp';
 import Disk from 'catbox-disk';
-// import authJwt from 'hapi-auth-jwt2';
 import path from 'path';
 import webServerPlugin from './ws';
 import apiServerPlugin from './api';

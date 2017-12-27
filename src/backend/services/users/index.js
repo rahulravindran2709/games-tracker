@@ -1,8 +1,11 @@
 import { path } from 'ramda';
 import { getUserById, getUserCollectionsByUserId, getUserWishlistsByUserId,
   getGamesByWishlistId, getGamesByCollectionId, addNewUser, updateUser,
+  authenticateUser,
+  logoutUser,
   createUserCollection,
 createUserWishlist } from './users';
+import { getConfiguration } from '../../server/shared/utils';
 
 const serverMethodOptions = {
   callback: false,
@@ -15,6 +18,8 @@ const serverMethodOptions = {
 };
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'userservice' plugin");
+  const configurationObject = getConfiguration(server);
+  const secret = configurationObject.get('apiServer:auth:secret');
   const { User, Collection, Wishlist, Game } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
   const userMethodOptions = { ...serverMethodOptions,
     bind: { model: User } };
@@ -72,6 +77,24 @@ const register = (server, options, next) => {
       },
     },
   };
+  const authenticateOptions = {
+    bind: {
+      models: {
+        User,
+      },
+      auth: {
+        secret,
+        app: server.app,
+      },
+    },
+  };
+  const logoutOptions = {
+    bind: {
+      auth: {
+        app: server.app,
+      },
+    },
+  };
   server.method('getUserById', getUserById, userMethodOptions);
   server.method('getUserCollectionsByUserId', getUserCollectionsByUserId, userCollectionMethodOptions);
   server.method('getUserWishListsByUserId', getUserWishlistsByUserId, userWishlistMethodOptions);
@@ -81,6 +104,8 @@ const register = (server, options, next) => {
   server.method('updateUser', updateUser, addUserOptions);
   server.method('createUserCollection', createUserCollection, addCollectionOptions);
   server.method('createUserWishlist', createUserWishlist, addWishlistOptions);
+  server.method('authenticateUser', authenticateUser, authenticateOptions);
+  server.method('logoutUser', logoutUser, logoutOptions);
   return next();
 };
 register.attributes = {

@@ -1,11 +1,22 @@
-import { getServerMethod, getIdRequestParam, getPostBody } from '../shared/utils';
+import { getServerMethod, getIdRequestParam, getPostBody, getAuthCredentials } from '../shared/utils';
 
 const callback = reply => (err, result) => {
   console.log(err, 'In callback');
   return reply(result);
 };
 
+export const authenticateUser = (request, reply) =>
+  getServerMethod('authenticateUser')(request)(getPostBody(request)).then(data => reply({
+    text: 'Check Auth Header for your Token (JWT)' })
+      .header('Authorization', data.token))
+  .catch(error => reply(error));
 
+
+export const logout = (request, reply) =>
+  getServerMethod('logoutUser')(request)(getAuthCredentials(request)).then(() => reply({
+    text: 'You have been logged out',
+  }))
+  .catch(error => reply(error));
 export const getUserById = (request, reply) =>
 getServerMethod('getUserById')(request)(getIdRequestParam(request), callback(reply));
 

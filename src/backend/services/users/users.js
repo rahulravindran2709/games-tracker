@@ -1,5 +1,9 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
+import Boom from 'boom';
+import JWT from 'jsonwebtoken';
+import aguid from 'aguid';
+import { generateHash, verifyPassword } from '../../util/crypto';
 import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
 import { mapUserApiObjectToModel, mapCollectionApiObjectToModel, mapWishlistApiObjectToModel } from '../../mappers/index';
 
@@ -84,7 +88,12 @@ export function addNewUser(user) {
   console.log(user, 'New user');
   const { User } = this.models;
   const userModelObject = mapUserApiObjectToModel(user);
-  return User.create(userModelObject);
+  const hashPr = generateHash(userModelObject.password);
+  return hashPr.then((hash) => {
+    const userModelWithHashPass = { ...userModelObject, password: hash };
+    console.log(userModelWithHashPass);
+    return User.create(userModelWithHashPass);
+  });
 }
 
 export function updateUser(id, user) {
@@ -124,4 +133,51 @@ export function createUserWishlist(userId, wishlist) {
       userModelFromDB.addWishlist(wishlistModel));
   })
     .catch(error => console.error(error, 'Error occurred'));
+}
+const generateNewSession = () => ({
+  valid: true,
+  id: aguid(),
+  exp: new Date().getTime() + (30 * 60 * 1000),
+});
+export function authenticateUser(credentials) {
+  console.log('Trying to authenticate user', credentials.email);
+  const { User } = this.models;
+  const { secret, app } = this.auth;
+  const whereSelector = getWhereSelectorIfParamNotEmpty('email')(credentials.email);
+  return User.findOne({ ...whereSelector })
+  .then((userModelObject) => {
+    if (!userModelObject) {
+      throw Boom.badRequest('User not exists');
+    }
+    return verifyPassword(credentials.password, userModelObject.password);
+  })
+  .then((isValidPassword) => {
+    if (!isValidPassword) {
+      throw Boom.unauthorized('Wrong password');
+    }
+    const session = generateNewSession();
+    app.sessions[session.id] = session;
+    const token = JWT.sign(session, secret);
+    return {
+      message: 'Successfully authenticated',
+      token,
+    };
+  })
+  .catch((err) => { throw Boom.badRequest(err.message); });
+}
+
+export function logoutUser(credentials) {
+  console.log('Trying to log out user');
+  const { app } = this.auth;
+  const session = app.sessions[credentials.id];
+  console.log(' - - - - - - SESSION - - - - - - - -');
+  console.log(session);
+  // update the session to no longer valid:
+  session.valid = false;
+  session.ended = new Date().getTime();
+  // create the session in Redis
+  app.sessions[session.id] = session;
+  return new Promise(resolve => resolve({
+    message: 'Successfully logged out',
+  }));
 }
