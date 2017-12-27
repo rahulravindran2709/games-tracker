@@ -18,3 +18,9 @@ export const constructUserMethodOptions = ({ User }) =>
 
 export const constructUserWishlistMethodOptions = ({ User, Wishlist }) =>
   constructMethodOptionsWithDefault({ User, Wishlist });
+
+export const constructGameWishlistMethodOptions = ({ Game, Wishlist }) =>
+  constructMethodOptionsWithDefault({ Game, Wishlist });
+
+export const constructGameCollectionMethodOptions = ({ Game, Collection }) =>
+  constructMethodOptionsWithDefault({ Game, Collection });
