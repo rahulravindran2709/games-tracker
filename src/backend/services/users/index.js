@@ -6,6 +6,7 @@ import { getUserById, getUserCollectionsByUserId, getUserWishlistsByUserId,
   createUserCollection,
 createUserWishlist } from './users';
 import { getConfiguration } from '../../server/shared/utils';
+import { constructUserCollectionMethodOptions, constructUserMethodOptions } from './users.config';
 
 const serverMethodOptions = {
   callback: false,
@@ -21,16 +22,7 @@ const register = (server, options, next) => {
   const configurationObject = getConfiguration(server);
   const secret = configurationObject.get('apiServer:auth:secret');
   const { User, Collection, Wishlist, Game } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
-  const userMethodOptions = { ...serverMethodOptions,
-    bind: { model: User } };
-  const userCollectionMethodOptions = {
-    ...serverMethodOptions,
-    bind: {
-      models: {
-        User, Collection,
-      },
-    },
-  };
+  const models = path(['plugins', 'datastore', 'DatabaseModels'])(server);
   const userWishlistMethodOptions = {
     ...serverMethodOptions,
     bind: {
@@ -95,8 +87,8 @@ const register = (server, options, next) => {
       },
     },
   };
-  server.method('getUserById', getUserById, userMethodOptions);
-  server.method('getUserCollectionsByUserId', getUserCollectionsByUserId, userCollectionMethodOptions);
+  server.method('getUserById', getUserById, constructUserMethodOptions(models));
+  server.method('getUserCollectionsByUserId', getUserCollectionsByUserId, constructUserCollectionMethodOptions(models));
   server.method('getUserWishListsByUserId', getUserWishlistsByUserId, userWishlistMethodOptions);
   server.method('getGamesByCollectionId', getGamesByCollectionId, gameCollectionMethodOptions);
   server.method('getGamesByWishlistId', getGamesByWishlistId, gameWishlistMethodOptions);
