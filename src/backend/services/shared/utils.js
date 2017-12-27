@@ -1,4 +1,5 @@
-import { reduce, pick, compose, identity, complement, objOf, assoc, ifElse, isEmpty, map, propOr, path } from 'ramda';
+import { reduce, pick, compose, identity, complement, merge,
+  objOf, assoc, ifElse, isEmpty, map, propOr, path } from 'ramda';
 
 const FK_ERROR_TYPE = 'SequelizeForeignKeyConstraintError';
 const UNIQ_ERROR_TYPE = 'SequelizeUniqueConstraintError';
@@ -35,8 +36,13 @@ export const getDBErrorMessage = (error) => {
   // parent use detail.code if exists
   // TODO sql write the failed sql to dbError.log
   const { name, sql, parent } = error;
-  console.log(error, 'Error')
+  console.log(error, 'Error');
   const sqlErrorLog = `${name}:${parent.code}:${sql}`;
   console.log(sqlErrorLog);
   return (errorProcessorMap[name])(error);
 };
+
+const addModelToOptions = objOf('models');
+const constructBindOptions = objOf('bind');
+export const constructMethodOptions = options =>
+compose(merge(options), constructBindOptions, addModelToOptions);

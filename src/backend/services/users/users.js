@@ -10,8 +10,9 @@ import { mapUserApiObjectToModel, mapCollectionApiObjectToModel, mapWishlistApiO
 
 export function getUserById(id) {
   console.log(id, 'this inside getUserById');
+  const { User } = this.models;
   const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
-  return this.model.findAll(whereSelector)
+  return User.findAll(whereSelector)
   .then(pickFieldsFromArrayResponse(['email', 'first_name', 'last_name']));
 }
 
