@@ -16,48 +16,14 @@ const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'userservice' plugin");
   const configurationObject = getConfiguration(server);
   const secret = configurationObject.get('apiServer:auth:secret');
+  // TODO Remove below line after all methods have been refactored
   const { User, Collection, Wishlist } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
   const models = path(['plugins', 'datastore', 'DatabaseModels'])(server);
-
-  const addUserOptions = {
-    bind: {
-      models: {
-        User,
-      },
-    },
-  };
-  const addCollectionOptions = {
-    bind: {
-      models: {
-        User, Collection,
-      },
-    },
-  };
-  const addWishlistOptions = {
-    bind: {
-      models: {
-        User, Wishlist,
-      },
-    },
-  };
-  const authenticateOptions = {
-    bind: {
-      models: {
-        User,
-      },
-      auth: {
-        secret,
-        app: server.app,
-      },
-    },
-  };
-  const logoutOptions = {
-    bind: {
-      auth: {
-        app: server.app,
-      },
-    },
-  };
+  const addUserOptions = { bind: { models: { User } } };
+  const addCollectionOptions = { bind: { models: { User, Collection } } };
+  const addWishlistOptions = { bind: { models: { User, Wishlist } } };
+  const authenticateOptions = { bind: { models: { User }, auth: { secret, app: server.app } } };
+  const logoutOptions = { bind: { auth: { app: server.app } } };
   server.method('getUserById', getUserById, constructUserMethodOptions(models));
   server.method('getUserCollectionsByUserId', getUserCollectionsByUserId, constructUserCollectionMethodOptions(models));
   server.method('getUserWishListsByUserId', getUserWishlistsByUserId, constructUserWishlistMethodOptions(models));
