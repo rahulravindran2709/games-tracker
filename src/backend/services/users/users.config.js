@@ -12,5 +12,9 @@ const serverMethodOptions = {
 const constructMethodOptionsWithDefault = constructMethodOptions(serverMethodOptions);
 export const constructUserCollectionMethodOptions = ({ User, Collection }) =>
   constructMethodOptionsWithDefault({ User, Collection });
+
 export const constructUserMethodOptions = ({ User }) =>
   constructMethodOptionsWithDefault({ User });
+
+export const constructUserWishlistMethodOptions = ({ User, Wishlist }) =>
+  constructMethodOptionsWithDefault({ User, Wishlist });
