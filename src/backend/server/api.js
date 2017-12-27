@@ -16,10 +16,7 @@ function register(server, options, next) {
   server.log(['plugin', 'info', 'api'], 'Registering the api server plugin');
   const configurationObject = getConfiguration(server);
   const corsOptions = configurationObject.get('apiServer:cors');
-  server.register([{
-    register: cors,
-    options: corsOptions,
-  }])
+  server.register([{ register: cors, options: corsOptions }])
   .then(() => server.register([{ register: authJwt }]))
   .then(() => {
     server.app.sessions = {};
