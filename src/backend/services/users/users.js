@@ -165,3 +165,19 @@ export function authenticateUser(credentials) {
   })
   .catch((err) => { throw Boom.badRequest(err.message); });
 }
+
+export function logoutUser(credentials) {
+  console.log('Trying to log out user');
+  const { app } = this.auth;
+  const session = app.sessions[credentials.id];
+  console.log(' - - - - - - SESSION - - - - - - - -');
+  console.log(session);
+  // update the session to no longer valid:
+  session.valid = false;
+  session.ended = new Date().getTime();
+  // create the session in Redis
+  app.sessions[session.id] = session;
+  return new Promise(resolve => resolve({
+    message: 'Successfully logged out',
+  }));
+}

@@ -7,7 +7,8 @@ import { getConfiguration } from './shared/utils';
 
 const validate = (decoded, request, callback) => {
   const { sessions } = request.server.app;
-  if (!sessions[decoded.id]) {
+  const session = sessions[decoded.id];
+  if (!session || !session.valid) {
     return callback(null, false);
   }
   return callback(null, true);

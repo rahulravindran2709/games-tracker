@@ -1,7 +1,8 @@
 import { getUserById, getUserCollections, getUserWishLists,
   createUser, updateUser, createUserCollection,
   authenticateUser,
-createUserWishlist } from '../controllers/api/user';
+createUserWishlist,
+logout } from '../controllers/api/user';
 import { userPost, userAuthPost, userPut } from '../validation/schemas/user';
 import { collectionPost } from '../validation/schemas/collection';
 import { wishlistPost } from '../validation/schemas/wishlist';
@@ -108,6 +109,16 @@ const routes = [
       tags: ['api', 'user'],
     },
 
+  },
+  {
+    method: ['GET', 'POST'],
+    path: '/logout',
+    handler: logout,
+    config: {
+      description: 'Logs out the user',
+      notes: 'Logout',
+      tags: ['api', 'user', 'login'],
+    },
   },
 ];
 
