@@ -10,29 +10,23 @@ import MenuList from 'components/core/menulist';
 import SearchResultsView from 'components/views/searchresults';
 import DashboardView from 'components/views/dashboard';
 import GameDetailsView from 'components/views/gamedetails';
-import { startLogin, loginSucceeded, toggleDrawer } from 'actions';
+import LoginView from 'components/views/login';
+import { toggleDrawer } from 'actions';
 import { loadEnumData } from 'actions/enums';
 
-import LoginForm from './login';
 
 const propTypes = {
   isDrawerOpen: PropTypes.bool,
   toggleNavDrawer: PropTypes.func,
-  onLoginStart: PropTypes.func,
-  onLoginSuccess: PropTypes.func,
   loadEnumData: PropTypes.func.isRequired,
 };
 const defaultProps = {
   isDrawerOpen: false,
   toggleNavDrawer: null,
-  onLoginStart: null,
-  onLoginSuccess: null,
 };
 const mapStateToProps = (state) => {
-  const { authreducer, corereducer, enums } = state;
+  const { corereducer, enums } = state;
   return {
-    userDetails: authreducer.userDetails,
-    isAuthenticated: !!authreducer.userDetails.username,
     isDrawerOpen: corereducer.isDrawerOpen,
     enums,
   };
@@ -45,26 +39,18 @@ class GamesApp extends React.Component {
   handleToggleDrawer = () => {
     this.props.toggleNavDrawer();
   }
-  handleLoginStart = () => this.props.onLoginStart();
-  handleLoginSuccess = (userData) => {
-    this.props.onLoginSuccess(userData);
-  }
 
   render() {
     const { isDrawerOpen } = this.props;
-    const loginForm = (<LoginForm
-      onLoginStart={this.handleLoginStart}
-      onLoginSuccess={this.handleLoginSuccess}
-    />);
     return (<div>
       <Navbar handleToggleDrawer={this.handleToggleDrawer} />
       <MenuList isOpen={isDrawerOpen} onRequestChange={this.handleToggleDrawer} />
       <Switch>
         <Route path="/dashboard" component={DashboardView} />
-        <Route path="/login" render={() => loginForm} />
+        <Route path="/login" component={LoginView} />
         <Route path="/searchresults" component={SearchResultsView} />
         <Route path="/gamedetails/:id" component={({ match }) => (<GameDetailsView id={match.params.id} />)} />
-        <Route path="/" render={() => loginForm} />
+        <Route path="/" component={LoginView} />
       </Switch>
     </div>);
   }
@@ -72,8 +58,6 @@ class GamesApp extends React.Component {
 const mapDispatchToProps = dispatch =>
   ({
     toggleNavDrawer: () => dispatch(toggleDrawer()),
-    onLoginStart: () => dispatch(startLogin()),
-    onLoginSuccess: userData => dispatch(loginSucceeded(userData)),
     loadEnumData: () => dispatch(loadEnumData()),
   });
 GamesApp.propTypes = propTypes;

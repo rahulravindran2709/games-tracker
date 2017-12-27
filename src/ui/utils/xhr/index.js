@@ -10,7 +10,5 @@ export const getJSONFromServer = (relativeUrl, queryObject) => {
   return apiServerInstance.get(`${relativeUrl}?${query}`);
 };
 
-export const postJSONToServer = () => {
-  console.log('Placeholder for post');
-  return null;
-};
+export const postJSONToServer = (relativeUrl, requestBody) =>
+  apiServerInstance.post(relativeUrl, requestBody);
