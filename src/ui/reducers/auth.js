@@ -15,13 +15,13 @@ const auth = (state = initialState, action) => {
     case AUTHENTICATE_FULFILLED:
       console.log(data, 'payload');
       return state;
-    case AUTHENTICATE_REJECTED:
-      console.log('IN error');
+    case AUTHENTICATE_REJECTED: {
       const errorMessage = getErrorMessage(action);
       return { ...state,
         errors: state.errors.concat({
           errorMessage,
         }) };
+    }
     case LOGOUT_FULFILLED:
       return { ...state, token: null, username: null };
     default:
