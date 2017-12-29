@@ -59,7 +59,7 @@ class LoginView extends React.Component {
         <Grid item xs={4} >
           <form noValidate autoComplete="off">
             <Grid container className={classes.formBox}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} elevation={10}>
                 <Grid item xs={12}>
                   <Typography type="display2" align="center">Login</Typography>
                 </Grid>
