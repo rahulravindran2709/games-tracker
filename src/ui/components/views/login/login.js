@@ -52,6 +52,14 @@ class LoginView extends React.Component {
       [name]: event.target.value,
     });
   };
+  handleSubmit = (event) => {
+    const { email, password } = this.state;
+    const { authenticate: authenticateLocal } = this.props;
+    if (!email || !password) {
+      return;
+    }
+    authenticateLocal({ email, password });
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -88,6 +96,7 @@ class LoginView extends React.Component {
                 </Grid>
                 <Grid item xs={12}>
                   <Button
+                    onTouchTap={this.handleSubmit}
                     raised
                     color="primary"
                     className={classes.button}
