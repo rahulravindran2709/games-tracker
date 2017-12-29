@@ -6,26 +6,23 @@ import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import compose from 'recompose/compose';
 import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 import { connect } from 'react-redux';
 import { authenticate } from 'actions/auth';
 
 
 const styles = theme => ({
   root: {
-    marginTop: 30,
-    height: 800,
-    flexGrow: 1,
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    marginTop: theme.spacing.unit,
+    height: '600px',
   },
   formBox: {
+    height: '100%',
   },
   paper: {
-    height: '100%',
-    width: 400,
-    padding: theme.spacing.unit,
+    padding: theme.spacing.unit * 2,
+    height: '250px',
+    width: '100%',
   },
   button: {
     width: '100%',
@@ -58,11 +55,14 @@ class LoginView extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Grid className={classes.root} alignItems="stretch">
-        <Grid item xs={12} >
-          <Grid container className={classes.formBox} justify="center" alignItems="center">
-            <Paper className={classes.paper}>
-              <form noValidate autoComplete="off">
+      <Grid container className={classes.root} justify="center" align="center">
+        <Grid item xs={4} >
+          <form noValidate autoComplete="off">
+            <Grid container className={classes.formBox}>
+              <Paper className={classes.paper}>
+                <Grid item xs={12}>
+                  <Typography type="display2" align="center">Login</Typography>
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     id="email"
@@ -95,9 +95,11 @@ class LoginView extends React.Component {
           LOGIN
         </Button>
                 </Grid>
-              </form>
-            </Paper>
-          </Grid>
+              </Paper>
+            </Grid>
+          </form>
+
+
         </Grid>
       </Grid>);
   }
