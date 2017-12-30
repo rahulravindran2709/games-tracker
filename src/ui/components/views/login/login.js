@@ -43,8 +43,8 @@ class LoginView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: 'test123@gmail.com',
+      password: 'somepass',
     };
   }
   handleChange = name => (event) => {

@@ -1,5 +1,5 @@
 const serverConfig = {
-  baseURL: 'http://localhost:3010/api',
+  baseURL: 'http://localhost:8080/api',
 };
 const config = {
   serverConfig,

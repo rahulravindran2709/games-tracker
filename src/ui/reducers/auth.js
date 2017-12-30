@@ -13,8 +13,7 @@ const auth = (state = initialState, action) => {
   const data = getPayloadData(action);
   switch (type) {
     case AUTHENTICATE_FULFILLED:
-      console.log(data, 'payload');
-      return state;
+      return { ...state, token: action.payload.headers.authorization };
     case AUTHENTICATE_REJECTED: {
       const errorMessage = getErrorMessage(action);
       return { ...state,
