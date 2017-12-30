@@ -8,6 +8,10 @@ import reducer from '../reducers';
 
 const initializeStore = (history) => {
   const router = routerMiddleware(history);
-  return createStore(reducer, applyMiddleware(logger, thunk, promise(), router));
+  const persistedState = localStorage.getItem('reduxState') ?
+  { auth: JSON.parse(localStorage.getItem('reduxState')) } : {};
+  return createStore(reducer, persistedState, applyMiddleware(logger, thunk, promise(), router));
 };
+
+
 export default initializeStore;

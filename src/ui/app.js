@@ -8,6 +8,10 @@ import initializeStore from 'store/gametracker';
 
 const history = createHistory();
 const store = initializeStore(history);
+store.subscribe(() => {
+  const { auth } = store.getState();
+  localStorage.setItem('reduxState', JSON.stringify(auth));
+});
 const theme = createMuiTheme();
 const App = () => (<MuiThemeProvider theme={theme}>
   <Provider store={store}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
@@ -45,6 +46,7 @@ class LoginView extends React.Component {
     this.state = {
       email: 'test123@gmail.com',
       password: 'somepass',
+      redirectToReferrer: false,
     };
   }
   handleChange = name => (event) => {
@@ -59,9 +61,18 @@ class LoginView extends React.Component {
       return;
     }
     authenticateLocal({ email, password });
+    this.setState({ redirectToReferrer: true });
   }
   render() {
     const { classes } = this.props;
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer) {
+      return (
+        <Redirect to={from} />
+      )
+    }
     return (
       <Grid container className={classes.root} justify="center" align="center">
         <Grid item xs={4} >
