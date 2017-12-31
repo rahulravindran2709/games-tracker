@@ -12,13 +12,16 @@ import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 import { search } from 'actions';
+import SecureComponent from 'components/core/securecomponent';
 
 const propTypes = {
   handleToggleDrawer: PropTypes.func,
+  searchGamesWithTerm: PropTypes.func,
   classes: PropTypes.shape().isRequired,
 };
 const defaultProps = {
   handleToggleDrawer: null,
+  searchGamesWithTerm: null,
 };
 
 const styleSheet = theme => ({
@@ -29,6 +32,9 @@ const styleSheet = theme => ({
     flex: 1,
   },
 });
+const LoginButton = () => (<Button>Login</Button>);
+const LogoutButton = () => (<Button>Logout</Button>);
+
 class Navbar extends React.Component {
   handleSearchTermChange = (e) => {
     if (e.which !== 13) {
@@ -40,7 +46,7 @@ class Navbar extends React.Component {
     });
   }
   render() {
-    const { handleToggleDrawer, classes, term } = this.props;
+    const { handleToggleDrawer, classes, term, isAuth } = this.props;
     return (<div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
@@ -67,7 +73,10 @@ class Navbar extends React.Component {
               />
             </Grid>
             <Grid item xs={12} lg={2}>
-              <Button color="contrast">Login</Button>
+              <SecureComponent
+                protectedComponent={LogoutButton}
+                unprotectedComponent={LoginButton}
+              />
             </Grid>
           </Grid>
         </Toolbar>
@@ -75,11 +84,10 @@ class Navbar extends React.Component {
     </div>);
   }
 }
-const mapStateToProps = (state, ownProps) => {
-  return {
-      term: state.corereducer.search.term,
-  };
-};
+
+const mapStateToProps = (state, ownProps) => ({
+  term: state.corereducer.search.term,
+});
 const mapDispatchToProps = dispatch =>
   ({
     searchGamesWithTerm: searchCriteria => dispatch(search(searchCriteria)),
