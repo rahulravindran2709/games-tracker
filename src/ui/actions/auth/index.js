@@ -1,4 +1,4 @@
-import { postJSONToServer } from 'utils/xhr';
+import { postJSONToServer, addAuthHeader } from 'utils/xhr';
 import { AUTHENTICATE, LOGOUT } from 'constants/auth/actions';
 import { STORAGE_NAME } from 'constants/auth';
 import { AUTHENTICATE as AUTHENTICATE_URL, LOGOUT as LOGOUT_URL } from 'constants/auth/urls';
@@ -10,7 +10,9 @@ export const authenticate = credentials => dispatch =>
     payload: {
       promise: postJSONToServer(`${AUTHENTICATE_URL}`, credentials),
     },
-  }).then(() => dispatch(push('/dashboard')));
+  })
+  .then(addAuthHeader)
+  .then(() => dispatch(push('/dashboard')));
 
 export const logout = () => dispatch =>
   dispatch({
@@ -19,5 +21,4 @@ export const logout = () => dispatch =>
       promise: postJSONToServer(LOGOUT_URL),
     },
   })
-  .then(() => localStorage.removeItem(STORAGE_NAME))
   .then(() => dispatch(push('/login')));

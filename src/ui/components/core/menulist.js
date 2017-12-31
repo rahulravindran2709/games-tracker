@@ -76,7 +76,6 @@ const SideList = (props) => {
 class MenuList extends React.Component {
   render() {
     const { classes, isOpen, onRequestChange } = this.props;
-    console.log(isOpen, 'Is open')
     return (<Drawer
       open={isOpen}
       onRequestClose={onRequestChange}

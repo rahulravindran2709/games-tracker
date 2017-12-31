@@ -60,19 +60,18 @@ class LoginView extends React.Component {
     if (!email || !password) {
       return;
     }
-    authenticateLocal({ email, password });
-    this.setState({ redirectToReferrer: true });
+    authenticateLocal({ email, password })
   }
   render() {
     const { classes } = this.props;
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    /* const { from } = this.props.location.state || { from: { pathname: '/dashboard' } }
     const { redirectToReferrer } = this.state
 
     if (redirectToReferrer) {
       return (
         <Redirect to={from} />
       )
-    }
+    } */
     return (
       <Grid container className={classes.root} justify="center" align="center">
         <Grid item xs={4} >

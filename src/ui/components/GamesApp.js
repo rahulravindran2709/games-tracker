@@ -52,8 +52,7 @@ class GamesApp extends React.Component {
         <Route path="/login" component={LoginView} />
         <PrivateRoute path="/dashboard" component={DashboardView} />
         <Route path="/searchresults" component={SearchResultsView} />
-        <Route path="/gamedetails/:id" component={({ match }) => (<GameDetailsView id={match.params.id} />)} />
-        <Route path="/" component={DashboardView} />
+        <PrivateRoute path="/gamedetails/:id" component={({ match }) => (<GameDetailsView id={match.params.id} />)} />
       </Switch>
     </div>);
   }
