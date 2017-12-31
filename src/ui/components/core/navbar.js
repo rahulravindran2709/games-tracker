@@ -12,12 +12,14 @@ import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 import { search } from 'actions';
+import { logout } from 'actions/auth';
 import SecureComponent from 'components/core/securecomponent';
 
 const propTypes = {
   handleToggleDrawer: PropTypes.func,
   searchGamesWithTerm: PropTypes.func,
   classes: PropTypes.shape().isRequired,
+  performLogout: PropTypes.func.isRequired,
 };
 const defaultProps = {
   handleToggleDrawer: null,
@@ -33,7 +35,10 @@ const styleSheet = theme => ({
   },
 });
 const LoginButton = () => (<Button>Login</Button>);
-const LogoutButton = () => (<Button>Logout</Button>);
+const LogoutButton = ({ handleLogout }) => (<Button onTouchTap={handleLogout}>Logout</Button>);
+LogoutButton.propTypes = {
+  handleLogout: PropTypes.func.isRequired,
+};
 
 class Navbar extends React.Component {
   handleSearchTermChange = (e) => {
@@ -46,7 +51,7 @@ class Navbar extends React.Component {
     });
   }
   render() {
-    const { handleToggleDrawer, classes, term, isAuth } = this.props;
+    const { handleToggleDrawer, classes, term, performLogout } = this.props;
     return (<div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
@@ -74,7 +79,7 @@ class Navbar extends React.Component {
             </Grid>
             <Grid item xs={12} lg={2}>
               <SecureComponent
-                protectedComponent={LogoutButton}
+                protectedComponent={() => <LogoutButton handleLogout={performLogout} />}
                 unprotectedComponent={LoginButton}
               />
             </Grid>
@@ -85,12 +90,13 @@ class Navbar extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   term: state.corereducer.search.term,
 });
 const mapDispatchToProps = dispatch =>
   ({
     searchGamesWithTerm: searchCriteria => dispatch(search(searchCriteria)),
+    performLogout: () => dispatch(logout()),
   });
 Navbar.propTypes = propTypes;
 Navbar.defaultProps = defaultProps;
