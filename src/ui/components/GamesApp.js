@@ -7,6 +7,7 @@ import 'normalize.css';
 import Navbar from 'components/core/navbar';
 import { Route, Switch } from 'react-router-dom';
 import MenuList from 'components/core/menulist';
+import PrivateRoute from 'components/core/privateroute';
 import SearchResultsView from 'components/views/searchresults';
 import DashboardView from 'components/views/dashboard';
 import GameDetailsView from 'components/views/gamedetails';
@@ -24,6 +25,8 @@ const defaultProps = {
   isDrawerOpen: false,
   toggleNavDrawer: null,
 };
+
+
 const mapStateToProps = (state) => {
   const { corereducer, enums } = state;
   return {
@@ -46,11 +49,11 @@ class GamesApp extends React.Component {
       <Navbar handleToggleDrawer={this.handleToggleDrawer} />
       <MenuList isOpen={isDrawerOpen} onRequestChange={this.handleToggleDrawer} />
       <Switch>
-        <Route path="/dashboard" component={DashboardView} />
         <Route path="/login" component={LoginView} />
-        <Route path="/searchresults" component={SearchResultsView} />
-        <Route path="/gamedetails/:id" component={({ match }) => (<GameDetailsView id={match.params.id} />)} />
-        <Route path="/" component={LoginView} />
+        <PrivateRoute path="/dashboard" component={DashboardView} />
+        <PrivateRoute path="/searchresults" component={SearchResultsView} />
+        <PrivateRoute path="/gamedetails/:id" component={({ match }) => (<GameDetailsView id={match.params.id} />)} />
+        <PrivateRoute path="/" component={DashboardView} />
       </Switch>
     </div>);
   }

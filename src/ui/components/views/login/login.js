@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
@@ -43,8 +44,9 @@ class LoginView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: 'test123@gmail.com',
+      password: 'somepass',
+      redirectToReferrer: false,
     };
   }
   handleChange = name => (event) => {
@@ -62,6 +64,14 @@ class LoginView extends React.Component {
   }
   render() {
     const { classes } = this.props;
+    /* const { from } = this.props.location.state || { from: { pathname: '/dashboard' } }
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer) {
+      return (
+        <Redirect to={from} />
+      )
+    } */
     return (
       <Grid container className={classes.root} justify="center" align="center">
         <Grid item xs={4} >
@@ -101,8 +111,18 @@ class LoginView extends React.Component {
                     color="primary"
                     className={classes.button}
                   >
-          LOGIN
-        </Button>
+                    LOGIN
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <Typography type="subheading" align="left">Register</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography type="subheading" align="right">Forgot password?</Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Paper>
             </Grid>
