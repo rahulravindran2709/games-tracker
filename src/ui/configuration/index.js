@@ -11,7 +11,6 @@ const configWithAuthHeader = {
   },
 };
 const serverConfig = token ? { ...baseUrlConfig, ...configWithAuthHeader } : baseUrlConfig;
-console.log(serverConfig, 'final config');
 const config = {
   serverConfig,
 };

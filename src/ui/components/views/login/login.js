@@ -60,7 +60,7 @@ class LoginView extends React.Component {
     if (!email || !password) {
       return;
     }
-    authenticateLocal({ email, password })
+    authenticateLocal({ email, password });
   }
   render() {
     const { classes } = this.props;
@@ -111,8 +111,18 @@ class LoginView extends React.Component {
                     color="primary"
                     className={classes.button}
                   >
-          LOGIN
-        </Button>
+                    LOGIN
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <Typography type="subheading" align="left">Register</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography type="subheading" align="right">Forgot password?</Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Paper>
             </Grid>
