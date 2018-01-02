@@ -12,7 +12,6 @@ import selector from './gamedetails.selector';
 import style from './style.scss';
 
 const propTypes = {
-  id: PropTypes.string.isRequired,
   getGameDetailsWithId: PropTypes.func.isRequired,
   gameDetails: PropTypes.shape(),
   selectedGenres: PropTypes.arrayOf(PropTypes.shape()).isRequired,
@@ -36,7 +35,6 @@ class GameDetailsView extends React.Component {
   }
   render() {
     const { gameDetails, selectedGenres, selectedEsrb, selectedPegi } = this.props;
-    console.log(gameDetails, 'Game detaisl')
     return (<Paper>
       <div className="game-details">
         <GameDetailsBanner
