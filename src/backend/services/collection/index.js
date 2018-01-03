@@ -1,5 +1,7 @@
 
-import { getGameMetaDataByCollection, addGameToCollection, addGameToWishlist } from './collection';
+import { getGameMetaDataByCollection, addGameToCollection,
+  addGameToWishlist,
+  removeGameInCollection } from './collection';
 import { getDatabaseModels } from '../shared/utils';
 
 const serverMethodOptions = {
@@ -33,9 +35,17 @@ const register = (server, options, next) => {
       },
     },
   };
+  const removeGameInCollectionOptions = {
+    bind: {
+      models: {
+        Game_Collection,
+      },
+    },
+  };
   server.method('getGameMetaDataByCollection', getGameMetaDataByCollection, getGameMetadataOptions);
   server.method('addGameToCollection', addGameToCollection, addGameCollectionOptions);
   server.method('addGameToWishlist', addGameToWishlist, addGameWishlistOptions);
+  server.method('removeGameInCollection', removeGameInCollection, removeGameInCollectionOptions);
   return next();
 };
 register.attributes = {

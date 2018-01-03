@@ -20,7 +20,8 @@ export const getGameMetaDataByCollection = (request, reply) =>
 getGameIdRequestParam(request), callback(reply));
 
 export const addGameToCollection = (request, reply) =>
-getServerMethod('addGameToCollection')(request)(getCollectionIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request)).then(data => reply(data))
+getServerMethod('addGameToCollection')(request)(getCollectionIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request))
+.then(data => reply(data))
 .catch((error) => {
   console.error(error);
   return reply(error);
@@ -28,7 +29,12 @@ getServerMethod('addGameToCollection')(request)(getCollectionIdRequestParam(requ
 
 
 export const addGameToWishlist = (request, reply) =>
-getServerMethod('addGameToWishlist')(request)(getWishlistIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request)).then(data => reply(data))
-.catch((error) => {
-  return reply(error);
-});
+getServerMethod('addGameToWishlist')(request)(getWishlistIdRequestParam(request), getGameIdRequestParam(request), getPostBody(request))
+.then(data => reply(data))
+.catch(error => reply(error));
+
+export const removeGamesInCollection = (request, reply) =>
+  getServerMethod('removeGameInCollection')(request)(getCollectionIdRequestParam(request),
+    getGameIdRequestParam(request))
+  .then(data => reply(data))
+  .catch(error => reply(error));

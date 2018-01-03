@@ -72,3 +72,14 @@ export function addGameToWishlist(wishlistId, gameId) {
     });
   });
 }
+
+export function removeGameInCollection(collectionId, gameId) {
+  console.log(`Removing ${gameId} from collection ${collectionId}`);
+  const { Game_Collection } = this.models;
+  return Game_Collection.destroy({
+    where: {
+      collection_id: collectionId,
+      game_id: gameId,
+    },
+  });
+}
