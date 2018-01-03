@@ -14,7 +14,6 @@ const enums = (state = initialState, action) => {
     case GET_GENRES_BY_ID_FULFILLED:
       return { ...state, genres: payload.data };
     case GET_PEGI_RATING_BY_ID_FULFILLED:
-      console.log(payload.data, 'Data')
       return { ...state, pegi: payload.data };
     case GET_ESRB_RATING_BY_ID_FULFILLED:
       return { ...state, esrb: payload.data };

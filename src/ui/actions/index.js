@@ -1,5 +1,6 @@
 import { getJSONFromServer } from 'utils/xhr';
 import { push } from 'react-router-redux';
+import { CALL_API, GET } from 'middlewares/api';
 import { LOGIN_STARTED, LOGIN_SUCCESS, TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
 export const startLogin = () =>
@@ -31,9 +32,13 @@ export const lookupGamesByName = searchTerm => ({
   payload: searchTerm,
 });
 
-export const getGameById = id => dispatch => dispatch({
-  type: GET_GAME_BY_ID,
+export const getGameById = id => dispatch =>
+dispatch({
+  type: CALL_API,
   payload: {
-    promise: getJSONFromServer(`/games/${id}`),
+    auth: true,
+    method: GET,
+    requestName: GET_GAME_BY_ID,
+    url: `/games/${id}`,
   },
 });

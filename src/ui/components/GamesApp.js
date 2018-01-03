@@ -37,8 +37,8 @@ const mapStateToProps = (state) => {
 };
 
 class GamesApp extends React.Component {
-  componentWillMount() {
-    // this.props.loadEnumData();
+  componentDidMount() {
+    this.props.loadEnumData();
   }
   handleToggleDrawer = () => {
     this.props.toggleNavDrawer();
@@ -54,7 +54,7 @@ class GamesApp extends React.Component {
         <Route path="/register" component={RegisterView} />
         <PrivateRoute path="/dashboard" component={DashboardView} />
         <PrivateRoute path="/searchresults" component={SearchResultsView} />
-        <PrivateRoute path="/gamedetails/:id" component={({ match }) => (<GameDetailsView id={match.params.id} />)} />
+        <PrivateRoute path="/gamedetails/:id" component={GameDetailsView} />
         <PrivateRoute path="/" component={DashboardView} />
       </Switch>
     </div>);
