@@ -20,38 +20,11 @@ const register = (server, options, next) => {
   const { Game_Collection,
     Game_Wishlist, Collection, Wishlist, Game, Timesheet } = getDatabaseModels(server);
   const getGameMetadataOptions = { ...serverMethodOptions,
-    bind: {
-      models: {
-        Game_Collection, Timesheet,
-      } } };
-  const addGameCollectionOptions = {
-    bind: {
-      models: {
-        Collection, Game,
-      },
-    },
-  };
-  const addGameWishlistOptions = {
-    bind: {
-      models: {
-        Wishlist, Game,
-      },
-    },
-  };
-  const removeGameInCollectionOptions = {
-    bind: {
-      models: {
-        Game_Collection,
-      },
-    },
-  };
-  const removeGameInWishlistOptions = {
-    bind: {
-      models: {
-        Game_Wishlist,
-      },
-    },
-  };
+    bind: { models: { Game_Collection, Timesheet } } };
+  const addGameCollectionOptions = { bind: { models: { Collection, Game } } };
+  const addGameWishlistOptions = { bind: { models: { Wishlist, Game } } };
+  const removeGameInCollectionOptions = { bind: { models: { Game_Collection } } };
+  const removeGameInWishlistOptions = { bind: { models: { Game_Wishlist } } };
   server.method('getGameMetaDataByCollection', getGameMetaDataByCollection, getGameMetadataOptions);
   server.method('addGameToCollection', addGameToCollection, addGameCollectionOptions);
   server.method('addGameToWishlist', addGameToWishlist, addGameWishlistOptions);
