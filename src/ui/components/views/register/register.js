@@ -68,43 +68,12 @@ class RegistrationView extends React.Component {
               <Grid item xs={12}>
                 <Typography type="display2" align="center">Register</Typography>
               </Grid>
-              <GridForm
-                id="firstName"
-                label="First Name"
-                value={firstName}
-                onChange={this.handleChange('firstName')}
-              />
-              <GridForm
-                id="lastName"
-                label="Last Name"
-                value={lastName}
-                onChange={this.handleChange('lastName')}
-              />
-              <GridForm
-                type="email"
-                id="email"
-                label="Email address"
-                value={email}
-                onChange={this.handleChange('email')}
-              />
-              <GridForm
-                type="password"
-                id="password"
-                label="Password"
-                value={password}
-                onChange={this.handleChange('password')}
-              />
-              <GridForm
-                type="password"
-                id="confirmPassword"
-                label="Verify Password"
-                value={confirmPassword}
-                onChange={this.handleChange('confirmPassword')}
-              />
-              <GridButton
-                label={'REGISTER'}
-                onSubmit={this.handleSubmit}
-              />
+              <GridForm id="firstName" label="First Name" value={firstName} onChange={this.handleChange('firstName')} />
+              <GridForm id="lastName" label="Last Name" value={lastName} onChange={this.handleChange('lastName')} />
+              <GridForm type="email" id="email" label="Email address" value={email} onChange={this.handleChange('email')} />
+              <GridForm type="password" id="password" label="Password" value={password} onChange={this.handleChange('password')} />
+              <GridForm type="password" id="confirmPassword" label="Verify Password" value={confirmPassword} onChange={this.handleChange('confirmPassword')} />
+              <GridButton label={'REGISTER'} onSubmit={this.handleSubmit} />
             </Grid>
           </form>
         </Paper>
