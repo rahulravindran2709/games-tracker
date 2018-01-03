@@ -4,11 +4,13 @@ import { withStyles } from 'material-ui/styles';
 import compose from 'recompose/compose';
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
+import GridForm from 'components/core/form/gridform';
+import GridButton from 'components/core/form/gridbutton';
 import Paper from 'material-ui/Paper';
 import { connect } from 'react-redux';
 import { registerUser } from 'actions/auth';
+
 
 const propTypes = {
   classes: PropTypes.shape().isRequired,
@@ -24,9 +26,6 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 2,
-    width: '100%',
-  },
-  button: {
     width: '100%',
   },
   textField: {
@@ -49,11 +48,12 @@ class RegistrationView extends React.Component {
   handleChange = name => (event) => {
     this.setState({
       newUser: {
+        ...this.state.newUser,
         [name]: event.target.value,
       },
     });
   };
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     this.props.register(this.state.newUser);
   }
   render() {
@@ -68,74 +68,49 @@ class RegistrationView extends React.Component {
               <Grid item xs={12}>
                 <Typography type="display2" align="center">Register</Typography>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="firstName"
-                  label="First Name"
-                  className={classes.textField}
-                  value={firstName}
-                  onChange={this.handleChange('firstName')}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="lastName"
-                  label="Last Name"
-                  className={classes.textField}
-                  value={lastName}
-                  onChange={this.handleChange('lastName')}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  type="email"
-                  id="email"
-                  label="Email address"
-                  className={classes.textField}
-                  value={email}
-                  onChange={this.handleChange('email')}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  type="password"
-                  id="password"
-                  label="Password"
-                  className={classes.textField}
-                  value={password}
-                  onChange={this.handleChange('password')}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  type="password"
-                  id="confirmPassword"
-                  label="Verify Password"
-                  className={classes.textField}
-                  value={confirmPassword}
-                  onChange={this.handleChange('confirmPassword')}
-                  margin="normal"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  onTouchTap={this.handleSubmit}
-                  raised
-                  color="primary"
-                  className={classes.button}
-                >
-                  REGISTER
-                </Button>
-              </Grid>
+              <GridForm
+                id="firstName"
+                label="First Name"
+                className={classes.textField}
+                value={firstName}
+                onChange={this.handleChange('firstName')}
+              />
+              <GridForm
+                id="lastName"
+                label="Last Name"
+                className={classes.textField}
+                value={lastName}
+                onChange={this.handleChange('lastName')}
+              />
+              <GridForm
+                type="email"
+                id="email"
+                label="Email address"
+                className={classes.textField}
+                value={email}
+                onChange={this.handleChange('email')}
+              />
+              <GridForm
+                type="password"
+                id="password"
+                label="Password"
+                className={classes.textField}
+                value={password}
+                onChange={this.handleChange('password')}
+              />
+              <GridForm
+                type="password"
+                id="confirmPassword"
+                label="Verify Password"
+                className={classes.textField}
+                value={confirmPassword}
+                onChange={this.handleChange('confirmPassword')}
+              />
+              <GridButton
+                label={'REGISTER'}
+                onSubmit={this.handleSubmit}
+                className={classes.button}
+              />
             </Grid>
           </form>
         </Paper>
@@ -146,14 +121,11 @@ class RegistrationView extends React.Component {
 
 
 RegistrationView.propTypes = propTypes;
-const mapStateToProps = state => ({
-
-});
 
 const mapDispatchToProps = dispatch =>
   ({
     register: user => dispatch(registerUser(user)),
   });
-const connectHOC = connect(mapStateToProps, mapDispatchToProps);
+const connectHOC = connect(null, mapDispatchToProps);
 const withStylesHOC = withStyles(styles);
 export default compose(connectHOC, withStylesHOC)(RegistrationView);
