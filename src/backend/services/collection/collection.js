@@ -83,3 +83,14 @@ export function removeGameInCollection(collectionId, gameId) {
     },
   });
 }
+
+export function removeGameInWishlist(wishlistId, gameId) {
+  console.log(`Removing ${gameId} from wishlist ${wishlistId}`);
+  const { Game_Wishlist } = this.models;
+  return Game_Wishlist.destroy({
+    where: {
+      wishlist_id: wishlistId,
+      game_id: gameId,
+    },
+  });
+}

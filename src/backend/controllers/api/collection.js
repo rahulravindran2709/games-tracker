@@ -38,3 +38,9 @@ export const removeGamesInCollection = (request, reply) =>
     getGameIdRequestParam(request))
   .then(data => reply(data))
   .catch(error => reply(error));
+
+export const removeGamesInWishlist = (request, reply) =>
+    getServerMethod('removeGameInWishlist')(request)(getWishlistIdRequestParam(request),
+      getGameIdRequestParam(request))
+    .then(data => reply(data))
+    .catch(error => reply(error));

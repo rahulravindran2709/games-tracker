@@ -1,7 +1,9 @@
 
-import { getGameMetaDataByCollection, addGameToCollection,
+import { getGameMetaDataByCollection,
+  addGameToCollection,
   addGameToWishlist,
-  removeGameInCollection } from './collection';
+  removeGameInCollection,
+  removeGameInWishlist } from './collection';
 import { getDatabaseModels } from '../shared/utils';
 
 const serverMethodOptions = {
@@ -15,7 +17,8 @@ const serverMethodOptions = {
 };
 const register = (server, options, next) => {
   server.log(['plugin', 'info'], "Registering the 'collectionService' plugin");
-  const { Game_Collection, Collection, Wishlist, Game, Timesheet } = getDatabaseModels(server);
+  const { Game_Collection,
+    Game_Wishlist, Collection, Wishlist, Game, Timesheet } = getDatabaseModels(server);
   const getGameMetadataOptions = { ...serverMethodOptions,
     bind: {
       models: {
@@ -42,10 +45,18 @@ const register = (server, options, next) => {
       },
     },
   };
+  const removeGameInWishlistOptions = {
+    bind: {
+      models: {
+        Game_Wishlist,
+      },
+    },
+  };
   server.method('getGameMetaDataByCollection', getGameMetaDataByCollection, getGameMetadataOptions);
   server.method('addGameToCollection', addGameToCollection, addGameCollectionOptions);
   server.method('addGameToWishlist', addGameToWishlist, addGameWishlistOptions);
   server.method('removeGameInCollection', removeGameInCollection, removeGameInCollectionOptions);
+  server.method('removeGameInWishlist', removeGameInWishlist, removeGameInWishlistOptions);
   return next();
 };
 register.attributes = {

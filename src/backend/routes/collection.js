@@ -1,8 +1,9 @@
 import { getTimesheetsByGameEntry } from '../controllers/api/timesheet';
 import { getGamesInCollection, getGamesInWishlist,
    getGameMetaDataByCollection, addGameToCollection,
- addGameToWishlist,
- removeGamesInCollection } from '../controllers/api/collection';
+   addGameToWishlist,
+ removeGamesInCollection,
+ removeGamesInWishlist } from '../controllers/api/collection';
 import { gameCollectionPost } from '../validation/schemas/gamecollection';
 
 const routes = [{
@@ -80,6 +81,16 @@ const routes = [{
     description: 'Remove games associated to a collection',
     notes: 'Remove games in collection',
     tags: ['api', 'user', 'collections', 'games'],
+  },
+
+}, {
+  method: 'DELETE',
+  path: '/wishlists/{wishlistid}/games/{gameid}',
+  handler: removeGamesInWishlist,
+  config: {
+    description: 'Remove games associated to a wishlist',
+    notes: 'Remove games in wishlist',
+    tags: ['api', 'user', 'wishlists', 'games'],
   },
 
 }];
