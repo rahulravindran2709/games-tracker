@@ -10,6 +10,7 @@ const getPromiseMethod = ({ method, url, params, token, body }) => {
       return getJSONFromServer(url, params, token);
     case POST:
       return postJSONToServer(url, body, token);
+    /* Add other actions here when needed */
     default:
       return getJSONFromServer(url, params, token);
   }
