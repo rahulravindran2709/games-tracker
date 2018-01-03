@@ -71,14 +71,12 @@ class RegistrationView extends React.Component {
               <GridForm
                 id="firstName"
                 label="First Name"
-                className={classes.textField}
                 value={firstName}
                 onChange={this.handleChange('firstName')}
               />
               <GridForm
                 id="lastName"
                 label="Last Name"
-                className={classes.textField}
                 value={lastName}
                 onChange={this.handleChange('lastName')}
               />
@@ -86,7 +84,6 @@ class RegistrationView extends React.Component {
                 type="email"
                 id="email"
                 label="Email address"
-                className={classes.textField}
                 value={email}
                 onChange={this.handleChange('email')}
               />
@@ -94,7 +91,6 @@ class RegistrationView extends React.Component {
                 type="password"
                 id="password"
                 label="Password"
-                className={classes.textField}
                 value={password}
                 onChange={this.handleChange('password')}
               />
@@ -102,14 +98,12 @@ class RegistrationView extends React.Component {
                 type="password"
                 id="confirmPassword"
                 label="Verify Password"
-                className={classes.textField}
                 value={confirmPassword}
                 onChange={this.handleChange('confirmPassword')}
               />
               <GridButton
                 label={'REGISTER'}
                 onSubmit={this.handleSubmit}
-                className={classes.button}
               />
             </Grid>
           </form>
