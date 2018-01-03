@@ -15,7 +15,7 @@ const styles = () => ({
   },
 });
 const DashboardMeta = ({ classes }) => (
-  <div className="meta">
+  <div className="dashboard-meta">
     <Grid container className={classes.root}>
       <Grid item md={3} />
       <Grid item md={3}>
