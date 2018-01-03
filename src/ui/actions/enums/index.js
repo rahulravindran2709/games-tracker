@@ -26,7 +26,9 @@ export const getEsrbRatings = () => dispatch =>
         });
 
 export const loadEnumData = () => (dispatch) => {
-  dispatch(getGenres());
-  dispatch(getPegiRatings());
-  dispatch(getEsrbRatings());
+  // dispatch(getGenres());
+  // dispatch(getPegiRatings());
+  // dispatch(getEsrbRatings());
+  return Promise.all([dispatch(getGenres()), dispatch(getPegiRatings()), dispatch(getEsrbRatings())])
+  .then(() => console.log('Done'))
 };

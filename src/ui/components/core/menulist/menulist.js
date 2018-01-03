@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import { Link } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
+import Avatar from 'material-ui/Avatar';
 import List from 'material-ui/List';
 import ListItem from 'material-ui/List/ListItem';
 import ListItemText from 'material-ui/List/ListItemText';
@@ -11,7 +14,8 @@ import SettingsApplications from 'material-ui-icons/SettingsApplications';
 import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew';
 import Games from 'material-ui-icons/Games';
 import { withStyles } from 'material-ui/styles';
-
+import { logout } from 'actions/auth';
+import { toggleDrawer } from 'actions';
 
 const styleSheet = theme => ({
   list: {
@@ -49,7 +53,7 @@ const otherListItems = (
       <ListItemIcon>
         <SettingsApplications />
       </ListItemIcon>
-      <Link to="/"><ListItemText primary="Account" /></Link>
+      <Link to="/profile"><ListItemText primary="Account" /></Link>
     </ListItem>
     <ListItem button>
       <ListItemIcon>
@@ -75,11 +79,11 @@ const SideList = (props) => {
 };
 class MenuList extends React.Component {
   render() {
-    const { classes, isOpen, onRequestChange } = this.props;
+    const { classes, isDrawerOpen, toggleNavDrawer } = this.props;
     return (<Drawer
-      open={isOpen}
-      onRequestClose={onRequestChange}
-      onClick={onRequestChange}
+      open={isDrawerOpen}
+      onRequestClose={toggleNavDrawer}
+      onClick={toggleNavDrawer}
     >
       {<SideList classes={classes} />}
     </Drawer>);
@@ -88,8 +92,20 @@ class MenuList extends React.Component {
 
 MenuList.propTypes = {
   classes: PropTypes.shape().isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onRequestChange: PropTypes.func,
+  isDrawerOpen: PropTypes.bool.isRequired,
+  toggleNavDrawer: PropTypes.func.isRequired,
 };
-
-export default withStyles(styleSheet)(MenuList);
+const mapDispatchToProps = dispatch =>
+  ({
+    toggleNavDrawer: () => dispatch(toggleDrawer()),
+    performLogout: () => dispatch(logout()),
+  });
+const mapStateToProps = (state) => {
+  const { corereducer } = state;
+  return {
+    isDrawerOpen: corereducer.isDrawerOpen,
+  };
+};
+const connectHOC = connect(mapStateToProps, mapDispatchToProps);
+const withStylesHOC = withStyles(styleSheet);
+export default compose(connectHOC, withStylesHOC)(MenuList);
