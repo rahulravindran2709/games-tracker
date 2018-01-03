@@ -1,6 +1,6 @@
 import { CALL_API, POST } from 'middlewares/api';
-import { AUTHENTICATE, LOGOUT } from 'constants/auth/actions';
-import { AUTHENTICATE as AUTHENTICATE_URL, LOGOUT as LOGOUT_URL } from 'constants/auth/urls';
+import { AUTHENTICATE, LOGOUT, REGISTER } from 'constants/auth/actions';
+import { AUTHENTICATE as AUTHENTICATE_URL, LOGOUT as LOGOUT_URL, REGISTER as REGISTER_URL } from 'constants/auth/urls';
 import { push } from 'react-router-redux';
 
 
@@ -28,3 +28,16 @@ dispatch({
   },
 })
   .then(() => dispatch(push('/login')));
+
+export const registerUser = user => dispatch =>
+dispatch({
+  type: CALL_API,
+  payload: {
+    auth: true,
+    method: POST,
+    requestName: REGISTER,
+    url: REGISTER_URL,
+    body: user,
+  },
+})
+.then(() => dispatch(push('/dashboard')));
