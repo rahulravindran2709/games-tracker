@@ -15,6 +15,7 @@ import LoginView from 'components/views/login';
 import RegisterView from 'components/views/register';
 import { toggleDrawer } from 'actions';
 import { loadEnumData } from 'actions/enums';
+import Message from 'components/core/messages';
 
 
 const propTypes = {
@@ -57,6 +58,7 @@ class GamesApp extends React.Component {
         <PrivateRoute path="/gamedetails/:id" component={GameDetailsView} />
         <PrivateRoute path="/" component={DashboardView} />
       </Switch>
+      <Message />
     </div>);
   }
 }

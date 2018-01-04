@@ -1,5 +1,6 @@
 import { TOGGLE_DRAWER, SEARCH_FULFILLED } from 'actions/types';
-import { prop, pathOr } from 'ramda';
+import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR } from 'constants/common/actions';
+import { getActionType, getPayloadData } from './shared/utils';
 
 const initialState = {
   isDrawerOpen: false,
@@ -8,11 +9,12 @@ const initialState = {
     zone: 'games',
     results: [],
   },
+  messages: [],
+  currentMessage: null,
+  isSnackbarOpen: false,
 };
-const getActionType = prop('type');
-const getPayloadData = pathOr({}, ['payload', 'data']);
 
-const corereducer = (state = initialState, action) => {
+const core = (state = initialState, action) => {
   const type = getActionType(action);
   const data = getPayloadData(action);
   switch (type) {
@@ -24,8 +26,25 @@ const corereducer = (state = initialState, action) => {
           ...state.search,
           results: data,
         } };
+    case ADD_MSG_SNACKBAR:
+      return {
+        ...state,
+        messages: state.messages.concat([data.message]),
+      };
+    case DISPLAY_MSG_SNACKBAR:
+      return {
+        ...state,
+        currentMessage: data.message,
+        isSnackbarOpen: true,
+      };
+    case CLOSE_MSG_SNACKBAR:
+      return {
+        ...state,
+        currentMessage: '',
+        isSnackbarOpen: false,
+      };
     default:
       return state;
   }
 };
-export default corereducer;
+export default core;
