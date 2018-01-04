@@ -22,27 +22,13 @@ const core = (state = initialState, action) => {
       return { ...state, isDrawerOpen: !state.isDrawerOpen };
     case SEARCH_FULFILLED:
       return { ...state,
-        search: {
-          ...state.search,
-          results: data,
-        } };
+        search: { ...state.search, results: data } };
     case ADD_MSG_SNACKBAR:
-      return {
-        ...state,
-        messages: state.messages.concat([data.message]),
-      };
+      return { ...state, messages: state.messages.concat([data.message]) };
     case DISPLAY_MSG_SNACKBAR:
-      return {
-        ...state,
-        currentMessage: data.message,
-        isSnackbarOpen: true,
-      };
+      return { ...state, currentMessage: data.message, isSnackbarOpen: true };
     case CLOSE_MSG_SNACKBAR:
-      return {
-        ...state,
-        currentMessage: '',
-        isSnackbarOpen: false,
-      };
+      return { ...state, currentMessage: '', isSnackbarOpen: false };
     default:
       return state;
   }
