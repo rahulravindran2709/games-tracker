@@ -1,6 +1,7 @@
 import { AUTHENTICATE_FULFILLED,
   AUTHENTICATE_REJECTED,
-   LOGOUT_FULFILLED } from 'constants/auth/actions';
+   LOGOUT_FULFILLED,
+   LOGOUT_REJECTED } from 'constants/auth/actions';
 import { getActionType, getPayloadData, getErrorMessage } from './shared/utils';
 
 const initialState = {
@@ -22,6 +23,7 @@ const auth = (state = initialState, action) => {
         }) };
     }
     case LOGOUT_FULFILLED:
+    case LOGOUT_REJECTED:
       return { ...state, token: null, username: null };
     default:
       return state;
