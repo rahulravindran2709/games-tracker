@@ -1,7 +1,8 @@
 import { getJSONFromServer } from 'utils/xhr';
 import { push } from 'react-router-redux';
 import { CALL_API, GET } from 'middlewares/api';
-import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR } from 'constants/common/actions';
+import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR,
+  CLEAR_MSG_SNACKBAR } from 'constants/common/actions';
 import { TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
 
@@ -47,16 +48,19 @@ export const displayMessageInSnackbar = message =>
     },
   },
 });
-
-export const addMessageToSnackbarQueue = message => (dispatch, getState) => {
-  dispatch({
-    type: ADD_MSG_SNACKBAR,
-    payload: {
-      data: {
-        message,
-      },
+export const addMessageToSnackbar = message => ({
+  type: ADD_MSG_SNACKBAR,
+  payload: {
+    data: {
+      message,
     },
-  });
+  },
+});
+export const emptySnackbarMessageQueue = () => ({
+  type: CLEAR_MSG_SNACKBAR,
+});
+export const addMessageToSnackbarQueue = message => (dispatch, getState) => {
+  dispatch(addMessageToSnackbar(message));
   const { corereducer: { messages } } = getState();
   messages.reduce((accum, currentMessage) =>
   accum
@@ -65,5 +69,8 @@ export const addMessageToSnackbarQueue = message => (dispatch, getState) => {
     return setTimeout(() => resolve(dispatch(closeSnackbar())), 1000);
   }))
   .then(() => new Promise(resolve => setTimeout(() => resolve(), 1000))),
-  new Promise(resolve => resolve()));
+  new Promise(resolve => resolve()))
+  .then(() => {
+    dispatch(emptySnackbarMessageQueue());
+  });
 };
