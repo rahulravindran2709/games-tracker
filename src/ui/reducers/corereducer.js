@@ -1,5 +1,6 @@
 import { TOGGLE_DRAWER, SEARCH_FULFILLED } from 'actions/types';
-import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR } from 'constants/common/actions';
+import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR
+, CLEAR_MSG_SNACKBAR } from 'constants/common/actions';
 import { getActionType, getPayloadData } from './shared/utils';
 
 const initialState = {
@@ -29,6 +30,8 @@ const core = (state = initialState, action) => {
       return { ...state, currentMessage: data.message, isSnackbarOpen: true };
     case CLOSE_MSG_SNACKBAR:
       return { ...state, currentMessage: '', isSnackbarOpen: false };
+    case CLEAR_MSG_SNACKBAR:
+      return { ...state, messages: [] };
     default:
       return state;
   }
