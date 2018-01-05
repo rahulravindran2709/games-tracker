@@ -28,6 +28,17 @@ const propTypes = {
   classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
 };
+
+const GridText = ({ text, textClassName }) => (<Grid item md={3}>
+  <div className="last-played">
+    <Typography type="subheading" className={textClassName}>{text}</Typography>
+  </div>
+</Grid>);
+
+GridText.propTypes = {
+  text: PropTypes.string.isRequired,
+  textClassName: PropTypes.shape().isRequired,
+};
 const GameDetailsBanner = ({ classes, details: {
   releaseDate,
 } }) => (<div className={classes.meta}>
@@ -45,21 +56,9 @@ const GameDetailsBanner = ({ classes, details: {
     </Grid>
   </Grid>
   <Grid container className={classes.root} justify="flex-end">
-    <Grid item md={3}>
-      <div className="last-played">
-        <Typography type="subheading" className={classes.shadow}>Last played 27th January, 2017</Typography>
-      </div>
-    </Grid>
-    <Grid item md={3}>
-      <div className="hours_played">
-        <Typography type="subheading" className={classes.shadow}>15 hours spent</Typography>
-      </div>
-    </Grid>
-    <Grid item md={3}>
-      <div className="playthroughs">
-        <Typography type="subheading" className={classes.shadow}>1 completed playthrough</Typography>
-      </div>
-    </Grid>
+    <GridText text={'Last played 27th January, 2017'} textClassName={classes.shadow} />
+    <GridText text={'15 hours spent'} textClassName={classes.shadow} />
+    <GridText text={'1 completed playthrough'} textClassName={classes.shadow} />
   </Grid>
 </div>);
 
