@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
 import StarBorderIcon from 'material-ui-icons/StarBorder';
 import { withStyles } from 'material-ui/styles';
 
@@ -12,6 +13,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
+    marginTop: theme.spacing.unit * 2,
     background: theme.palette.background.paper,
   },
   gridList: {
@@ -29,7 +31,7 @@ const styles = theme => ({
 });
 const ScreenshotSection = ({ screenshots, classes }) => (
   <div className={classes.root}>
-    <Typography type="headline">Screenshots</Typography>
+    <Typography type="headline" align="left">Screenshots</Typography>
     <GridList className={classes.gridList} cols={2.5}>
       {screenshots.map(screenshot => (
         <GridListTile key={screenshot.id}>
