@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
+import Grid from 'material-ui/Grid';
 import StarBorderIcon from 'material-ui-icons/StarBorder';
 import { withStyles } from 'material-ui/styles';
 
@@ -12,15 +14,18 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
+    marginTop: theme.spacing.unit * 2,
     background: theme.palette.background.paper,
   },
   gridList: {
     flexWrap: 'nowrap',
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
   title: {
     color: theme.palette.primary[200],
+  },
+  headline: {
+    textAlign: 'left',
   },
   titleBar: {
     background:
@@ -29,7 +34,11 @@ const styles = theme => ({
 });
 const ScreenshotSection = ({ screenshots, classes }) => (
   <div className={classes.root}>
-    <Typography type="headline">Screenshots</Typography>
+    <Grid container>
+      <Grid item xs={12}>
+        <Typography type="headline" className={classes.headline}>Screenshots</Typography>
+      </Grid>
+    </Grid>
     <GridList className={classes.gridList} cols={2.5}>
       {screenshots.map(screenshot => (
         <GridListTile key={screenshot.id}>

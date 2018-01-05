@@ -1,49 +1,67 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
 import moment from 'moment';
 import Typography from 'material-ui/Typography';
 import Rating from 'components/widgets/rating';
 import { withStyles } from 'material-ui/styles';
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
-    flexGrow: 1,
+  },
+  meta: {
+    position: 'absolute',
+    bottom: '10px',
+    height: '100px',
+    padding: theme.spacing.unit * 2,
+    width: '100%',
+  },
+  shadow: {
+    'text-shadow': '0px 0px 1px #191919,0px 0px 5px #000',
+    color: '#fff',
+  },
+  text: {
+    color: '#fff',
   },
 });
+const propTypes = {
+  classes: PropTypes.shape().isRequired,
+  details: PropTypes.shape().isRequired,
+};
+
+const GridText = ({ text, textClassName }) => (<Grid item md={3}>
+  <div className="last-played">
+    <Typography type="subheading" className={textClassName}>{text}</Typography>
+  </div>
+</Grid>);
+
+GridText.propTypes = {
+  text: PropTypes.string.isRequired,
+  textClassName: PropTypes.shape().isRequired,
+};
 const GameDetailsBanner = ({ classes, details: {
   releaseDate,
-} }) => (<div className="meta">
-  <Grid container className={classes.root}>
-    <Grid item md={3} />
+} }) => (<div className={classes.meta}>
+  <Grid container className={classes.root} justify="flex-end">
     <Grid item md={3}>
       <Rating value={3} />
-      <Typography type="subheading" className="shadow text"><span className="ratings-text">
-                          4.1/5 <span className="reviews-number">(33 reviews)</span>
-      </span></Typography>
+      <Typography type="subheading" className={classes.shadow}>
+        <span className="ratings-text">4.1/5 <span className="reviews-number">(33 reviews)</span></span>
+      </Typography>
     </Grid>
     <Grid item md={3}>
       <div className="release-date">
-        <Typography type="subheading" className="shadow text">Released {moment(releaseDate).format('MMMM Do, YYYY')}</Typography>
+        <Typography type="subheading" className={classes.shadow}>Released {moment(releaseDate).format('MMMM Do, YYYY')}</Typography>
       </div>
     </Grid>
   </Grid>
-  <Grid container className={classes.root}>
-    <Grid item md={3}>
-      <div className="last-played">
-        <Typography type="subheading" className="shadow text">Last played 27th January, 2017</Typography>
-      </div>
-    </Grid>
-    <Grid item md={3}>
-      <div className="hours_played">
-        <Typography type="subheading" className="shadow text">15 hours spent</Typography>
-      </div>
-    </Grid>
-    <Grid item md={3}>
-      <div className="playthroughs">
-        <Typography type="subheading" className="shadow text">1 completed playthrough</Typography>
-      </div>
-    </Grid>
+  <Grid container className={classes.root} justify="flex-end">
+    <GridText text={'Last played 27th January, 2017'} textClassName={classes.shadow} />
+    <GridText text={'15 hours spent'} textClassName={classes.shadow} />
+    <GridText text={'1 completed playthrough'} textClassName={classes.shadow} />
   </Grid>
 </div>);
+
+GameDetailsBanner.propTypes = propTypes;
 const stylesHOC = withStyles(styles);
 export default stylesHOC(GameDetailsBanner);
