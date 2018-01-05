@@ -14,41 +14,25 @@ const styles = () => ({
     flexGrow: 1,
   },
 });
+const GridText = ({ text }) => (<Grid item md={3}>
+  <Typography type="subheading" className="shadow text">
+    {text}
+  </Typography>
+</Grid>);
+GridText.propTypes = {
+  text: PropTypes.string.isRequired,
+};
 const DashboardMeta = ({ classes }) => (
   <div className="meta">
     <Grid container className={classes.root}>
       <Grid item md={3} />
-      <Grid item md={3}>
-        <Typography type="subheading" className="shadow text">
-          56 games collected
-        </Typography>
-      </Grid>
-      <Grid item md={3}>
-        <div className="release-date">
-          <Typography type="subheading" className="shadow text">
-            3 games in wishlist
-          </Typography>
-        </div>
-      </Grid>
+      <GridText text={'56 games collected'} />
+      <GridText text={'3 games in wishlist'} />
     </Grid>
     <Grid container className={classes.root}>
-      <Grid item md={3}>
-        <div className="last-played">
-          <Typography type="subheading" className="shadow text">
-            Last played 27th January, 2017
-          </Typography>
-        </div>
-      </Grid>
-      <Grid item md={3}>
-        <div className="hours_played">
-          <Typography type="subheading" className="shadow text">15 hours spent</Typography>
-        </div>
-      </Grid>
-      <Grid item md={3}>
-        <div className="playthroughs">
-          <Typography type="subheading" className="shadow text">2 completed games</Typography>
-        </div>
-      </Grid>
+      <GridText text={'Last played 27th January, 2017'} />
+      <GridText text={'15 hours spent'} />
+      <GridText text={'2 completed games'} />
     </Grid>
   </div>
 );
