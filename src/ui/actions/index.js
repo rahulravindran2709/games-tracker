@@ -35,7 +35,9 @@ dispatch({
     url: `/games/${id}`,
   },
 });
-
+export const closeSnackbar = () => ({
+  type: CLOSE_MSG_SNACKBAR,
+});
 export const displayMessageInSnackbar = message =>
 ({
   type: DISPLAY_MSG_SNACKBAR,
@@ -46,7 +48,7 @@ export const displayMessageInSnackbar = message =>
   },
 });
 
-export const addMessageToSnackbarQueue = message => (dispatch) => {
+export const addMessageToSnackbarQueue = message => (dispatch, getState) => {
   dispatch({
     type: ADD_MSG_SNACKBAR,
     payload: {
@@ -55,8 +57,13 @@ export const addMessageToSnackbarQueue = message => (dispatch) => {
       },
     },
   });
-  setTimeout(() => dispatch(displayMessageInSnackbar(message)), 500);
+  const { corereducer: { messages } } = getState();
+  messages.reduce((accum, currentMessage) =>
+  accum
+  .then(() => new Promise((resolve) => {
+    dispatch(displayMessageInSnackbar(currentMessage));
+    return setTimeout(() => resolve(dispatch(closeSnackbar())), 1000);
+  }))
+  .then(() => new Promise(resolve => setTimeout(() => resolve(), 1000))),
+  new Promise(resolve => resolve()));
 };
-export const closeSnackbar = () => ({
-  type: CLOSE_MSG_SNACKBAR,
-});
