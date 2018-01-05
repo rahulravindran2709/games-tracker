@@ -62,6 +62,7 @@ export const emptySnackbarMessageQueue = () => ({
 export const addMessageToSnackbarQueue = message => (dispatch, getState) => {
   dispatch(addMessageToSnackbar(message));
   const { corereducer: { messages } } = getState();
+  const accumInit = Promise.resolve('');
   messages.reduce((accum, currentMessage) =>
   accum
   .then(() => new Promise((resolve) => {
@@ -69,8 +70,6 @@ export const addMessageToSnackbarQueue = message => (dispatch, getState) => {
     return setTimeout(() => resolve(dispatch(closeSnackbar())), 1000);
   }))
   .then(() => new Promise(resolve => setTimeout(() => resolve(), 1000))),
-  new Promise(resolve => resolve()))
-  .then(() => {
-    dispatch(emptySnackbarMessageQueue());
-  });
+  accumInit)
+  .then(() => dispatch(emptySnackbarMessageQueue()));
 };
