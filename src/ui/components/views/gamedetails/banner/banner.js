@@ -3,28 +3,17 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
-import { SpeedDial, SpeedDialItem } from 'react-mui-speeddial';
-import Add from 'material-ui-icons/Add';
-import PlaylistAdd from 'material-ui-icons/PlaylistAdd';
-import NoteAdd from 'material-ui-icons/NoteAdd';
-import Close from 'material-ui-icons/Close';
-import { ESRB_ICONS, PEGI_ICONS } from 'constants/enums/urls'
+import { ESRB_ICONS, PEGI_ICONS } from 'constants/enums/urls';
 import style from './style.scss';
 import GameDetailsBannerMeta from './meta'
-
+import GameOptions from './speeddial';
 
 const styles = () => ({
   root: {
     flexGrow: 1,
   },
 });
-const addToCollection = () => {
-  console.log('Add to collection was clicked')
-}
 
-const addToWishlist = () => {
-  console.log('Add to wishlist was clicked')
-}
 
 const GameDetailsBanner = ({ classes, details: {
   name,
@@ -61,21 +50,7 @@ const GameDetailsBanner = ({ classes, details: {
   </div>
   <GameDetailsBannerMeta details={{ releaseDate: first_release_date }} />
   <div className="actions">
-    <SpeedDial
-      fabContentOpen={<Add />}
-      fabContentClose={<Close />}
-    >
-      <SpeedDialItem
-        label="Add to collection"
-        fabContent={<PlaylistAdd />}
-        onTouchTap={addToCollection}
-      />
-      <SpeedDialItem
-        label="Add to wishlist"
-        fabContent={<NoteAdd />}
-        onTouchTap={addToWishlist}
-      />
-    </SpeedDial>
+    <GameOptions />
   </div>
 </div>);
 
