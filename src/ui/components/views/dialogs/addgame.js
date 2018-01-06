@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
+import { getUserCollections, getUserWishlists } from 'actions/collections';
 import Avatar from 'material-ui/Avatar';
 import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
 import Dialog, { DialogTitle } from 'material-ui/Dialog';
@@ -22,6 +23,10 @@ const styles = {
 };
 
 class AddGameDialog extends React.Component {
+  componentDidMount() {
+    this.props.getUserCollectionsList(1);
+    this.props.getUserWishlistsList(1);
+  }
   handleClose = () => {
     this.props.onClose(this.props.selectedValue);
   };
@@ -31,21 +36,25 @@ class AddGameDialog extends React.Component {
   };
 
   render() {
-    const { classes, onClose, selectedValue, open, ...other } = this.props;
+    const { classes, onClose, selectedValue, open, collections, ...other } = this.props;
 
     return (
-      <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open} {...other}>
+      <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle id="simple-dialog-title">Add game to Collection</DialogTitle>
         <div>
           <List>
-            {emails.map(email => (
-              <ListItem button onClick={() => this.handleListItemClick(email)} key={email}>
+            {collections.map(collection => (
+              <ListItem
+                button
+                onClick={() => this.handleListItemClick(collection)}
+                key={collection.id}
+              >
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={email} />
+                <ListItemText primary={collection.name} />
               </ListItem>
             ))}
             <ListItem button onClick={() => this.handleListItemClick('addAccount')}>
@@ -64,14 +73,22 @@ class AddGameDialog extends React.Component {
 }
 
 AddGameDialog.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.shape().isRequired,
   onClose: PropTypes.func,
   selectedValue: PropTypes.string,
   open: PropTypes.bool.isRequired,
+  collections: PropTypes.arrayOf(PropTypes.shape()),
+  wishlists: PropTypes.arrayOf(PropTypes.shape()),
   dialogType: PropTypes.string.isRequired,
+  getUserCollectionsList: PropTypes.func.isRequired,
+  getUserWishlistsList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => selector(state);
-const connectHOC = connect(mapStateToProps);
+const mapDispatchToProps = dispatch => ({
+  getUserCollectionsList: userId => dispatch(getUserCollections(userId)),
+  getUserWishlistsList: userId => dispatch(getUserWishlists(userId)),
+});
+const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 const withStylesHOC = withStyles(styles);
 export default compose(connectHOC, withStylesHOC)(AddGameDialog);
