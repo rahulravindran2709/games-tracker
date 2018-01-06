@@ -19,3 +19,10 @@ export const postJSONToServer = (relativeUrl, requestBody, token) => {
   } : { };
   return apiServerInstance.post(relativeUrl, requestBody, authToken);
 };
+
+export const putJSONToServer = (relativeUrl, requestBody, token) => {
+  const authToken = token ? {
+    headers: { Authorization: token },
+  } : { };
+  return apiServerInstance.put(relativeUrl, requestBody, authToken);
+};

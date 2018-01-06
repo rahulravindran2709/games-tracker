@@ -1,15 +1,18 @@
-import { getJSONFromServer, postJSONToServer } from 'utils/xhr';
+import { getJSONFromServer, postJSONToServer, putJSONToServer } from 'utils/xhr';
 import { path, objOf, compose, merge } from 'ramda';
 /* Attempt at implementing api middleware using RSAA specification */
 export const CALL_API = Symbol('CALL_API');
 export const GET = Symbol('GET');
 export const POST = Symbol('POST');
+export const PUT = Symbol('PUT');
 const getPromiseMethod = ({ method, url, params, token, body }) => {
   switch (method) {
     case GET:
       return getJSONFromServer(url, params, token);
     case POST:
       return postJSONToServer(url, body, token);
+    case PUT:
+      return putJSONToServer(url, body, token);
     /* Add other actions here when needed */
     default:
       return getJSONFromServer(url, params, token);

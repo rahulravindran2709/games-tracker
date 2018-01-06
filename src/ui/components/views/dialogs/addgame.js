@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
-import { getUserCollections, getUserWishlists } from 'actions/collections';
+import { getUserCollections, getUserWishlists, addGameToCollection } from 'actions/collections';
+import { closeAddGameDialog } from 'actions/dialogs';
 import Avatar from 'material-ui/Avatar';
 import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
 import Dialog, { DialogTitle } from 'material-ui/Dialog';
@@ -39,18 +40,23 @@ class AddGameDialog extends React.Component {
     this.props.getUserWishlistsList(1);
   }
   handleClose = () => {
-    this.props.onClose(this.props.selectedValue);
+    this.props.closeAddGameDialog(this.props.selectedValue);
   };
 
   handleListItemClick = value => {
-    this.props.onClose(value);
+    this.props.closeAddGameDialog(value);
   };
 
   render() {
-    const { classes, onClose, selectedValue, open, userList } = this.props;
+    const { classes, selectedValue, open, userList } = this.props;
 
     return (
-      <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <Dialog
+        onClose={this.handleClose}
+        aria-labelledby="simple-dialog-title"
+        open={open}
+        onBackdropClick={this.handleClose}
+      >
         <DialogTitle id="simple-dialog-title">Add game to Collection</DialogTitle>
         <div>
           <List>
@@ -78,21 +84,24 @@ class AddGameDialog extends React.Component {
 
 AddGameDialog.propTypes = {
   classes: PropTypes.shape().isRequired,
-  onClose: PropTypes.func,
   selectedValue: PropTypes.string,
   open: PropTypes.bool.isRequired,
   userList: PropTypes.arrayOf(PropTypes.shape()),
-  wishlists: PropTypes.arrayOf(PropTypes.shape()),
   dialogType: PropTypes.string.isRequired,
   getUserCollectionsList: PropTypes.func.isRequired,
   getUserWishlistsList: PropTypes.func.isRequired,
+  closeAddGameDialog: PropTypes.func.isRequired,
 };
 
+AddGameDialog.defaultProps = {
+  userList: [],
+};
 const mapStateToProps = state => selector(state);
 const mapDispatchToProps = dispatch => ({
   getUserCollectionsList: userId => dispatch(getUserCollections(userId)),
   getUserWishlistsList: userId => dispatch(getUserWishlists(userId)),
   addGameToCollection: (selectedCollection) => dispatch(addGameToCollection(selectedCollection)),
+  closeAddGameDialog: () => dispatch(closeAddGameDialog())
 });
 const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 const withStylesHOC = withStyles(styles);
