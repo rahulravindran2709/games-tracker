@@ -37,7 +37,7 @@ const GridText = ({ text, textClassName }) => (<Grid item md={3}>
 
 GridText.propTypes = {
   text: PropTypes.string.isRequired,
-  textClassName: PropTypes.shape().isRequired,
+  textClassName: PropTypes.string.isRequired,
 };
 const GameDetailsBanner = ({ classes, details: {
   releaseDate,
