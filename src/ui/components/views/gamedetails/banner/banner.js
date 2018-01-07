@@ -49,9 +49,7 @@ const GameDetailsBanner = ({ classes, details: {
     </Grid>
   </div>
   <GameDetailsBannerMeta details={{ releaseDate: first_release_date }} />
-  <div className="actions">
-    <GameOptions />
-  </div>
+  <GameOptions />
 </div>);
 
 GameDetailsBanner.propTypes = {
