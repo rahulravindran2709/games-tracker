@@ -34,6 +34,31 @@ const AddNewCollectionButton = ({ onTouchTap }) => (
 AddNewCollectionButton.propTypes = {
   onTouchTap: PropTypes.func.isRequired,
 };
+
+
+const UserListItem = ({ collection, avatarClassName, handleItemClick }) => (
+  <ListItem
+    button
+    onClick={handleItemClick}
+    key={collection.id}
+  >
+    <ListItemAvatar>
+      <Avatar className={avatarClassName}>
+        <PersonIcon />
+      </Avatar>
+    </ListItemAvatar>
+    <ListItemText primary={collection.name} />
+  </ListItem>);
+
+UserListItem.propTypes = {
+  collection: PropTypes.arrayOf(PropTypes.shape()),
+  avatarClassName: PropTypes.string.isRequired,
+  handleItemClick: PropTypes.func,
+};
+UserListItem.defaultProps = {
+  collection: [],
+  handleItemClick: null,
+};
 class AddGameDialog extends React.Component {
   componentDidMount() {
     this.props.getUserCollectionsList(1);
@@ -49,30 +74,18 @@ class AddGameDialog extends React.Component {
 
   render() {
     const { classes, selectedValue, open, userList } = this.props;
-
     return (
-      <Dialog
-        onClose={this.handleClose}
-        aria-labelledby="simple-dialog-title"
-        open={open}
-        onBackdropClick={this.handleClose}
-      >
+      <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open} onBackdropClick={this.handleClose}>
         <DialogTitle id="simple-dialog-title">Add game to Collection</DialogTitle>
         <div>
           <List>
             {userList.map(collection => (
-              <ListItem
-                button
-                onClick={() => this.handleListItemClick(collection)}
+              <UserListItem
+                avatarClassName={classes.avatar}
+                handleItemClick={() => this.handleListItemClick(collection)}
                 key={collection.id}
-              >
-                <ListItemAvatar>
-                  <Avatar className={classes.avatar}>
-                    <PersonIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={collection.name} />
-              </ListItem>
+                collection={collection}
+              />
             ))}
             <AddNewCollectionButton onTouchTap={() => this.handleListItemClick('addAccount')} />
           </List>
