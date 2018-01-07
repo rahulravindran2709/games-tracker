@@ -6,6 +6,9 @@ const getIdRequestParam = getRequestParam('id');
 
 const callback = reply => (err, result) => {
   console.log(err, 'In callback');
+  if (err) {
+    return reply({});
+  }
   return reply(result);
 };
 
