@@ -3,6 +3,7 @@ they cannot be bound to different context while creating them as server methods 
 import Boom from 'boom';
 import JWT from 'jsonwebtoken';
 import aguid from 'aguid';
+import { pick } from 'ramda';
 import { generateHash, verifyPassword } from '../../util/crypto';
 import { getWhereSelectorIfParamNotEmpty, pickFieldsFromArrayResponse } from '../shared/utils';
 import { mapUserApiObjectToModel, mapCollectionApiObjectToModel, mapWishlistApiObjectToModel } from '../../mappers/index';
@@ -150,19 +151,17 @@ export function authenticateUser(credentials) {
     if (!userModelObject) {
       throw Boom.badRequest('User not exists');
     }
-    return verifyPassword(credentials.password, userModelObject.password);
+    const isValidPassword = verifyPassword(credentials.password, userModelObject.password);
+    return { isValidPassword, user: userModelObject };
   })
-  .then((isValidPassword) => {
+  .then(({ isValidPassword, user }) => {
     if (!isValidPassword) {
       throw Boom.unauthorized('Wrong password');
     }
     const session = generateNewSession();
     app.sessions[session.id] = session;
     const token = JWT.sign(session, secret);
-    return {
-      message: 'Successfully authenticated',
-      token,
-    };
+    return { token, user: pick(['email', 'first_name', 'last_name'])(user) };
   })
   .catch((err) => { throw Boom.badRequest(err.message); });
 }

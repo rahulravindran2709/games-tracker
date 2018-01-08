@@ -4,7 +4,7 @@ import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getGameById } from 'actions';
-
+import AddGameDialog from 'components/views/dialogs/addgame';
 import GameDetailsBanner from './banner';
 import GameDetailsBody from './body';
 import selector from './gamedetails.selector';
@@ -42,6 +42,7 @@ class GameDetailsView extends React.Component {
         />
         <GameDetailsBody details={gameDetails} genres={selectedGenres} />
       </div>
+      <AddGameDialog />
     </Paper>);
   }
 }

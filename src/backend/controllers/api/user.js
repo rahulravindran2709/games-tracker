@@ -7,7 +7,8 @@ const callback = reply => (err, result) => {
 
 export const authenticateUser = (request, reply) =>
   getServerMethod('authenticateUser')(request)(getPostBody(request)).then(data => reply({
-    text: 'Check Auth Header for your Token (JWT)' })
+    text: 'Check Auth Header for your Token (JWT)',
+    user: data.user })
       .header('Authorization', data.token))
   .catch(error => reply(error));
 
