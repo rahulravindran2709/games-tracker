@@ -12,10 +12,14 @@ import ListItemText from 'material-ui/List/ListItemText';
 import ListItemIcon from 'material-ui/List/ListItemIcon';
 import SettingsApplications from 'material-ui-icons/SettingsApplications';
 import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew';
-import Games from 'material-ui-icons/Games';
+import Collections from 'material-ui-icons/Collections';
+import Bookmark from 'material-ui-icons/Bookmark';
+import BubbleChart from 'material-ui-icons/BubbleChart';
+import Dashboard from 'material-ui-icons/Dashboard';
 import { withStyles } from 'material-ui/styles';
 import { logout } from 'actions/auth';
 import { toggleDrawer } from 'actions';
+import ImageAvatars from './imageavatar';
 
 const styleSheet = theme => ({
   list: {
@@ -29,53 +33,48 @@ const styleSheet = theme => ({
   },
 });
 
+const NavListItem = ({ linkUrl, linkLabel, linkIcon }) => (<ListItem button>
+  <ListItemIcon>
+    {linkIcon}
+  </ListItemIcon>
+  <Link to={linkUrl}><ListItemText primary={linkLabel} /></Link>
+</ListItem>);
+
+NavListItem.propTypes = {
+  linkUrl: PropTypes.string.isRequired,
+  linkLabel: PropTypes.string.isRequired,
+  linkIcon: PropTypes.node.isRequired,
+};
 
 const navListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <Games />
-      </ListItemIcon>
-      <Link to="/dashboard"><ListItemText primary="Dashboard" /></Link>
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SettingsApplications />
-      </ListItemIcon>
-      <ListItemText primary="Analytics" />
-    </ListItem>
+    <NavListItem linkUrl={'/dashboard'} linkLabel={'Dashboard'} linkIcon={<Dashboard />} />
+    <NavListItem linkUrl={'/dashboard'} linkLabel={'Collections'} linkIcon={<Collections />} />
+    <NavListItem linkUrl={'/dashboard'} linkLabel={'Saved'} linkIcon={<Bookmark />} />
+    <NavListItem linkUrl={'/dashboard'} linkLabel="Analytics" linkIcon={<BubbleChart />} />
   </div>
    );
 
 const otherListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <SettingsApplications />
-      </ListItemIcon>
-      <Link to="/profile"><ListItemText primary="Account" /></Link>
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PowerSettingsNew />
-      </ListItemIcon>
-      <Link to="/login"><ListItemText primary="Logout" /></Link>
-    </ListItem>
+    <NavListItem linkUrl={'/profile'} linkLabel={'Account'} linkIcon={<SettingsApplications />} />
+    <NavListItem linkUrl={'/login'} linkLabel={'Logout'} linkIcon={<PowerSettingsNew />} />
   </div>
    );
-const SideList = (props) => {
-  const { classes } = props;
-  return (
-    <div>
-      <List className={classes.list} disablePadding>
-        {navListItems}
-      </List>
-      <Divider />
-      <List className={classes.list} disablePadding>
-        {otherListItems}
-      </List>
-    </div>
+const DrawerItems = ({ listStyle }) => (
+  <div>
+    <List className={listStyle} disablePadding>
+      {navListItems}
+    </List>
+    <Divider />
+    <List className={listStyle} disablePadding>
+      {otherListItems}
+    </List>
+  </div>
   );
+
+DrawerItems.propTypes = {
+  listStyle: PropTypes.string.isRequired,
 };
 class MenuList extends React.Component {
   render() {
@@ -85,7 +84,8 @@ class MenuList extends React.Component {
       onRequestClose={toggleNavDrawer}
       onClick={toggleNavDrawer}
     >
-      {<SideList classes={classes} />}
+      <ImageAvatars />
+      {<DrawerItems listStyle={classes.list} />}
     </Drawer>);
   }
 }

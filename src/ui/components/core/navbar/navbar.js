@@ -63,7 +63,7 @@ class Navbar extends React.Component {
             </Grid>
             <Grid item xs={2} lg={2} xl={2}>
               <Typography type="title" color="inherit" className={classes.flex}>
-            GameTracker
+            Current route
           </Typography>
             </Grid>
             <Grid item xs={12} lg={7}>

@@ -46,10 +46,9 @@ class GamesApp extends React.Component {
   }
 
   render() {
-    const { isDrawerOpen } = this.props;
     return (<div>
       <Navbar handleToggleDrawer={this.handleToggleDrawer} />
-      <MenuList isOpen={isDrawerOpen} onRequestChange={this.handleToggleDrawer} />
+      <MenuList onRequestChange={this.handleToggleDrawer} />
       <Switch>
         <Route path="/login" component={LoginView} />
         <Route path="/register" component={RegisterView} />
