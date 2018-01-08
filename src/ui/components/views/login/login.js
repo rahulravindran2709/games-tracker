@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
@@ -117,7 +117,9 @@ class LoginView extends React.Component {
                 <Grid item xs={12}>
                   <Grid container>
                     <Grid item xs={6}>
-                      <Typography type="subheading" align="left">Register</Typography>
+                      <Link to="/register">
+                        <Typography type="subheading" align="left">Register</Typography>
+                      </Link>
                     </Grid>
                     <Grid item xs={6}>
                       <Typography type="subheading" align="right">Forgot password?</Typography>

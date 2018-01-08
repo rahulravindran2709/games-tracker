@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getGameById } from 'actions';
@@ -9,7 +8,6 @@ import { getGameById } from 'actions';
 import GameDetailsBanner from './banner';
 import GameDetailsBody from './body';
 import selector from './gamedetails.selector';
-import style from './style.scss';
 
 const propTypes = {
   getGameDetailsWithId: PropTypes.func.isRequired,
@@ -31,7 +29,7 @@ class GameDetailsView extends React.Component {
     getGameDetailsWithId(id);
   }
   shouldComponentUpdate(nextProps) {
-    return nextProps.id !== this.props.id;
+    return nextProps.match.params.id !== this.props.match.params.id;
   }
   render() {
     const { gameDetails, selectedGenres, selectedEsrb, selectedPegi } = this.props;

@@ -1,16 +1,11 @@
 import { getJSONFromServer } from 'utils/xhr';
 import { push } from 'react-router-redux';
-import { LOGIN_STARTED, LOGIN_SUCCESS, TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
+import { CALL_API, GET } from 'middlewares/api';
+import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR,
+  CLEAR_MSG_SNACKBAR } from 'constants/common/actions';
+import { TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
-export const startLogin = () =>
-  ({
-    type: LOGIN_STARTED,
-  });
-export const loginSucceeded = data =>
-  ({
-    type: LOGIN_SUCCESS,
-    payload: data,
-  });
+
 export const toggleDrawer = () => ({
   type: TOGGLE_DRAWER,
 });
@@ -31,9 +26,50 @@ export const lookupGamesByName = searchTerm => ({
   payload: searchTerm,
 });
 
-export const getGameById = id => dispatch => dispatch({
-  type: GET_GAME_BY_ID,
+export const getGameById = id => dispatch =>
+dispatch({
+  type: CALL_API,
   payload: {
-    promise: getJSONFromServer(`/games/${id}`),
+    auth: true,
+    method: GET,
+    requestName: GET_GAME_BY_ID,
+    url: `/games/${id}`,
   },
 });
+export const closeSnackbar = () => ({
+  type: CLOSE_MSG_SNACKBAR,
+});
+export const displayMessageInSnackbar = message =>
+({
+  type: DISPLAY_MSG_SNACKBAR,
+  payload: {
+    data: {
+      message,
+    },
+  },
+});
+export const addMessageToSnackbar = message => ({
+  type: ADD_MSG_SNACKBAR,
+  payload: {
+    data: {
+      message,
+    },
+  },
+});
+export const emptySnackbarMessageQueue = () => ({
+  type: CLEAR_MSG_SNACKBAR,
+});
+export const addMessageToSnackbarQueue = message => (dispatch, getState) => {
+  dispatch(addMessageToSnackbar(message));
+  const { corereducer: { messages } } = getState();
+  const accumInit = Promise.resolve('');
+  messages.reduce((accum, currentMessage) =>
+  accum
+  .then(() => new Promise((resolve) => {
+    dispatch(displayMessageInSnackbar(currentMessage));
+    return setTimeout(() => resolve(dispatch(closeSnackbar())), 1000);
+  }))
+  .then(() => new Promise(resolve => setTimeout(() => resolve(), 1000))),
+  accumInit)
+  .then(() => dispatch(emptySnackbarMessageQueue()));
+};

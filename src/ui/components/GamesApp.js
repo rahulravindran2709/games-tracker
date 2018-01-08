@@ -12,8 +12,10 @@ import SearchResultsView from 'components/views/searchresults';
 import DashboardView from 'components/views/dashboard';
 import GameDetailsView from 'components/views/gamedetails';
 import LoginView from 'components/views/login';
+import RegisterView from 'components/views/register';
 import { toggleDrawer } from 'actions';
 import { loadEnumData } from 'actions/enums';
+import Message from 'components/core/messages';
 
 
 const propTypes = {
@@ -50,11 +52,13 @@ class GamesApp extends React.Component {
       <MenuList isOpen={isDrawerOpen} onRequestChange={this.handleToggleDrawer} />
       <Switch>
         <Route path="/login" component={LoginView} />
+        <Route path="/register" component={RegisterView} />
         <PrivateRoute path="/dashboard" component={DashboardView} />
         <PrivateRoute path="/searchresults" component={SearchResultsView} />
         <PrivateRoute path="/gamedetails/:id" component={GameDetailsView} />
         <PrivateRoute path="/" component={DashboardView} />
       </Switch>
+      <Message />
     </div>);
   }
 }
