@@ -6,14 +6,17 @@ import compose from 'recompose/compose';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
-import { addMessageToSnackbarQueue, closeSnackbar } from 'actions';
+import { closeSnackbar } from 'actions';
 
 const propTypes = {
   classes: PropTypes.shape().isRequired,
   open: PropTypes.bool.isRequired,
-  messages: PropTypes.string.isRequired,
+  messages: PropTypes.string,
   closeMessage: PropTypes.func.isRequired,
 };
+const defaultProps = {
+  messages: [],
+}
 const styles = theme => ({
   close: {
     width: theme.spacing.unit * 4,
@@ -64,6 +67,7 @@ class Message extends React.Component {
 }
 
 Message.propTypes = propTypes;
+Message.defaultProps = defaultProps;
 
 const mapStateToProps = state => ({
   messages: state.corereducer.currentMessage,

@@ -11,11 +11,11 @@ const styles = theme => ({
   },
   root: {
     backgroundColor: theme.palette.primary[900],
+    padding: theme.spacing.unit * 2,
   },
   row: {
     display: 'flex',
     justifyContent: 'flex-start',
-    paddingLeft: theme.spacing.unit * 2,
   },
   avatar: {
 
