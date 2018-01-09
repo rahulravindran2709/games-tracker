@@ -26,14 +26,14 @@ const styleSheet = theme => ({
 
 class MenuList extends React.Component {
   render() {
-    const { classes, isDrawerOpen, toggleNavDrawer } = this.props;
+    const { classes, isDrawerOpen, toggleNavDrawer, currentUser } = this.props;
     return (<Drawer
       open={isDrawerOpen}
       onRequestClose={toggleNavDrawer}
       onClick={toggleNavDrawer}
     >
       <SecureComponent
-        protectedComponent={ImageAvatars}
+        protectedComponent={() => <ImageAvatars userDetails={currentUser} />}
         unprotectedComponent={Logo}
       />
       <SecureComponent
@@ -54,8 +54,9 @@ const mapDispatchToProps = dispatch =>
     toggleNavDrawer: () => dispatch(toggleDrawer()),
     performLogout: () => dispatch(logout()),
   });
-const mapStateToProps = ({ corereducer }) => ({
+const mapStateToProps = ({ corereducer, auth }) => ({
   isDrawerOpen: corereducer.isDrawerOpen,
+  currentUser: auth.user,
 });
 const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 const withStylesHOC = withStyles(styleSheet);

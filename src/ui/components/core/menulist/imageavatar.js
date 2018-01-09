@@ -27,7 +27,7 @@ const styles = theme => ({
 });
 
 const ImageAvatars = (props) => {
-  const { classes } = props;
+  const { classes, userDetails: { first_name: firstName, last_name: lastName, email } } = props;
   return (<div className={classes.root}>
     <div className={classes.row}>
       <Avatar
@@ -35,20 +35,19 @@ const ImageAvatars = (props) => {
         src="https://material-ui-next.com/static/images/uxceo-128.jpg"
         className={classNames(classes.avatar, classes.bigAvatar)}
       />
-
     </div>
     <div className={classes.row}>
-      <Typography type="body2" gutterBottom className={classes.text}>Rahul Ravindran</Typography>
-
+      <Typography type="body2" gutterBottom className={classes.text}>{`${firstName} ${lastName}`}</Typography>
     </div>
     <div className={classes.row}>
-      <Typography type="body1" gutterBottom className={classes.text}>rahulravindran2709@gmail.com</Typography>
+      <Typography type="body1" gutterBottom className={classes.text}>{email}</Typography>
     </div>
   </div>);
 };
 
 ImageAvatars.propTypes = {
   classes: PropTypes.shape().isRequired,
+  userDetails: PropTypes.shape().isRequired,
 };
 
 export default withStyles(styles)(ImageAvatars);

@@ -14,6 +14,7 @@ import { withStyles } from 'material-ui/styles';
 import { search } from 'actions';
 import { logout } from 'actions/auth';
 import SecureComponent from 'components/core/securecomponent';
+import UserCard from './usercard';
 
 const propTypes = {
   handleToggleDrawer: PropTypes.func,
@@ -35,10 +36,7 @@ const styleSheet = theme => ({
   },
 });
 const LoginButton = () => (<Button>Login</Button>);
-const LogoutButton = ({ handleLogout }) => (<Button onTouchTap={handleLogout}>Logout</Button>);
-LogoutButton.propTypes = {
-  handleLogout: PropTypes.func.isRequired,
-};
+
 
 class Navbar extends React.Component {
   handleSearchTermChange = (e) => {
@@ -51,7 +49,9 @@ class Navbar extends React.Component {
     });
   }
   render() {
-    const { handleToggleDrawer, classes, term, performLogout } = this.props;
+    const { handleToggleDrawer, classes, term, performLogout, currentUser } = this.props;
+    const renderUserCard = () =>
+    (<UserCard userDetails={currentUser} handleLogout={performLogout} />);
     return (<div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
@@ -79,7 +79,7 @@ class Navbar extends React.Component {
             </Grid>
             <Grid item xs={12} lg={2}>
               <SecureComponent
-                protectedComponent={() => <LogoutButton handleLogout={performLogout} />}
+                protectedComponent={renderUserCard}
                 unprotectedComponent={LoginButton}
               />
             </Grid>
@@ -90,8 +90,9 @@ class Navbar extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  term: state.corereducer.search.term,
+const mapStateToProps = ({ corereducer, auth }) => ({
+  term: corereducer.search.term,
+  currentUser: auth.user,
 });
 const mapDispatchToProps = dispatch =>
   ({
