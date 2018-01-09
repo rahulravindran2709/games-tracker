@@ -34,13 +34,13 @@ const GenreSection = ({ classes, genres }) => {
     /></Grid>))(genres);
   return (<Grid container className={classes.meta}>
     <Grid item md={12}>
-      <Grid container align={'center'}>
+      <Grid container alignItems={'center'}>
         <Grid item md={2}>
           <Typography type="button">Genres</Typography>
         </Grid>
         <Grid item md>
           <Typography type="button">
-            <Grid container align={'flex-start'}>
+            <Grid container alignItems={'flex-start'}>
               {genreList}
             </Grid>
           </Typography>

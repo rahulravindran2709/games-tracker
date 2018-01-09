@@ -25,7 +25,7 @@ const styles = theme => ({
 });
 const DevPublGrid = ({ classes }) => (<Grid container className={classes.meta}>
   <Grid item md={6}>
-    <Grid container align={'center'}>
+    <Grid container alignItems={'center'}>
       <Grid item md={3}>
         <Typography type="button">Publisher</Typography>
       </Grid>
@@ -40,7 +40,7 @@ const DevPublGrid = ({ classes }) => (<Grid container className={classes.meta}>
     </Grid>
   </Grid>
   <Grid item md={6}>
-    <Grid container align={'center'}>
+    <Grid container alignItems={'center'}>
       <Grid item md={3}>
         <Typography type="button">Developer</Typography>
       </Grid>
