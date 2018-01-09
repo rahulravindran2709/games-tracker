@@ -5,6 +5,7 @@ import moment from 'moment';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import RatingsCard from './ratingscard';
+import PlaytimeCard from './playtimecard';
 
 const styles = theme => ({
   root: {
@@ -14,7 +15,6 @@ const styles = theme => ({
     width: '100%',
   },
   shadow: {
-    //'text-shadow': '0px 0px 1px #191919,0px 0px 5px #000',
     color: '#000',
   },
   text: {
@@ -44,6 +44,7 @@ const GameDetailsMeta = ({ classes, details: {
       <RatingsCard />
     </Grid>
     <Grid item md={6}>
+      <PlaytimeCard />
       <div className="release-date">
         <Typography type="subheading" className={classes.shadow}>Released {moment(releaseDate).format('MMMM Do, YYYY')}</Typography>
       </div>
