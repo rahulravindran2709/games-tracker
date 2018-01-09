@@ -20,7 +20,7 @@ const propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  anchorEl: PropTypes.shape(),
+  anchorEl: PropTypes.shape().isRequired,
 };
 
 const styles = theme => ({

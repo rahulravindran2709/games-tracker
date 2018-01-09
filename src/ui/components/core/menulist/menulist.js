@@ -12,10 +12,10 @@ import Logo from './logo';
 import SecureListItems from './securelistitems';
 import PublicListItems from './publiclistitems';
 
-const styleSheet = theme => ({
+const styleSheet = () => ({
   root: {
     display: 'flex',
-  }
+  },
 });
 
 class MenuList extends React.Component {
@@ -42,6 +42,7 @@ MenuList.propTypes = {
   classes: PropTypes.shape().isRequired,
   isDrawerOpen: PropTypes.bool.isRequired,
   toggleNavDrawer: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape().isRequired,
 };
 const mapDispatchToProps = dispatch =>
   ({

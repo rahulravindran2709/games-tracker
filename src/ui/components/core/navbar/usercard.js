@@ -48,30 +48,31 @@ class UserCard extends React.Component {
     });
   };
   render() {
-    const { classes,
-      userDetails: { first_name: firstName, last_name: lastName, email },
-      handleLogout } = this.props;
+    const { classes, userDetails:
+      { first_name: firstName, last_name: lastName, email }, handleLogout } = this.props;
     const { isPopoverOpen } = this.state;
-    return (<div>
-      <Grid container justify={'flex-end'}>
-        <Grid item xs={2} lg={12}>
-          <Button
-            ref={(node) => { this.button = node; }}
-            className={classes.button}
-            onClick={this.handleClickButton}
-          >
-            <Avatar
-              alt={`${firstName} ${lastName}`}
-              src="https://material-ui-next.com/static/images/uxceo-128.jpg"
-              className={classes.avatar}
-            />
-            <Typography type="body2" className={classes.text}>Rahul Ravindran</Typography>
-          </Button>
-        </Grid>
-      </Grid>
-      <PopoverSection isPopoverOpen={isPopoverOpen} firstName={firstName} lastName={lastName}
-        email={email} handleLogout={handleLogout} anchorEl={this.state.anchorEl} />
-    </div>);
+    return (<div><Grid container justify={'flex-end'}><Grid item xs={2} lg={12}>
+      <Button
+        ref={(node) => { this.button = node; }}
+        className={classes.button}
+        onClick={this.handleClickButton}
+      >
+        <Avatar
+          alt={`${firstName} ${lastName}`}
+          src="https://material-ui-next.com/static/images/uxceo-128.jpg"
+          className={classes.avatar}
+        />
+        <Typography type="body2" className={classes.text}>{`${firstName} ${lastName}`}</Typography>
+      </Button>
+    </Grid></Grid>
+      <PopoverSection
+        isPopoverOpen={isPopoverOpen}
+        firstName={firstName}
+        lastName={lastName}
+        email={email}
+        handleLogout={handleLogout}
+        anchorEl={this.state.anchorEl}
+      /></div>);
   }
 }
 
