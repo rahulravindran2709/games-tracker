@@ -6,6 +6,7 @@ import GenreSection from './genre';
 import DevPubGrid from './devpub';
 import ScreenshotSection from './screenshots';
 import SummarySection from './summary';
+import GameDetailsBannerMeta from './meta';
 
 const styles = theme => ({
   root: {
@@ -24,7 +25,7 @@ const styles = theme => ({
 
 
 const data = [{ id: 1, url: 'http://via.placeholder.com/350x150' }, { id: 2, url: 'http://via.placeholder.com/350x150' }, { id: 3, url: 'http://via.placeholder.com/350x150' }, { id: 4, url: 'http://via.placeholder.com/350x150' }, { id: 5, url: 'http://via.placeholder.com/350x150' }];
-const GameDetailsBody = ({ classes, details: { summary = '' }, genres }) => (<div>
+const GameDetailsBody = ({ classes, details: { summary = '', first_release_date }, genres }) => (<div>
   <Grid container className={classes.root} justify={'center'}>
     <Grid item md={6}>
       <DevPubGrid classes={classes} />
@@ -35,6 +36,9 @@ const GameDetailsBody = ({ classes, details: { summary = '' }, genres }) => (<di
   <Grid container justify={'center'}>
     <Grid item md={6}>
       {<ScreenshotSection screenshots={data} />}
+    </Grid>
+    <Grid item md={6}>
+      <GameDetailsBannerMeta details={{ releaseDate: first_release_date }} />
     </Grid>
   </Grid>
 </div>);

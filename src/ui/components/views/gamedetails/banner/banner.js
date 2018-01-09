@@ -48,7 +48,7 @@ const GameDetailsBanner = ({ classes, details: {
       </Grid>
     </Grid>
   </div>
-  <GameDetailsBannerMeta details={{ releaseDate: first_release_date }} />
+  
   <GameOptions />
 </div>);
 
