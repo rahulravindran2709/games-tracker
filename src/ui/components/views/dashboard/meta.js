@@ -23,7 +23,7 @@ GridText.propTypes = {
   text: PropTypes.string.isRequired,
 };
 const DashboardMeta = ({ classes }) => (
-  <div className="meta">
+  <div className="dashboard-meta">
     <Grid container className={classes.root}>
       <Grid item md={3} />
       <GridText text={'56 games collected'} />
