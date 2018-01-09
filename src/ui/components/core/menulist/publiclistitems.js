@@ -12,10 +12,6 @@ const styles = theme => ({
     flex: 'initial',
     background: theme.palette.background.paper,
   },
-  listFull: {
-    width: 'auto',
-    flex: 'initial',
-  },
 });
 const navListItems = (
   <div>

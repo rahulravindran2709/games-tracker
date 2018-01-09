@@ -13,15 +13,9 @@ import SecureListItems from './securelistitems';
 import PublicListItems from './publiclistitems';
 
 const styleSheet = theme => ({
-  list: {
-    width: 250,
-    flex: 'initial',
-    background: theme.palette.background.paper,
-  },
-  listFull: {
-    width: 'auto',
-    flex: 'initial',
-  },
+  root: {
+    display: 'flex',
+  }
 });
 
 class MenuList extends React.Component {
