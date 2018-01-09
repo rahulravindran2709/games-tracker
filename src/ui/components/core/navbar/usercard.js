@@ -55,11 +55,8 @@ class UserCard extends React.Component {
     return (<div>
       <Grid container justify={'flex-end'}>
         <Grid item xs={2} lg={12}>
-
           <Button
-            ref={(node) => {
-              this.button = node;
-            }}
+            ref={(node) => { this.button = node; }}
             className={classes.button}
             onClick={this.handleClickButton}
           >
@@ -72,14 +69,8 @@ class UserCard extends React.Component {
           </Button>
         </Grid>
       </Grid>
-      <PopoverSection
-        isPopoverOpen={isPopoverOpen}
-        firstName={firstName}
-        lastName={lastName}
-        email={email}
-        handleLogout={handleLogout}
-        anchorEl={this.state.anchorEl}
-      />
+      <PopoverSection isPopoverOpen={isPopoverOpen} firstName={firstName} lastName={lastName}
+        email={email} handleLogout={handleLogout} anchorEl={this.state.anchorEl} />
     </div>);
   }
 }

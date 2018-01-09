@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import AppBar from 'material-ui/AppBar';
-import TextField from 'material-ui/TextField';
+
 import Toolbar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
@@ -15,12 +15,14 @@ import { search } from 'actions';
 import { logout } from 'actions/auth';
 import SecureComponent from 'components/core/securecomponent';
 import UserCard from './usercard';
+import Search from './search';
 
 const propTypes = {
   handleToggleDrawer: PropTypes.func,
   searchGamesWithTerm: PropTypes.func,
   classes: PropTypes.shape().isRequired,
   performLogout: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape().isRequired,
 };
 const defaultProps = {
   handleToggleDrawer: null,
@@ -37,7 +39,17 @@ const styleSheet = theme => ({
 });
 const LoginButton = () => (<Button>Login</Button>);
 
+const DrawerOpenIcon = ({ handleToggleDrawer }) => (<Grid item xs={1} lg={1} xl={1}>
+  <IconButton color="contrast" aria-label="Menu" onTouchTap={handleToggleDrawer} >
+    <MenuIcon />
+  </IconButton>
+</Grid>);
 
+const RouteHeader = ({ routeName, headerClassName }) => (<Grid item xs={2} lg={2} xl={2}>
+  <Typography type="title" color="inherit" className={headerClassName}>
+{routeName}
+</Typography>
+</Grid>);
 class Navbar extends React.Component {
   handleSearchTermChange = (e) => {
     if (e.which !== 13) {
@@ -49,34 +61,16 @@ class Navbar extends React.Component {
     });
   }
   render() {
-    const { handleToggleDrawer, classes, term, performLogout, currentUser } = this.props;
+    const { handleToggleDrawer, classes, performLogout, currentUser } = this.props;
     const renderUserCard = () =>
     (<UserCard userDetails={currentUser} handleLogout={performLogout} />);
     return (<div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Grid container>
-            <Grid item xs={1} lg={1} xl={1}>
-              <IconButton color="contrast" aria-label="Menu" onTouchTap={handleToggleDrawer} >
-                <MenuIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={2} lg={2} xl={2}>
-              <Typography type="title" color="inherit" className={classes.flex}>
-            Current route
-          </Typography>
-            </Grid>
-            <Grid item xs={12} lg={7}>
-              <TextField
-                id="searchBar"
-                InputProps={{ placeholder: 'Search for games' }}
-                inputClassName={classes.searchInput}
-                color="contrast"
-                margin="none"
-                fullWidth
-                onKeyPress={this.handleSearchTermChange}
-              />
-            </Grid>
+            <DrawerOpenIcon handleToggleDrawer={handleToggleDrawer} />
+            <RouteHeader headerClassName={classes.flex} routeName={'Current Route'} />
+            <Search handleSearchTermChange={this.handleSearchTermChange} />
             <Grid item xs={12} lg={2}>
               <SecureComponent
                 protectedComponent={renderUserCard}
