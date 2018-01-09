@@ -23,7 +23,6 @@ class MenuList extends React.Component {
     const { classes, isDrawerOpen, toggleNavDrawer, currentUser } = this.props;
     return (<Drawer
       open={isDrawerOpen}
-      onRequestClose={toggleNavDrawer}
       onClick={toggleNavDrawer}
     >
       <SecureComponent
