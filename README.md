@@ -1,4 +1,6 @@
 # Games Tracker
+[![Known Vulnerabilities](https://snyk.io/test/github/rahulravindran2709/games-tracker/bde28c64569cb77d1afc4b6dfdb55c90eb713de1/badge.svg)](https://snyk.io/test/github/rahulravindran2709/games-tracker/bde28c64569cb77d1afc4b6dfdb55c90eb713de1)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 This app is to enable tracking of the hours being spent by people playing their favorite games. Uses a free to use game API provided by IGDB to enable users to search their favorite games and record hours spent conquering it.
 
 
@@ -74,4 +76,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * My blinding love for games
 * The kind people at [IGDB](http://igdb.com/api) for offering a free API to play with
-
