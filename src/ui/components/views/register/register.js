@@ -60,7 +60,7 @@ class RegistrationView extends React.Component {
     const { classes } = this.props;
     const { newUser: { firstName, lastName, email,
       password, confirmPassword } } = this.state;
-    return (<Grid container align="center" justify="center" className={classes.root}>
+    return (<Grid container alignItems="center" justify="center" className={classes.root}>
       <Grid item xs={4}>
         <Paper elevation={10} className={classes.paper}>
           <form className={classes.formBox}>
