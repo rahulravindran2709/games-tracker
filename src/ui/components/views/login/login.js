@@ -73,7 +73,7 @@ class LoginView extends React.Component {
       )
     } */
     return (
-      <Grid container className={classes.root} justify="center" align="center">
+      <Grid container className={classes.root} justify="center" alignItems="center">
         <Grid item xs={4} >
           <form noValidate autoComplete="off">
             <Grid container className={classes.formBox}>
