@@ -6,6 +6,7 @@ import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
+import Popover from 'material-ui';
 
 const LogoutButton = ({ handleLogout }) => (<Button onTouchTap={handleLogout}>Logout</Button>);
 LogoutButton.propTypes = {
@@ -29,22 +30,35 @@ const styles = theme => ({
     height: 40,
   },
 });
-const UserCard = ({ classes, userDetails: { first_name: firstName, last_name: lastName, email }, handleLogout }) => (
-  <Grid container justify={'flex-end'}>
-    <Grid item xs={2} lg={3}>
-      <Avatar
-        alt={`${firstName} ${lastName}`}
-        src="https://material-ui-next.com/static/images/uxceo-128.jpg"
-        className={classes.avatar}
-      />
-      <Card className={classes.root}>
-        {/*<LogoutButton handleLogout={handleLogout} />*/}
-      </Card>
-    </Grid>
-    <Grid item lg={9}>
-      <Typography type="body2" className={classes.text}>Rahul Ravindran</Typography>
-    </Grid>
-  </Grid>);
+class UserCard extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPopoverOpen: false,
+    };
+  }
+  render() {
+    const { classes,
+      userDetails: { first_name: firstName, last_name: lastName, email },
+      handleLogout } = this.props;
+    return (
+      <Grid container justify={'flex-end'}>
+        <Grid item xs={2} lg={3}>
+          <Avatar
+            alt={`${firstName} ${lastName}`}
+            src="https://material-ui-next.com/static/images/uxceo-128.jpg"
+            className={classes.avatar}
+          />
+          <Card className={classes.root}>
+            {/*<LogoutButton handleLogout={handleLogout} />*/}
+          </Card>
+        </Grid>
+        <Grid item lg={9}>
+          <Typography type="body2" className={classes.text}>Rahul Ravindran</Typography>
+        </Grid>
+      </Grid>);
+  }
+}
 
 UserCard.propTypes = propTypes;
 const withStylesHOC = withStyles(styles);
