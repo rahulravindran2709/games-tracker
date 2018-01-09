@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import 'normalize.css';
+import Reboot from 'material-ui/Reboot';
 import Navbar from 'components/core/navbar';
 import { Route, Switch } from 'react-router-dom';
 import MenuList from 'components/core/menulist';
@@ -19,7 +20,6 @@ import Message from 'components/core/messages';
 
 
 const propTypes = {
-  isDrawerOpen: PropTypes.bool,
   toggleNavDrawer: PropTypes.func,
   loadEnumData: PropTypes.func.isRequired,
 };
@@ -47,6 +47,7 @@ class GamesApp extends React.Component {
 
   render() {
     return (<div>
+      <Reboot />
       <Navbar handleToggleDrawer={this.handleToggleDrawer} />
       <MenuList onRequestChange={this.handleToggleDrawer} />
       <Switch>

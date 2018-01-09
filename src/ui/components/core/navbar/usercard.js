@@ -28,6 +28,7 @@ const styles = theme => ({
   avatar: {
     width: 40,
     height: 40,
+    marginRight: theme.spacing.unit,
   },
   cardAvatar: {
     height: 60,
@@ -62,7 +63,7 @@ class UserCard extends React.Component {
           src="https://material-ui-next.com/static/images/uxceo-128.jpg"
           className={classes.avatar}
         />
-        <Typography type="body2" className={classes.text}>{`${firstName} ${lastName}`}</Typography>
+        <Typography type="body2" className={classes.text}>{`${firstName}`}</Typography>
       </Button>
     </Grid></Grid>
       <PopoverSection

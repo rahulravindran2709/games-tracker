@@ -45,6 +45,9 @@ module.exports = {
       }, {
         loader: 'sass-loader',
       }],
+    }, {
+      test: /\.(eot|svg|ttf|woff|woff2)$/,
+      loader: 'file-loader',
     }],
   },
   plugins: [devFlagPlugin, new webpack.optimize.OccurrenceOrderPlugin(),
