@@ -17,17 +17,19 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
 });
-const CompanyChip = ({ classes }) => (<Grid item md={6}>
-  <Typography type="button">
-    <Chip
-      avatar={<Avatar className={classes.avatar}>U</Avatar>}
-      label="Ubisoft"
-      className={classes.chip}
-    /></Typography>
-</Grid>);
+const CompanyChip = ({ classes, names }) => (
+  <Grid item md={6}>
+    <Typography type="button">
+      <Chip
+        avatar={<Avatar className={classes.avatar}>U</Avatar>}
+        label="Ubisoft"
+        className={classes.chip}
+      /></Typography>
+  </Grid>);
 
 CompanyChip.propTypes = {
   classes: PropTypes.shape().isRequired,
+  names: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 const withStylesHOC = withStyles(styles);
 export default withStylesHOC(CompanyChip);

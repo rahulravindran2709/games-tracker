@@ -31,7 +31,7 @@ class DevPublGrid extends React.Component {
           <Grid item md={3}>
             <Typography type="button">Publisher</Typography>
           </Grid>
-          <CompanyChip />
+          <CompanyChip names={publishers} />
         </Grid>
       </Grid>
       <Grid item md={6}>
@@ -39,7 +39,7 @@ class DevPublGrid extends React.Component {
           <Grid item md={3}>
             <Typography type="button">Developer</Typography>
           </Grid>
-          <CompanyChip />
+          <CompanyChip names={developers} />
         </Grid>
       </Grid>
     </Grid>);
