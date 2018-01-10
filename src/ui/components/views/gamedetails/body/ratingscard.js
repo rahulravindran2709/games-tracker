@@ -55,7 +55,7 @@ class RatingsCard extends React.Component {
     return (<Card>
       <CardHeader title="User reviews" subheader="Ordered by date" />
       <CardContent>
-        <Rating value={3} />
+        <Rating value={4} />
         <Typography type="subheading" className={classes.shadow}>
           <span className="ratings-text">4.1/5 <span className="reviews-number">(33 reviews)</span></span>
         </Typography>

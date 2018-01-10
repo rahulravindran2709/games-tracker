@@ -10,20 +10,22 @@ import ScreenshotSection from './screenshots';
 import SummarySection from './summary';
 import RatingsCard from './ratingscard';
 import PlaytimeCard from './playtimecard';
+import QuickInfoCard from './quickinfocard';
 
 
 const styles = theme => ({
-  root: {
+  details: {
     flexGrow: 1,
     paddingTop: theme.spacing.unit * 2,
     backgroundColor: theme.palette.primary[900],
     color: '#fff',
   },
+  meta: {
+    padding: theme.spacing.unit * 2,
+    backgroundColor: theme.palette.paper,
+  },
   chip: {
     margin: theme.spacing.unit,
-  },
-  meta: {
-    height: '100px',
   },
   text: {
     color: '#fff',
@@ -33,7 +35,7 @@ const styles = theme => ({
 
 const data = [{ id: 1, url: 'http://via.placeholder.com/350x150' }, { id: 2, url: 'http://via.placeholder.com/350x150' }, { id: 3, url: 'http://via.placeholder.com/350x150' }, { id: 4, url: 'http://via.placeholder.com/350x150' }, { id: 5, url: 'http://via.placeholder.com/350x150' }];
 const GameDetailsBody = ({ classes, details: { summary = '', first_release_date }, genres }) => (<div>
-  <Grid container className={classes.root} justify={'center'}>
+  <Grid container className={classes.details} justify={'center'}>
     <Grid item md={6}>
       <DevPubGrid classes={classes} />
       <GenreSection classes={classes} genres={genres} />
@@ -41,7 +43,10 @@ const GameDetailsBody = ({ classes, details: { summary = '', first_release_date 
       <SummarySection description={summary} />
     </Grid>
   </Grid>
-  <Grid container justify={'flex-end'}>
+  <Grid container justify={'flex-end'} className={classes.meta}>
+    <Grid item xs={3}>
+      <QuickInfoCard gameTitle={'Thief'} />
+    </Grid>
     <Grid item xs={6}>
       <PlaytimeCard />
       <ScreenshotSection screenshots={data} />
