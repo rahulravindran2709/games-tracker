@@ -42,18 +42,15 @@ class EnhancedTable extends React.Component {
     };
   }
 
-  handleRequestSort = (event, property) => {
+  handleRequestSort = (event, newOrderBy) => {
     const { data } = this.props;
-    const orderBy = property;
-    let order = 'desc';
-    if (this.state.orderBy === property && this.state.order === 'desc') {
-      order = 'asc';
-    }
+    const { orderBy, order } = this.state;
+    const newOrder = (orderBy === newOrderBy && order === 'desc') ? 'asc' : 'desc';
     const sortedData =
-      order === 'desc'
-        ? data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-        : data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
-    this.setState({ sortedData, order, orderBy });
+      newOrder === 'desc'
+        ? data.sort((a, b) => (b[newOrderBy] < a[newOrderBy] ? -1 : 1))
+        : data.sort((a, b) => (a[newOrderBy] < b[newOrderBy] ? -1 : 1));
+    this.setState({ sortedData, order: newOrder, orderBy: newOrderBy });
   };
 
   handleSelectAllClick = (event, checked) => {
@@ -111,7 +108,7 @@ class EnhancedTable extends React.Component {
                   return (
                     <TimesheetRow
                       handleClick={event => this.handleClick(event, id)}
-                      handleKeyDown={event => this.handleKeyDown(event, id)}
+                      handleKeydown={event => this.handleKeyDown(event, id)}
                       isSelected={isSelected}
                       key={id}
                       date={date}
