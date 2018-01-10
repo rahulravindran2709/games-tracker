@@ -13,9 +13,11 @@ import Table, {
   TableRow,
 } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
-import Checkbox from 'material-ui/Checkbox';
+
+import { updateRowInSelectedList } from 'utils';
 import TimesheetTableHeader from './header';
 import TimesheetToolbar from './toolbar';
+import TimesheetRow from './timesheetrow';
 
 const styles = theme => ({
   root: {
@@ -28,26 +30,6 @@ const styles = theme => ({
     overflowX: 'auto',
   },
 });
-const updateRowInSelectedList = (id, selectedList) => {
-  const selectedIndex = selectedList.indexOf(id);
-  let newSelected = [];
-  // If id is not part of list then concat it
-  if (selectedIndex === -1) {
-    newSelected = newSelected.concat(selectedList, id);
-  } else if (selectedIndex === 0) {
-    // if its first element then strip first element
-    newSelected = newSelected.concat(selectedList.slice(1));
-  } else if (selectedIndex === selectedList.length - 1) {
-    // If its last element then remove last element
-    newSelected = newSelected.concat(selectedList.slice(0, -1));
-  } else if (selectedIndex > 0) {
-    // Any other element index, then slice before and after
-    newSelected = newSelected.concat(
-      selectedList.slice(0, selectedIndex), selectedList.slice(selectedIndex + 1),
-    );
-  }
-  return newSelected;
-};
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -61,7 +43,6 @@ class EnhancedTable extends React.Component {
   }
 
   handleRequestSort = (event, property) => {
-    console.log(this.props);
     const { data } = this.props;
     const orderBy = property;
     let order = 'desc';
@@ -76,8 +57,9 @@ class EnhancedTable extends React.Component {
   };
 
   handleSelectAllClick = (event, checked) => {
+    const { data } = this.props;
     if (checked) {
-      this.setState({ selected: this.state.data.map(n => n.id) });
+      this.setState({ selected: data.map(n => n.id) });
       return;
     }
     this.setState({ selected: [] });
@@ -108,8 +90,7 @@ class EnhancedTable extends React.Component {
   render() {
     const { classes, data } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, (data.length - page) * rowsPerPage);
     return (
       <Paper className={classes.root}>
         <TimesheetToolbar numSelected={selected.length} />
@@ -124,27 +105,20 @@ class EnhancedTable extends React.Component {
               rowCount={data.length}
             />
             <TableBody>
-              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((n) => {
-                const isSelected = this.isSelected(n.id);
-                return (
-                  <TableRow
-                    hover
-                    onClick={event => this.handleClick(event, n.id)}
-                    onKeyDown={event => this.handleKeyDown(event, n.id)}
-                    role="checkbox"
-                    aria-checked={isSelected}
-                    tabIndex={-1}
-                    key={n.id}
-                    selected={isSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox checked={isSelected} />
-                    </TableCell>
-                    <TableCell padding="none">{n.date}</TableCell>
-                    <TableCell numeric>{n.timeLogged}</TableCell>
-                  </TableRow>
-                );
-              })}
+              {data.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
+                .map(({ id, date, timeLogged }) => {
+                  const isSelected = this.isSelected(id);
+                  return (
+                    <TimesheetRow
+                      handleClick={event => this.handleClick(event, id)}
+                      handleKeyDown={event => this.handleKeyDown(event, id)}
+                      isSelected={isSelected}
+                      key={id}
+                      date={date}
+                      timeLogged={timeLogged}
+                    />
+                  );
+                })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
