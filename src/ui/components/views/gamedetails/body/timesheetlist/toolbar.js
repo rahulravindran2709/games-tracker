@@ -46,7 +46,7 @@ const TimesheetListToolbar = (props) => {
         {numSelected > 0 ? (
           <Typography type="subheading">{numSelected} selected</Typography>
         ) : (
-          <Typography type="title">Nutrition</Typography>
+          <Typography type="title">Logged times</Typography>
         )}
       </div>
       <div className={classes.spacer} />

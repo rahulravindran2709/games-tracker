@@ -2,6 +2,8 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import keycode from 'keycode';
 import Table, {
   TableBody,
@@ -15,20 +17,12 @@ import Checkbox from 'material-ui/Checkbox';
 import TimesheetTableHeader from './header';
 import TimesheetToolbar from './toolbar';
 
-
-let counter = 0;
-function createData(date, timeLogged) {
-  counter += 1;
-  return { id: counter, date, timeLogged };
-}
-
 const styles = theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3,
   },
   table: {
-    minWidth: 800,
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -38,44 +32,28 @@ const styles = theme => ({
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
-
     this.state = {
       order: 'asc',
       orderBy: 'calories',
       selected: [],
-      data: [
-        createData('27th September, 2017', 3),
-        createData('22nd September, 2017', 2),
-        createData('22nd September, 2017', 2),
-        createData('22nd September, 2017', 1),
-        createData('20th August, 2017', 3),
-        createData('14th August, 2017', 4),
-        createData('10th May, 2017', 2),
-        createData('10th May, 2017', 3),
-        createData('10th April, 2017', 5),
-        createData('10th March, 2017', 3),
-        createData('10th December, 2016', 10),
-        createData('3rd September, 2017', 3),
-      ].sort((a, b) => (a.timeLogged < b.timeLogged ? -1 : 1)),
       page: 0,
       rowsPerPage: 5,
     };
   }
 
   handleRequestSort = (event, property) => {
+    console.log(this.props);
+    const { data } = this.props;
     const orderBy = property;
     let order = 'desc';
-
     if (this.state.orderBy === property && this.state.order === 'desc') {
       order = 'asc';
     }
-
-    const data =
+    const sortedData =
       order === 'desc'
-        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
-
-    this.setState({ data, order, orderBy });
+        ? data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
+        : data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
+    this.setState({ sortedData, order, orderBy });
   };
 
   handleSelectAllClick = (event, checked) => {
@@ -96,7 +74,6 @@ class EnhancedTable extends React.Component {
     const { selected } = this.state;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
-
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
@@ -124,8 +101,8 @@ class EnhancedTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    const { classes, data } = this.props;
+    const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
@@ -195,6 +172,11 @@ class EnhancedTable extends React.Component {
 
 EnhancedTable.propTypes = {
   classes: PropTypes.shape().isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
-
-export default withStyles(styles)(EnhancedTable);
+const mapStateToProps = ({ gameDetails }) => ({
+  data: gameDetails.meta.timesheets,
+});
+const withStylesHOC = withStyles(styles);
+const connectHOC = connect(mapStateToProps);
+export default compose(connectHOC, withStylesHOC)(EnhancedTable);

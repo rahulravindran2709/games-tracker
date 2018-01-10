@@ -48,10 +48,13 @@ class PlaytimeCard extends React.Component {
     const { classes } = this.props;
     const { isOpen } = this.state;
     return (<Card>
-      <CardHeader title="Playtime" subheader="Ordered by date" />
+      <CardHeader title="1 completed playthrough" subheader="Ordered by date" />
       <CardContent>
         <Typography type="subheading" className={classes.shadow}>
-          <span className="ratings-text">4.1/5 <span className="reviews-number">(33 reviews)</span></span>
+          Last played 27th January, 2017
+        </Typography>
+        <Typography type="subheading" className={classes.shadow}>
+          You spent a total of 15 hours on this game
         </Typography>
       </CardContent>
       <CardActions disableActionSpacing>

@@ -20,7 +20,6 @@ const getUserListBasedOnDialogType = ifElse(checkGameDialogTypeIsCollection,
 const selector = createSelector(
   [getIsGameDialogOpen, getGameDialogType, getUserListBasedOnDialogType],
   (open, dialogType, userList) => {
-    console.log(userList, 'user list');
     return {
       open,
       dialogType,

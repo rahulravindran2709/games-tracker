@@ -51,8 +51,6 @@ const GameDetailsMeta = ({ classes, details: {
     </Grid>
   </Grid>
   <Grid container className={classes.root} justify="flex-start">
-    <GridText text={'Last played 27th January, 2017'} textClassName={classes.shadow} />
-    <GridText text={'15 hours spent'} textClassName={classes.shadow} />
     <GridText text={'1 completed playthrough'} textClassName={classes.shadow} />
   </Grid>
 </div>);
