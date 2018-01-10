@@ -30,6 +30,45 @@ const styles = theme => ({
     overflowX: 'auto',
   },
 });
+function renderTimesheetRow({ id, date, timeLogged }) {
+  const isSelected = this.isSelected(id);
+  return (
+    <TimesheetRow
+      handleClick={event => this.handleClick(event, id)}
+      handleKeydown={event => this.handleKeyDown(event, id)}
+      isSelected={isSelected}
+      key={id}
+      date={date}
+      timeLogged={timeLogged}
+    />
+  );
+}
+
+const TimesheetListFooter = (
+  { page, length, rowsPerPage, handleChangePage, handleChangeRowsPerPage }) => (<TableFooter>
+    <TableRow>
+      <TablePagination
+        count={length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        backIconButtonProps={{
+          'aria-label': 'Previous Page',
+        }}
+        nextIconButtonProps={{
+          'aria-label': 'Next Page',
+        }}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </TableRow>
+  </TableFooter>);
+TimesheetListFooter.propTypes = {
+  page: PropTypes.number.isRequired,
+  length: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  handleChangePage: PropTypes.func.isRequired,
+  handleChangeRowsPerPage: PropTypes.func.isRequired,
+};
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -103,42 +142,20 @@ class EnhancedTable extends React.Component {
             />
             <TableBody>
               {data.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
-                .map(({ id, date, timeLogged }) => {
-                  const isSelected = this.isSelected(id);
-                  return (
-                    <TimesheetRow
-                      handleClick={event => this.handleClick(event, id)}
-                      handleKeydown={event => this.handleKeyDown(event, id)}
-                      isSelected={isSelected}
-                      key={id}
-                      date={date}
-                      timeLogged={timeLogged}
-                    />
-                  );
-                })}
+                .map(renderTimesheetRow, this)}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  count={data.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  backIconButtonProps={{
-                    'aria-label': 'Previous Page',
-                  }}
-                  nextIconButtonProps={{
-                    'aria-label': 'Next Page',
-                  }}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
-              </TableRow>
-            </TableFooter>
+            <TimesheetListFooter
+              length={data.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              handleChangePage={this.handleChangePage}
+              handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
           </Table>
         </div>
       </Paper>

@@ -57,13 +57,7 @@ const TimesheetListToolbar = (props) => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+        ) : (<div />)}
       </div>
     </Toolbar>
   );

@@ -21,13 +21,40 @@ const propTypes = {
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
+const TimesheetHeaderRow = (
+  { column: { id, numeric, label, disablePadding }, orderBy, order,
+handleSortLabelClick }) => (<TableCell
+  key={id}
+  numeric={numeric}
+  padding={disablePadding ? 'none' : 'default'}
+  sortDirection={orderBy === id ? order : false}
+>
+  <Tooltip
+    title="Sort"
+    placement={numeric ? 'bottom-end' : 'bottom-start'}
+    enterDelay={300}
+  >
+    <TableSortLabel
+      active={orderBy === id}
+      direction={order}
+      onClick={handleSortLabelClick}
+    >
+      {label}
+    </TableSortLabel>
+  </Tooltip>
+</TableCell>);
+TimesheetHeaderRow.propTypes = {
+  column: PropTypes.shape().isRequired,
+  orderBy: PropTypes.string.isRequired,
+  order: PropTypes.string.isRequired,
+  handleSortLabelClick: PropTypes.func.isRequired,
+};
 class TimesheetTableHeader extends React.Component {
   createSortHandler = property => (event) => {
     this.props.onRequestSort(event, property);
   };
   render() {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-
     return (
       <TableHead>
         <TableRow>
@@ -39,26 +66,13 @@ class TimesheetTableHeader extends React.Component {
             />
           </TableCell>
           {columnData.map(column => (
-            <TableCell
+            <TimesheetHeaderRow
               key={column.id}
-              numeric={column.numeric}
-              padding={column.disablePadding ? 'none' : 'default'}
-              sortDirection={orderBy === column.id ? order : false}
-            >
-              <Tooltip
-                title="Sort"
-                placement={column.numeric ? 'bottom-end' : 'bottom-start'}
-                enterDelay={300}
-              >
-                <TableSortLabel
-                  active={orderBy === column.id}
-                  direction={order}
-                  onClick={this.createSortHandler(column.id)}
-                >
-                  {column.label}
-                </TableSortLabel>
-              </Tooltip>
-            </TableCell>
+              column={column}
+              orderBy={orderBy}
+              order={order}
+              handleSortLabelClick={this.createSortHandler(column.id)}
+            />
             ), this)}
         </TableRow>
       </TableHead>
