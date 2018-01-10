@@ -4,8 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import { ESRB_ICONS, PEGI_ICONS } from 'constants/enums/urls';
-import style from './style.scss';
-import GameDetailsBannerMeta from './meta'
+import './style.scss';
 import GameOptions from './speeddial';
 
 const styles = () => ({
@@ -17,7 +16,6 @@ const styles = () => ({
 
 const GameDetailsBanner = ({ classes, details: {
   name,
-  first_release_date,
 }, selectedEsrb: { rating: esrbRating = '' }, selectedPegi: { rating: pegiRating = '' } }) => (<div className="banner">
   <div className="header">
     <Grid container className={classes.root}>
@@ -48,11 +46,12 @@ const GameDetailsBanner = ({ classes, details: {
       </Grid>
     </Grid>
   </div>
-  <GameDetailsBannerMeta details={{ releaseDate: first_release_date }} />
+
   <GameOptions />
 </div>);
 
 GameDetailsBanner.propTypes = {
+  classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
   selectedEsrb: PropTypes.shape(),
   selectedPegi: PropTypes.shape(),
