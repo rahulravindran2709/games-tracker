@@ -36,15 +36,10 @@ GridText.propTypes = {
   text: PropTypes.string.isRequired,
   textClassName: PropTypes.string.isRequired,
 };
-const GameDetailsMeta = ({ classes, details: {
-  releaseDate,
-} }) => (<div className={classes.meta}>
+const GameDetailsMeta = ({ classes }) => (<div className={classes.meta}>
   <Grid container className={classes.root} justify="flex-start">
     <Grid item md={5}>
       <RatingsCard />
-    </Grid>
-    <Grid item md={7}>
-      <PlaytimeCard />
     </Grid>
   </Grid>
 </div>);

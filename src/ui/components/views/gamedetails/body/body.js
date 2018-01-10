@@ -8,7 +8,8 @@ import GenreSection from './genre';
 import DevPubGrid from './devpub';
 import ScreenshotSection from './screenshots';
 import SummarySection from './summary';
-import GameDetailsBannerMeta from './meta';
+import RatingsCard from './ratingscard';
+import PlaytimeCard from './playtimecard';
 
 
 const styles = theme => ({
@@ -40,12 +41,13 @@ const GameDetailsBody = ({ classes, details: { summary = '', first_release_date 
       <SummarySection description={summary} />
     </Grid>
   </Grid>
-  <Grid container justify={'center'}>
-    <Grid item md={6}>
+  <Grid container justify={'flex-end'}>
+    <Grid item xs={6}>
+      <PlaytimeCard />
       <ScreenshotSection screenshots={data} />
     </Grid>
-    <Grid item md={6}>
-      <GameDetailsBannerMeta details={{ releaseDate: first_release_date }} />
+    <Grid item md={3}>
+      <RatingsCard />
     </Grid>
   </Grid>
 </div>);
