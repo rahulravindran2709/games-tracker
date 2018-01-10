@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
-import moment from 'moment';
+
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import RatingsCard from './ratingscard';
@@ -40,18 +40,12 @@ const GameDetailsMeta = ({ classes, details: {
   releaseDate,
 } }) => (<div className={classes.meta}>
   <Grid container className={classes.root} justify="flex-start">
-    <Grid item md={6}>
+    <Grid item md={5}>
       <RatingsCard />
     </Grid>
-    <Grid item md={6}>
+    <Grid item md={7}>
       <PlaytimeCard />
-      <div className="release-date">
-        <Typography type="subheading" className={classes.shadow}>Released {moment(releaseDate).format('MMMM Do, YYYY')}</Typography>
-      </div>
     </Grid>
-  </Grid>
-  <Grid container className={classes.root} justify="flex-start">
-    <GridText text={'1 completed playthrough'} textClassName={classes.shadow} />
   </Grid>
 </div>);
 

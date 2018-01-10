@@ -12,12 +12,10 @@ import TimesheetList from './timesheetlist';
 
 const AllTimesheets = ({ isOpen }) => (
   <Collapse in={isOpen} timeout="auto" unmountOnExit>
-    <CardContent>
-      <Typography paragraph type="body2">
-          All logged times:
+    <Typography paragraph type="body2">
+          Last played: 27th September, 2017
         </Typography>
-      <TimesheetList />
-    </CardContent>
+    <TimesheetList />
   </Collapse>);
 AllTimesheets.propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -48,10 +46,10 @@ class PlaytimeCard extends React.Component {
     const { classes } = this.props;
     const { isOpen } = this.state;
     return (<Card>
-      <CardHeader title="1 completed playthrough" subheader="Ordered by date" />
+      <CardHeader title="Your effort" subheader="Ordered by date" />
       <CardContent>
         <Typography type="subheading" className={classes.shadow}>
-          Last played 27th January, 2017
+          2 completed playthroughs
         </Typography>
         <Typography type="subheading" className={classes.shadow}>
           You spent a total of 15 hours on this game
