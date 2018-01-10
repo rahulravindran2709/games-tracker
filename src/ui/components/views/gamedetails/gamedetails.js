@@ -29,7 +29,7 @@ class GameDetailsView extends React.Component {
     getGameDetailsWithId(id);
   }
   shouldComponentUpdate(nextProps) {
-    return nextProps.match.params.id !== this.props.match.params.id;
+    return ((nextProps.match.params.id !== this.props.match.params.id) || !!nextProps.gameDetails);
   }
   render() {
     const { gameDetails, selectedGenres, selectedEsrb, selectedPegi } = this.props;
