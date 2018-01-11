@@ -20,3 +20,15 @@ export function getEsrbRatingById(id) {
   return this.model.findAll(whereSelector)
   .then(pickFieldsFromArrayResponse(['rating', 'esrb_rating_id']));
 }
+
+export function getCompaniesById(developers, publishers) {
+  console.log(developers, publishers, 'Inside companies');
+  return new Promise(resolve => resolve({ developers: [{
+    id: 1,
+    name: 'Electronic Arts',
+  }],
+    publishers: [{
+      id: 1,
+      name: 'Ubisoft',
+    }] }));
+}
