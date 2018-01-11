@@ -5,7 +5,7 @@ import compose from 'recompose/compose';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
-import { getPublishersById, getDevelopersById } from 'actions/enums';
+import { getCompanyById } from 'actions/enums';
 import CompanyChip from './companychip';
 
 const styles = () => ({
@@ -18,10 +18,12 @@ const styles = () => ({
 });
 
 class DevPublGrid extends React.Component {
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     const { publisherIds, developerIds } = this.props;
-    this.props.getPublisherDetails(publisherIds);
-    this.props.getDeveloperDetails(developerIds);
+    const { publisherIds: newPublisherIds, developerIds: newDeveloperIds } = nextProps;
+    if (newPublisherIds !== publisherIds || newDeveloperIds !== developerIds) {
+      this.props.getDeveloperAndPublisherDetails(newDeveloperIds.join(','), newPublisherIds.join(','));
+    }
   }
   render() {
     const { classes, publishers, developers } = this.props;
@@ -47,15 +49,20 @@ class DevPublGrid extends React.Component {
 }
 DevPublGrid.propTypes = {
   classes: PropTypes.shape().isRequired,
+  publishers: PropTypes.arrayOf(PropTypes.shape()),
+  developers: PropTypes.arrayOf(PropTypes.shape()),
   publisherIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   developerIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  getPublisherDetails: PropTypes.func.isRequired,
-  getDeveloperDetails: PropTypes.func.isRequired,
+  getDeveloperAndPublisherDetails: PropTypes.func.isRequired,
+};
+DevPublGrid.defaultProps = {
+  publishers: [],
+  developers: [],
 };
 const stylesHOC = withStyles(styles);
 const mapDispatchToProps = dispatch => ({
-  getPublisherDetails: publisherIds => dispatch(getPublishersById(publisherIds)),
-  getDeveloperDetails: developerIds => dispatch(getDevelopersById(developerIds)),
+  getDeveloperAndPublisherDetails:
+    (developerIds, publisherIds) => dispatch(getCompanyById(developerIds, publisherIds)),
 });
 const mapStateToProps = ({ enums: { publishers, developers } }) => ({
   publishers,

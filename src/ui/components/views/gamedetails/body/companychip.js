@@ -19,12 +19,12 @@ const styles = theme => ({
 });
 const CompanyChip = ({ classes, names }) => (
   <Grid item md={6}>
-    <Typography type="button">
+    {names.map(({ id, name }) => (<Typography type="button" key={id}>
       <Chip
-        avatar={<Avatar className={classes.avatar}>U</Avatar>}
-        label="Ubisoft"
+        avatar={<Avatar className={classes.avatar}>{name[0]}</Avatar>}
+        label={name}
         className={classes.chip}
-      /></Typography>
+      /></Typography>))}
   </Grid>);
 
 CompanyChip.propTypes = {

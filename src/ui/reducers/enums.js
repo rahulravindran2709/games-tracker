@@ -1,8 +1,7 @@
 import { GET_GENRES_BY_ID_FULFILLED,
   GET_ESRB_RATING_BY_ID_FULFILLED,
   GET_PEGI_RATING_BY_ID_FULFILLED,
-  GET_DEVELOPER_BY_ID_FULFILLED,
-  GET_PUBLISHER_BY_ID_FULFILLED,
+  GET_COMPANY_BY_ID_FULFILLED,
  } from 'constants/enums/actions';
 import { getActionType, getPayloadData } from './shared/utils';
 
@@ -24,10 +23,8 @@ const enums = (state = initialState, action) => {
       return { ...state, pegi: data };
     case GET_ESRB_RATING_BY_ID_FULFILLED:
       return { ...state, esrb: data };
-    case GET_DEVELOPER_BY_ID_FULFILLED:
-      return { ...state, developers: data };
-    case GET_PUBLISHER_BY_ID_FULFILLED:
-      return { ...state, publishers: data };
+    case GET_COMPANY_BY_ID_FULFILLED:
+      return { ...state, developers: data.developers, publishers: data.publishers };
     default:
       return state;
   }

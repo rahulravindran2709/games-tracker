@@ -2,13 +2,11 @@ import { CALL_API, GET } from 'middlewares/api';
 import { GET_GENRES_BY_ID,
   GET_PEGI_RATING_BY_ID,
   GET_ESRB_RATING_BY_ID,
-  GET_DEVELOPER_BY_ID,
-  GET_PUBLISHER_BY_ID } from 'constants/enums/actions';
+  GET_COMPANY_BY_ID } from 'constants/enums/actions';
 import { GET_GENRES_BY_ID as GET_GENRES_BY_ID_URL,
   GET_PEGI_BY_ID,
   GET_ESRB_BY_ID,
-  GET_DEVELOPER_BY_ID as GET_DEVELOPER_BY_ID_URL,
-  GET_PUBLISHER_BY_ID as GET_PUBLISHER_BY_ID_URL } from 'constants/enums/urls';
+  GET_COMPANY_BY_ID as GET_COMPANY_BY_ID_URL } from 'constants/enums/urls';
 
 export const getGenres = () => dispatch =>
 dispatch({
@@ -53,22 +51,12 @@ export const loadEnumData = () => dispatch =>
      dispatch(getPegiRatings()), dispatch(getEsrbRatings())])
   .then(() => {});
 
-export const getDevelopersById = developerIds => dispatch => dispatch({
+export const getCompanyById = (developerIds, publisherIds) => dispatch => dispatch({
   type: CALL_API,
   payload: {
     auth: true,
     method: GET,
-    requestMethod: GET_DEVELOPER_BY_ID,
-    url: `${GET_DEVELOPER_BY_ID_URL}/${developerIds}`,
-  },
-});
-
-export const getPublishersById = publisherIds => dispatch => dispatch({
-  type: CALL_API,
-  payload: {
-    auth: true,
-    method: GET,
-    requestMethod: GET_PUBLISHER_BY_ID,
-    url: `${GET_PUBLISHER_BY_ID_URL}/${publisherIds}`,
+    requestName: GET_COMPANY_BY_ID,
+    url: `${GET_COMPANY_BY_ID_URL(developerIds, publisherIds)}`,
   },
 });
