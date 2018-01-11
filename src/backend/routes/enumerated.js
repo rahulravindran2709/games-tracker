@@ -1,10 +1,11 @@
-import EnumeratedController from '../controllers/api/enumerated';
+import { getGenreById, getPegiRatingById, getEsrbRatingById, getCompaniesById } from '../controllers/api/enumerated';
+import { companyParamGet } from '../validation/schemas/enums';
 
 const routes = [
   {
     method: 'GET',
     path: '/genre/{id?}',
-    handler: EnumeratedController.getGenreById,
+    handler: getGenreById,
     config: {
       description: 'Get the genre details by Id',
       notes: 'Get',
@@ -14,7 +15,7 @@ const routes = [
   {
     method: 'GET',
     path: '/pegi/{id?}',
-    handler: EnumeratedController.getPegiRatingById,
+    handler: getPegiRatingById,
     config: {
       description: 'Get the pegi rating details by its id',
       notes: 'Get pegi rating',
@@ -25,11 +26,27 @@ const routes = [
   {
     method: 'GET',
     path: '/esrb/{id?}',
-    handler: EnumeratedController.getEsrbRatingById,
+    handler: getEsrbRatingById,
     config: {
       description: 'Get the esrb rating details by its id',
       notes: 'Get esrb rating',
       tags: ['api', 'enumerated', 'esrb'],
+    },
+
+  },
+  {
+    method: 'GET',
+    path: '/companies',
+    handler: getCompaniesById,
+    config: {
+      auth: false,
+      validate:
+      {
+        query: companyParamGet,
+      },
+      description: 'Get the company details by ids',
+      notes: 'Comma separated ids are allowed',
+      tags: ['api', 'enumerated', 'companies'],
     },
 
   },
