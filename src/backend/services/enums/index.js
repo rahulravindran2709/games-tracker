@@ -1,5 +1,6 @@
 import { path } from 'ramda';
-import { getGenreById, getPegiRatingById, getEsrbRatingById } from './enums';
+import { getGenreById, getPegiRatingById, getEsrbRatingById,
+getCompaniesById } from './enums';
 
 const serverMethodOptions = {
   callback: false,
@@ -19,9 +20,13 @@ const register = (server, options, next) => {
     bind: { model: Pegi_ratings } };
   const esrbMethodOptions = { ...serverMethodOptions,
     bind: { model: Esrb_ratings } };
+  const companyMethodOptions = { ...serverMethodOptions,
+    generateKey: params => (`${params.developers || ''}${params.publishers || ''}`),
+    bind: { model: Esrb_ratings } };
   server.method('getGenreById', getGenreById, genreMethodOptions);
   server.method('getPegiRatingById', getPegiRatingById, pegiMethodOptions);
   server.method('getEsrbRatingById', getEsrbRatingById, esrbMethodOptions);
+  server.method('getCompaniesById', getCompaniesById, companyMethodOptions);
   return next();
 };
 register.attributes = {
