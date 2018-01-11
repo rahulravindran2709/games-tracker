@@ -2,11 +2,13 @@ import { CALL_API, GET } from 'middlewares/api';
 import { GET_GENRES_BY_ID,
   GET_PEGI_RATING_BY_ID,
   GET_ESRB_RATING_BY_ID,
-  GET_DEVELOPER_BY_ID } from 'constants/enums/actions';
+  GET_DEVELOPER_BY_ID,
+  GET_PUBLISHER_BY_ID } from 'constants/enums/actions';
 import { GET_GENRES_BY_ID as GET_GENRES_BY_ID_URL,
   GET_PEGI_BY_ID,
   GET_ESRB_BY_ID,
-  GET_DEVELOPER_BY_ID as GET_DEVELOPER_BY_ID_URL } from 'constants/enums/urls';
+  GET_DEVELOPER_BY_ID as GET_DEVELOPER_BY_ID_URL,
+  GET_PUBLISHER_BY_ID as GET_PUBLISHER_BY_ID_URL } from 'constants/enums/urls';
 
 export const getGenres = () => dispatch =>
 dispatch({
@@ -27,7 +29,7 @@ dispatch({
     auth: true,
     method: GET,
     requestName: GET_PEGI_RATING_BY_ID,
-    url: `${GET_PEGI_BY_ID_URL}/`,
+    url: `${GET_PEGI_BY_ID}/`,
   },
 });
 
@@ -38,7 +40,7 @@ dispatch({
     auth: true,
     method: GET,
     requestName: GET_ESRB_RATING_BY_ID,
-    url: `${GET_ESRB_BY_ID_URL}/`,
+    url: `${GET_ESRB_BY_ID}/`,
   },
 });
 
@@ -61,12 +63,12 @@ export const getDevelopersById = developerIds => dispatch => dispatch({
   },
 });
 
-export const getPublishersById = developerIds => dispatch => dispatch({
+export const getPublishersById = publisherIds => dispatch => dispatch({
   type: CALL_API,
   payload: {
     auth: true,
     method: GET,
-    requestMethod: GET_DEVELOPER_BY_ID,
-    url: `${GET_DEVELOPER_BY_ID_URL}/${developerIds}`,
+    requestMethod: GET_PUBLISHER_BY_ID,
+    url: `${GET_PUBLISHER_BY_ID_URL}/${publisherIds}`,
   },
 });

@@ -47,8 +47,8 @@ class DevPublGrid extends React.Component {
 }
 DevPublGrid.propTypes = {
   classes: PropTypes.shape().isRequired,
-  publisherIds: PropTypes.string.isRequired,
-  developerIds: PropTypes.string.isRequired,
+  publisherIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  developerIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   getPublisherDetails: PropTypes.func.isRequired,
   getDeveloperDetails: PropTypes.func.isRequired,
 };
@@ -57,5 +57,9 @@ const mapDispatchToProps = dispatch => ({
   getPublisherDetails: publisherIds => dispatch(getPublishersById(publisherIds)),
   getDeveloperDetails: developerIds => dispatch(getDevelopersById(developerIds)),
 });
-const connectHOC = connect(null, mapDispatchToProps);
+const mapStateToProps = ({ enums: { publishers, developers } }) => ({
+  publishers,
+  developers,
+});
+const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 export default compose(connectHOC, stylesHOC)(DevPublGrid);
