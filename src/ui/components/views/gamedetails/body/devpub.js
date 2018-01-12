@@ -20,12 +20,10 @@ GridText.propTypes = {
   heading: PropTypes.string.isRequired,
 };
 class DevPublGrid extends React.Component {
-  componentWillReceiveProps(nextProps) {
+  componentDidMount() {
     const { publisherIds, developerIds } = this.props;
-    const { publisherIds: newPublisherIds, developerIds: newDeveloperIds } = nextProps;
-    if (newPublisherIds !== publisherIds || newDeveloperIds !== developerIds) {
-      this.props.getDeveloperAndPublisherDetails(newDeveloperIds.join(','), newPublisherIds.join(','));
-    }
+    this.props.getDeveloperAndPublisherDetails(publisherIds.join(','),
+    developerIds.join(','));
   }
   render() {
     const { classes, publishers, developers } = this.props;
