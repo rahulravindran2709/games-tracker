@@ -12,11 +12,13 @@ const styles = () => ({
   root: {
     flexGrow: 1,
   },
-  meta: {
-    height: '100px',
-  },
 });
-
+const GridText = ({ heading }) => (<Grid item md={3}>
+  <Typography type="button">{heading}</Typography>
+</Grid>);
+GridText.propTypes = {
+  heading: PropTypes.string.isRequired,
+};
 class DevPublGrid extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { publisherIds, developerIds } = this.props;
@@ -30,17 +32,13 @@ class DevPublGrid extends React.Component {
     return (<Grid container className={classes.meta}>
       <Grid item md={6}>
         <Grid container alignItems={'center'}>
-          <Grid item md={3}>
-            <Typography type="button">Publisher</Typography>
-          </Grid>
+          <GridText heading={'Publisher'} />
           <CompanyChip names={publishers} />
         </Grid>
       </Grid>
       <Grid item md={6}>
         <Grid container alignItems={'center'}>
-          <Grid item md={3}>
-            <Typography type="button">Developer</Typography>
-          </Grid>
+          <GridText heading={'Developer'} />
           <CompanyChip names={developers} />
         </Grid>
       </Grid>

@@ -49,16 +49,12 @@ const GameDetailsBody = (props) => {
       </Grid>
     </Grid>
     <Grid container justify={'flex-end'} className={classes.meta}>
-      <Grid item xs={3}>
-        <QuickInfoCard gameTitle={name} />
-      </Grid>
+      <Grid item xs={3}><QuickInfoCard gameTitle={name} /></Grid>
       <Grid item xs={6}>
         <PlaytimeCard />
         <ScreenshotSection screenshots={screenshots} />
       </Grid>
-      <Grid item md={3}>
-        <RatingsCard />
-      </Grid>
+      <Grid item md={3}><RatingsCard /></Grid>
     </Grid>
   </div>);
 };
