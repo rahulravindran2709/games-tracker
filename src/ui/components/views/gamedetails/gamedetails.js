@@ -18,7 +18,7 @@ const propTypes = {
   match: PropTypes.shape().isRequired,
 };
 const defaultProps = {
-  gameDetails: {},
+  gameDetails: null,
   selectedEsrb: {},
   selectedPegi: {},
 };

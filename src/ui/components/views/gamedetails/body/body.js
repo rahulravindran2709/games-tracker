@@ -36,6 +36,7 @@ const styles = theme => ({
 const GameDetailsBody = (props) => {
   const { classes, details, genres } = props;
   if (!details) {
+    console.log('In progress');
     return <LinearProgress color="accent" />;
   }
   const { name, developers, publishers, summary, screenshots, first_release_date } = details;
@@ -61,6 +62,7 @@ const GameDetailsBody = (props) => {
 GameDetailsBody.propTypes = {
   classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
+  genres: PropTypes.shape(),
 };
 const stylesHOC = withStyles(styles);
 export default stylesHOC(GameDetailsBody);
