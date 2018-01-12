@@ -17,9 +17,12 @@ const SummarySection = ({ description, classes }) => (
         {`${description}`}
       </Typography></Grid></Grid>);
 SummarySection.propTypes = {
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   classes: PropTypes.shape().isRequired,
 };
 
+SummarySection.defaultProps = {
+  description: null,
+};
 const withStylesHOC = withStyles(styles);
 export default withStylesHOC(SummarySection);

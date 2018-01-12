@@ -20,7 +20,11 @@ const propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  anchorEl: PropTypes.shape().isRequired,
+  anchorEl: PropTypes.shape(),
+};
+
+const defaultProps = {
+  anchorEl: null,
 };
 
 const styles = theme => ({
@@ -61,5 +65,6 @@ anchorEl }) => (
     </Card>
   </Popover>);
 PopoverSection.propTypes = propTypes;
+PopoverSection.defaultProps = defaultProps;
 const withStylesHOC = withStyles(styles);
 export default withStylesHOC(PopoverSection);
