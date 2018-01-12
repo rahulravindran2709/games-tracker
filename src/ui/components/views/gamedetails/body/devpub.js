@@ -51,13 +51,15 @@ DevPublGrid.propTypes = {
   classes: PropTypes.shape().isRequired,
   publishers: PropTypes.arrayOf(PropTypes.shape()),
   developers: PropTypes.arrayOf(PropTypes.shape()),
-  publisherIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  developerIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  publisherIds: PropTypes.arrayOf(PropTypes.number),
+  developerIds: PropTypes.arrayOf(PropTypes.number),
   getDeveloperAndPublisherDetails: PropTypes.func.isRequired,
 };
 DevPublGrid.defaultProps = {
   publishers: [],
   developers: [],
+  publisherIds: null,
+  developerIds: null,
 };
 const stylesHOC = withStyles(styles);
 const mapDispatchToProps = dispatch => ({
