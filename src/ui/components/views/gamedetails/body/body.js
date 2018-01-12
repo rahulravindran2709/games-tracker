@@ -39,7 +39,8 @@ const GameDetailsBody = (props) => {
     console.log('In progress');
     return <LinearProgress color="accent" />;
   }
-  const { name, developers, publishers, summary, screenshots, first_release_date } = details;
+  const { name, developers, publishers, summary, screenshots,
+    first_release_date, rating, rating_count: ratingCount } = details;
   return (<div>
     <Grid container className={classes.details} justify={'center'}>
       <Grid item md={6}>
@@ -55,14 +56,17 @@ const GameDetailsBody = (props) => {
         <PlaytimeCard />
         <ScreenshotSection screenshots={screenshots} />
       </Grid>
-      <Grid item md={3}><RatingsCard /></Grid>
+      <Grid item md={3}><RatingsCard score={rating} ratingCount={ratingCount} /></Grid>
     </Grid>
   </div>);
 };
 GameDetailsBody.propTypes = {
   classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
-  genres: PropTypes.shape(),
+  genres: PropTypes.arrayOf(PropTypes.shape()),
+};
+GameDetailsBody.defaultProps = {
+  genres: null,
 };
 const stylesHOC = withStyles(styles);
 export default stylesHOC(GameDetailsBody);

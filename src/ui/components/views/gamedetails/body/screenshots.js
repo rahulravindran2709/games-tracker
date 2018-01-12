@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
-import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import StarBorderIcon from 'material-ui-icons/StarBorder';
 import { withStyles } from 'material-ui/styles';
@@ -41,7 +40,7 @@ const ScreenshotSection = ({ screenshots, classes }) => (
     </Grid>
     <GridList className={classes.gridList} cols={2.5}>
       {screenshots.map(screenshot => (
-        <GridListTile key={screenshot.id}>
+        <GridListTile key={screenshot.cloudinary_id}>
           <img src={screenshot.url} alt={screenshot.url} />
           <GridListTileBar
             title={'test'}
