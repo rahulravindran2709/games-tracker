@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
+import { LinearProgress } from 'material-ui/Progress';
 import moment from 'moment';
 import GenreSection from './genre';
 import DevPubGrid from './devpub';
@@ -32,34 +33,34 @@ const styles = theme => ({
   },
 });
 
-
-const data = [{ id: 1, url: 'http://via.placeholder.com/350x150' }, { id: 2, url: 'http://via.placeholder.com/350x150' }, { id: 3, url: 'http://via.placeholder.com/350x150' }, { id: 4, url: 'http://via.placeholder.com/350x150' }, { id: 5, url: 'http://via.placeholder.com/350x150' }];
-const GameDetailsBody = ({ classes, details: { summary = '', first_release_date }, genres }) => (<div>
-  <Grid container className={classes.details} justify={'center'}>
-    <Grid item md={6}>
-      <DevPubGrid classes={classes} />
-      <GenreSection classes={classes} genres={genres} />
-      <Typography type="subheading" className={classes.text}>Released {moment(first_release_date).format('MMMM Do, YYYY')}</Typography>
-      <SummarySection description={summary} />
+const GameDetailsBody = (props) => {
+  const { classes, details, genres } = props;
+  if (!details) {
+    return <LinearProgress color="accent" />;
+  }
+  const { name, developers, publishers, summary, screenshots, first_release_date } = details;
+  return (<div>
+    <Grid container className={classes.details} justify={'center'}>
+      <Grid item md={6}>
+        <DevPubGrid developerIds={developers} publisherIds={publishers} />
+        <GenreSection genres={genres} />
+        <Typography type="subheading" className={classes.text}>Released {moment(first_release_date).format('MMMM Do, YYYY')}</Typography>
+        <SummarySection description={summary} />
+      </Grid>
     </Grid>
-  </Grid>
-  <Grid container justify={'flex-end'} className={classes.meta}>
-    <Grid item xs={3}>
-      <QuickInfoCard gameTitle={'Thief'} />
+    <Grid container justify={'flex-end'} className={classes.meta}>
+      <Grid item xs={3}><QuickInfoCard gameTitle={name} /></Grid>
+      <Grid item xs={6}>
+        <PlaytimeCard />
+        <ScreenshotSection screenshots={screenshots} />
+      </Grid>
+      <Grid item md={3}><RatingsCard /></Grid>
     </Grid>
-    <Grid item xs={6}>
-      <PlaytimeCard />
-      <ScreenshotSection screenshots={data} />
-    </Grid>
-    <Grid item md={3}>
-      <RatingsCard />
-    </Grid>
-  </Grid>
-</div>);
+  </div>);
+};
 GameDetailsBody.propTypes = {
   classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
-  genres: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 const stylesHOC = withStyles(styles);
 export default stylesHOC(GameDetailsBody);

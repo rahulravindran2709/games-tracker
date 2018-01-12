@@ -1,11 +1,7 @@
 import { GET_GAME_BY_ID_FULFILLED } from 'actions/types';
 
 const initialState = {
-  details: {
-    cover: {
-      url: '',
-    },
-  },
+  details: null,
   meta: {
     timesheets: [{ id: 1, date: '27th September, 2017', timeLogged: 3 },
     { id: 2, date: '22nd September, 2017', timeLogged: 2 },
