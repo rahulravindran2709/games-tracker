@@ -11,7 +11,7 @@ const styles = {
     maxWidth: 345,
   },
   media: {
-    height: 200,
+    height: 400,
   },
 };
 
@@ -23,15 +23,17 @@ const Actions = () => (<CardActions>
       Learn More
     </Button>
 </CardActions>);
-const QuickInfoCard = ({ classes, gameTitle, collectionDetails }) => {
+const getImageCoverUrl = url => url && url.replace('t_thumb', 't_cover_big');
+const QuickInfoCard = ({ cover,  classes, gameTitle, collectionDetails }) => {
+  const renderImage = renderIf(cover && cover.url);
   return (
     <div>
       <Card className={classes.card}>
-        <CardMedia
+        {renderImage(() => (<CardMedia
           className={classes.media}
-          image="https://material-ui-next.com/static/images/cards/contemplative-reptile.jpg"
+          image={getImageCoverUrl(cover.url)}
           title={gameTitle}
-        />
+        />))}
         <CardContent>
           <Typography type="headline" component="h2">
             {gameTitle}
