@@ -3,6 +3,9 @@ import { push } from 'react-router-redux';
 import { CALL_API, GET } from 'middlewares/api';
 import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR,
   CLEAR_MSG_SNACKBAR } from 'constants/common/actions';
+import { GET_GAME_COLLECTION_BY_USERID } from 'constants/game/actions';
+import { GET_GAME_COLLECTION_BY_USERID as GAME_COLLECTION_URL } from 'constants/game/urls';
+
 import { TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
 
@@ -26,8 +29,8 @@ export const lookupGamesByName = searchTerm => ({
   payload: searchTerm,
 });
 
-export const getGameById = id => dispatch =>
-dispatch({
+export const getGameById = id =>
+({
   type: CALL_API,
   payload: {
     auth: true,
@@ -36,6 +39,22 @@ dispatch({
     url: `/games/${id}`,
   },
 });
+
+export const checkIfGamePartOfCollection = (userId, gameId) => (
+  {
+    type: CALL_API,
+    payload: {
+      auth: true,
+      method: GET,
+      requestName: GET_GAME_COLLECTION_BY_USERID,
+      url: GAME_COLLECTION_URL(userId, gameId),
+    },
+  }
+);
+export const gameDetailsInit = (userId, gameId) => dispatch =>
+  dispatch(getGameById(gameId))
+  .then(() => dispatch(checkIfGamePartOfCollection(userId, gameId)));
+
 export const closeSnackbar = () => ({
   type: CLOSE_MSG_SNACKBAR,
 });

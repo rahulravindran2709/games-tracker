@@ -1,0 +1,5 @@
+import { FULFILLED } from 'redux-promise-middleware';
+
+export const GET_GAME_COLLECTION_BY_USERID = 'GET_GAME_COLLECTION_BY_USERID';
+export const GET_GAME_BY_ID = 'GET_GAME_BY_ID';
+export const GET_GAME_COLLECTION_BY_USERID_FULFILLED = `${GET_GAME_COLLECTION_BY_USERID}_${FULFILLED}`;

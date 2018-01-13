@@ -40,7 +40,7 @@ const styles = theme => ({
 });
 
 const GameDetailsBody = (props) => {
-  const { classes, details, genres } = props;
+  const { classes, details, genres, collectionDetails } = props;
   const renderProgress = renderIf(!details || isEmpty(details));
   const renderIfNotEmpty = renderIf(details && !isEmpty(details));
   const { name, developers, publishers, summary, screenshots,
@@ -56,7 +56,7 @@ const GameDetailsBody = (props) => {
       </Grid>
     </Grid>
     <Grid container justify={'flex-end'} className={classes.meta}>
-      <Grid item xs={3}><QuickInfoCard gameTitle={name} /></Grid>
+      <Grid item xs={3}><QuickInfoCard gameTitle={name} collectionDetails={collectionDetails} /></Grid>
       <Grid item xs={6}>
         <PlaytimeCard />
         <ScreenshotSection screenshots={screenshots} />
@@ -69,6 +69,7 @@ GameDetailsBody.propTypes = {
   classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
   genres: PropTypes.arrayOf(PropTypes.shape()),
+  collectionDetails: PropTypes.arrayOf(PropTypes.shape()),
 };
 GameDetailsBody.defaultProps = {
   genres: null,
