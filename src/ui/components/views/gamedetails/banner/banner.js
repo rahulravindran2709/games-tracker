@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
@@ -11,16 +12,45 @@ const styles = () => ({
   root: {
     flexGrow: 1,
   },
+  banner: {
+    position: 'relative',
+    height: '550px',
+    backgroundRepeatX: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundAttachment: 'fixed',
+    color: '#fff',
+  },
+  header: {
+    position: 'absolute',
+    bottom: '110px',
+    left: '30%',
+    width: '70%',
+  },
+  shadow: {
+    textShadow: '0px 0px 3px #191919,0px 0px 10px #000',
+  },
+  text: {
+    color: '#fff',
+  },
 });
 
-
+const getImageCoverUrl = url => url.replace('t_thumb', 't_screenshot_huge');
+const getCoverStyle = (cover) => {
+  if (!cover) {
+    return {};
+  }
+  const coverUrl = getImageCoverUrl(cover.url);
+  return {
+    backgroundImage: `url("${coverUrl}")`,
+  };
+};
 const GameDetailsBanner = ({ classes, details: {
-  name,
-}, selectedEsrb: { rating: esrbRating = '' }, selectedPegi: { rating: pegiRating = '' } }) => (<div className="banner">
-  <div className="header">
+  name, cover,
+}, selectedEsrb: { rating: esrbRating = '' }, selectedPegi: { rating: pegiRating = '' } }) => (<div className={classes.banner} style={getCoverStyle(cover)}>
+  <div className={classes.header}>
     <Grid container className={classes.root}>
       <Grid item md={6}>
-        <Typography type="display2" gutterBottom className="shadow text">{name}</Typography>
+        <Typography type="display2" gutterBottom className={classnames(classes.shadow, classes.text)}>{name}</Typography>
       </Grid>
       <Grid item md={1}>
         <div className="ageRatings">
