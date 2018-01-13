@@ -20,7 +20,7 @@ const Actions = () => (<CardActions>
       Share
     </Button>
   <Button dense color="primary">
-      Learn More
+      Visit Website
     </Button>
 </CardActions>);
 const getImageCoverUrl = url => url && url.replace('t_thumb', 't_cover_big');
