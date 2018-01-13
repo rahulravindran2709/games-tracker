@@ -43,6 +43,12 @@ const SpeedDialGameNotInCollection = ({
     onTouchTap={addToWishlist}
   />
 </SpeedDial>);
+SpeedDialGameNotInCollection.propTypes = {
+  actions: PropTypes.shape(),
+};
+SpeedDialGameNotInCollection.defaultProps = {
+  actions: null,
+};
 const SpeedDialGameInCollection = ({
   actions: {
     addTimesheetEntry,
