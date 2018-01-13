@@ -46,23 +46,19 @@ const GameDetailsBody = (props) => {
   const { name, developers, publishers, summary, screenshots,
     first_release_date, rating, rating_count: ratingCount,
   cover } = details;
-  return (<div>
-    <Grid container className={classes.details} justify={'center'}>
-      <Grid item md={6}>
-        {renderProgress(<div className={classes.progress}><LinearProgress color="accent" /></div>)}
-        {renderIfNotEmpty(<div><DevPubGrid developerIds={developers} publisherIds={publishers} />
-          <GenreSection genres={genres} />
-          <Typography type="subheading" className={classes.text}>Released {moment(first_release_date).format('MMMM Do, YYYY')}</Typography>
-          <SummarySection description={summary} /></div>)}
-      </Grid>
+  return (<div><Grid container className={classes.details} justify={'center'}>
+    <Grid item md={6}>
+      {renderProgress(<div className={classes.progress}><LinearProgress color="accent" /></div>)}
+      {renderIfNotEmpty(<div><DevPubGrid developerIds={developers} publisherIds={publishers} />
+        <GenreSection genres={genres} />
+        <Typography type="subheading" className={classes.text}>Released {moment(first_release_date).format('MMMM Do, YYYY')}</Typography>
+        <SummarySection description={summary} /></div>)}
     </Grid>
+  </Grid>
     <Grid container justify={'flex-end'} className={classes.meta}>
       <Grid item xs={3}>
         <QuickInfoCard cover={cover} gameTitle={name} collectionDetails={collectionDetails} /></Grid>
-      <Grid item xs={6}>
-        <PlaytimeCard />
-        <ScreenshotSection screenshots={screenshots} />
-      </Grid>
+      <Grid item xs={6}><PlaytimeCard /><ScreenshotSection screenshots={screenshots} /></Grid>
       <Grid item md={3}><RatingsCard score={rating} ratingCount={ratingCount} /></Grid>
     </Grid>
   </div>);
