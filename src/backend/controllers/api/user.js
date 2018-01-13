@@ -1,7 +1,12 @@
-import { getServerMethod, getIdRequestParam, getPostBody, getAuthCredentials } from '../shared/utils';
+import Boom from 'boom';
+import { getServerMethod, getIdRequestParam, getUserIdRequestParam, getGameIdRequestParam, getPostBody, getAuthCredentials } from '../shared/utils';
+
 
 const callback = reply => (err, result) => {
-  console.log(err, 'In callback');
+  if (err) {
+    console.log(err, 'In callback');
+    return reply(Boom.badRequest(err));
+  }
   return reply(result);
 };
 
@@ -37,4 +42,7 @@ export const createUserCollection = (request, reply) =>
   getServerMethod('createUserCollection')(request)(getIdRequestParam(request), getPostBody(request)).then(data => reply(data));
 
 export const createUserWishlist = (request, reply) =>
-    getServerMethod('createUserWishlist')(request)(getIdRequestParam(request), getPostBody(request)).then(data => reply(data));
+  getServerMethod('createUserWishlist')(request)(getIdRequestParam(request), getPostBody(request)).then(data => reply(data));
+
+export const getGameCollectionByUser = (request, reply) =>
+  getServerMethod('getGameCollectionByUser')(request)(getUserIdRequestParam(request), getGameIdRequestParam(request), callback(reply));
