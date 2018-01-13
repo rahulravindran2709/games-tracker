@@ -29,7 +29,7 @@ const styles = theme => ({
   },
   meta: {
     padding: theme.spacing.unit * 2,
-    backgroundColor: theme.palette.paper,
+    backgroundColor: theme.palette.grey[50],
   },
   chip: {
     margin: theme.spacing.unit,
