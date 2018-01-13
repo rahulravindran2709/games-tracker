@@ -24,7 +24,7 @@ const Actions = () => (<CardActions>
     </Button>
 </CardActions>);
 const getImageCoverUrl = url => url && url.replace('t_thumb', 't_cover_big');
-const QuickInfoCard = ({ cover,  classes, gameTitle, collectionDetails }) => {
+const QuickInfoCard = ({ cover, classes, gameTitle, collectionDetails }) => {
   const renderImage = renderIf(cover && cover.url);
   return (
     <div>
@@ -48,16 +48,17 @@ const QuickInfoCard = ({ cover,  classes, gameTitle, collectionDetails }) => {
         <Actions />
       </Card>
     </div>
-    );
+  );
 };
 
 QuickInfoCard.propTypes = {
   classes: PropTypes.shape().isRequired,
-  gameTitle: PropTypes.string.isRequired,
+  gameTitle: PropTypes.string,
   collectionDetails: PropTypes.arrayOf(PropTypes.shape()),
 };
 QuickInfoCard.defaultProps = {
   collectionDetails: null,
+  gameTitle: '',
 };
 
 export default withStyles(styles)(QuickInfoCard);

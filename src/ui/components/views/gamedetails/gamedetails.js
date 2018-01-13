@@ -23,7 +23,7 @@ const defaultProps = {
   selectedEsrb: {},
   selectedPegi: {},
 };
-const getImageCoverUrl = url => url.replace('t_thumb', 't_screenshot_big');
+
 class GameDetailsView extends React.Component {
   componentDidMount() {
     const { init, match: { params: { id } } } = this.props;
