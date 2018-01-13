@@ -1,7 +1,10 @@
 import { GET_GAME_BY_ID_FULFILLED } from 'actions/types';
+import { GET_GAME_COLLECTION_BY_USERID_FULFILLED  } from 'constants/game/actions'
+import { getActionType, getPayloadData } from './shared/utils';
 
 const initialState = {
   details: null,
+  collectionDetails: null,
   meta: {
     timesheets: [{ id: 1, date: '27th September, 2017', timeLogged: 3 },
     { id: 2, date: '22nd September, 2017', timeLogged: 2 },
@@ -19,12 +22,17 @@ const initialState = {
 };
 
 const game = (state = initialState, action) => {
-  const { type, payload } = action;
+  const type = getActionType(action);
+  const data = getPayloadData(action);
   switch (type) {
     case GET_GAME_BY_ID_FULFILLED: {
-      const { data } = payload;
       return { ...state,
         details: data,
+      };
+    }
+    case GET_GAME_COLLECTION_BY_USERID_FULFILLED: {
+      return { ...state,
+        collectionDetails: data.Collections,
       };
     }
     default:

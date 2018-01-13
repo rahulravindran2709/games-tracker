@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { pathOr, curry, __, map, evolve, innerJoin, propOr, toString, propEq, compose, find } from 'ramda';
+import { path, pathOr, curry, __, map, evolve, innerJoin, propOr, toString, propEq, compose, find } from 'ramda';
 
-
+const getGameCollectionDetails = path(['gameDetails', 'collectionDetails']);
 const getGameDetails = pathOr({}, ['gameDetails', 'details']);
 const getGenres = pathOr([], ['enums', 'genres']);
 const getEsrbRatings = pathOr([], ['enums', 'esrb']);
@@ -21,14 +21,15 @@ const joinByGenre = innerJoin(
 const findEsrbById = id => elem => propEq('esrb_rating_id', toString(id))(elem);
 const findPegiById = id => elem => propEq('pegi_rating_id', toString(id))(elem);
 const selector = createSelector(
-  [getGameDetails, getGenres, getEsrbRatings, getPegiRatings],
-  (gameDetails, genres, esrbRatings, pegiRatings) => ({
+  [getGameDetails, getGenres, getEsrbRatings, getPegiRatings, getGameCollectionDetails],
+  (gameDetails, genres, esrbRatings, pegiRatings, gameCollection) => ({
     gameDetails,
     selectedGenres: joinByGenre(genreIdsAsInteger(genres), genresFromGameDetails(gameDetails)),
     selectedEsrb: compose(find(__, esrbRatings),
       findEsrbById, getEsrbRatingFromGameDetails)(gameDetails),
     selectedPegi: compose(find(__, pegiRatings),
       findPegiById, getPegiRatingFromGameDetails)(gameDetails),
+    gameCollection,
   }));
 
 export default selector;

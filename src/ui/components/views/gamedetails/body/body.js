@@ -40,27 +40,25 @@ const styles = theme => ({
 });
 
 const GameDetailsBody = (props) => {
-  const { classes, details, genres } = props;
+  const { classes, details, genres, collectionDetails } = props;
   const renderProgress = renderIf(!details || isEmpty(details));
   const renderIfNotEmpty = renderIf(details && !isEmpty(details));
   const { name, developers, publishers, summary, screenshots,
-    first_release_date, rating, rating_count: ratingCount } = details;
-  return (<div>
-    <Grid container className={classes.details} justify={'center'}>
-      <Grid item md={6}>
-        {renderProgress(<div className={classes.progress}><LinearProgress color="accent" /></div>)}
-        {renderIfNotEmpty(<div><DevPubGrid developerIds={developers} publisherIds={publishers} />
-          <GenreSection genres={genres} />
-          <Typography type="subheading" className={classes.text}>Released {moment(first_release_date).format('MMMM Do, YYYY')}</Typography>
-          <SummarySection description={summary} /></div>)}
-      </Grid>
+    first_release_date, rating, rating_count: ratingCount,
+  cover } = details;
+  return (<div><Grid container className={classes.details} justify={'center'}>
+    <Grid item md={6}>
+      {renderProgress(<div className={classes.progress}><LinearProgress color="accent" /></div>)}
+      {renderIfNotEmpty(<div><DevPubGrid developerIds={developers} publisherIds={publishers} />
+        <GenreSection genres={genres} />
+        <Typography type="subheading" className={classes.text}>Released {moment(first_release_date).format('MMMM Do, YYYY')}</Typography>
+        <SummarySection description={summary} /></div>)}
     </Grid>
+  </Grid>
     <Grid container justify={'flex-end'} className={classes.meta}>
-      <Grid item xs={3}><QuickInfoCard gameTitle={name} /></Grid>
-      <Grid item xs={6}>
-        <PlaytimeCard />
-        <ScreenshotSection screenshots={screenshots} />
-      </Grid>
+      <Grid item xs={3}>
+        <QuickInfoCard cover={cover} gameTitle={name} collectionDetails={collectionDetails} /></Grid>
+      <Grid item xs={6}><PlaytimeCard /><ScreenshotSection screenshots={screenshots} /></Grid>
       <Grid item md={3}><RatingsCard score={rating} ratingCount={ratingCount} /></Grid>
     </Grid>
   </div>);
@@ -69,6 +67,7 @@ GameDetailsBody.propTypes = {
   classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
   genres: PropTypes.arrayOf(PropTypes.shape()),
+  collectionDetails: PropTypes.arrayOf(PropTypes.shape()),
 };
 GameDetailsBody.defaultProps = {
   genres: null,
