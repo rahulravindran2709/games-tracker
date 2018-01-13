@@ -1,6 +1,8 @@
 import { path } from 'ramda';
 import { getUserById, getUserCollectionsByUserId, getUserWishlistsByUserId,
-  getGamesByWishlistId, getGamesByCollectionId, addNewUser, updateUser,
+  getGamesByWishlistId, getGamesByCollectionId,
+  getGameCollectionByUser,
+  addNewUser, updateUser,
   authenticateUser,
   logoutUser,
   createUserCollection,
@@ -9,6 +11,7 @@ import { getConfiguration } from '../../server/shared/utils';
 import { constructUserCollectionMethodOptions,
   constructUserMethodOptions,
   constructUserWishlistMethodOptions,
+  constructGameCollUserMethodOptions,
   constructGameCollectionMethodOptions,
   constructGameWishlistMethodOptions } from './users.config';
 
@@ -29,6 +32,7 @@ const register = (server, options, next) => {
   server.method('getUserWishListsByUserId', getUserWishlistsByUserId, constructUserWishlistMethodOptions(models));
   server.method('getGamesByCollectionId', getGamesByCollectionId, constructGameCollectionMethodOptions(models));
   server.method('getGamesByWishlistId', getGamesByWishlistId, constructGameWishlistMethodOptions(models));
+  server.method('getGameCollectionByUser', getGameCollectionByUser, constructGameCollUserMethodOptions(models));
   server.method('createUser', addNewUser, addUserOptions);
   server.method('updateUser', updateUser, addUserOptions);
   server.method('createUserCollection', createUserCollection, addCollectionOptions);
