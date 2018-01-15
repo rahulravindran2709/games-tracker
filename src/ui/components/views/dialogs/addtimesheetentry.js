@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { path } from 'ramda';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
-import Icon from 'material-ui/Icon';
-import { DateTimePicker } from 'material-ui-pickers';
-import Dialog, { DialogTitle } from 'material-ui/Dialog';
-import { closeAddTimesheetEntryDialog } from 'actions/dialogs';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
+import Grid from 'material-ui/Grid';
+import DateTimePicker from 'components/core/datetimepicker';
 import { submitTimesheetEntry } from 'actions/timesheet';
+import { closeAddTimesheetEntryDialog } from 'actions/dialogs';
 
 const styles = theme => ({
 
@@ -16,8 +21,8 @@ const styles = theme => ({
 
 const propTypes = {
   classes: PropTypes.shape().isRequired,
-  open: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -25,16 +30,18 @@ const defaultProps = {
 };
 class AddTimesheetDialog extends React.Component {
   state = {
-    selectedDate: new Date(),
+    startTime: new Date(),
+    endTime: new Date(),
   }
   handleClose = () => {
     this.props.closeDialog();
   };
-  handleDateChange = (date) => {
-    this.setState({ selectedDate: date });
-  }
+  handleChange = prop => event => this.setState({
+    [prop]: event.target.value,
+  });
   render() {
     const { classes, open } = this.props;
+    const { startTime, endTime } = this.state;
     return (<Dialog
       onClose={this.handleClose}
       aria-labelledby="simple-dialog-title"
@@ -42,20 +49,40 @@ class AddTimesheetDialog extends React.Component {
       onBackdropClick={this.handleClose}
     >
       <DialogTitle id="simple-dialog-title">Add timesheet for game</DialogTitle>
-      <DateTimePicker
-            value={this.state.selectedDate}
-            onChange={this.handleDateChange}
-            leftArrowIcon={<Icon> keyboard_arrow_left </Icon>}
-            rightArrowIcon={<Icon> keyboard_arrow_right </Icon>}
+      <DialogContent>
+      <Grid container>
+        <Grid item xs={12}>
+          <DateTimePicker
+            value={startTime}
+            onChange={this.handleChange('startTime')}
+            label={'Start time'}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <DateTimePicker
+            value={endTime}
+            onChange={this.handleChange('endTime')}
+            label={'End time'}
+          />
+        </Grid>
+      </Grid>
+    </DialogContent>
+    <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleClose} color="primary">
+              Submit
+            </Button>
+          </DialogActions>
     </Dialog>);
   }
 }
 AddTimesheetDialog.propTypes = propTypes;
 AddTimesheetDialog.defaultProps = defaultProps;
-const getIsTimesheetDialogOpen = path(['dialogs', 'isAddTimesheetOpen']);
+
 const mapStateToProps = state => ({
-  open: getIsTimesheetDialogOpen(state),
+  open: state.dialogs.isAddTimesheetOpen,
 });
 const mapDispatchToProps = dispatch => ({
   closeDialog: () => dispatch(closeAddTimesheetEntryDialog()),
