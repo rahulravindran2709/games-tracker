@@ -2,6 +2,7 @@ import { getUserById, getUserCollections, getUserWishLists,
   createUser, updateUser, createUserCollection,
   authenticateUser,
 createUserWishlist,
+getGameCollectionByUser,
 logout } from '../controllers/api/user';
 import { userPost, userAuthPost, userPut } from '../validation/schemas/user';
 import { collectionPost } from '../validation/schemas/collection';
@@ -119,6 +120,18 @@ const routes = [
       notes: 'Logout',
       tags: ['api', 'user', 'login'],
     },
+  },
+  {
+    method: 'GET',
+    path: '/users/{userid}/games/{gameid}',
+    handler: getGameCollectionByUser,
+    config: {
+      auth: false,
+      description: 'Get associated collection for a game',
+      notes: 'Create new active collections',
+      tags: ['api', 'user', 'games'],
+    },
+
   },
 ];
 
