@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { gameDetailsInit } from 'actions';
 import AddGameDialog from 'components/views/dialogs/addgame';
+import AddTimesheetDialog from 'components/views/dialogs/addtimesheetentry';
 import GameDetailsBanner from './banner';
 import GameDetailsBody from './body';
 import selector from './gamedetails.selector';
@@ -16,7 +17,7 @@ const propTypes = {
   selectedEsrb: PropTypes.shape(),
   selectedPegi: PropTypes.shape(),
   match: PropTypes.shape().isRequired,
-  gameCollection: PropTypes.arrayOf(PropTypes.shape()),
+  gameCollection: PropTypes.shape(),
 };
 const defaultProps = {
   gameDetails: null,
@@ -48,6 +49,7 @@ class GameDetailsView extends React.Component {
         />
       </div>
       <AddGameDialog />
+      <AddTimesheetDialog />
     </Paper>);
   }
 }

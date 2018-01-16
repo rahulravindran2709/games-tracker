@@ -67,7 +67,7 @@ GameDetailsBody.propTypes = {
   classes: PropTypes.shape().isRequired,
   details: PropTypes.shape().isRequired,
   genres: PropTypes.arrayOf(PropTypes.shape()),
-  collectionDetails: PropTypes.arrayOf(PropTypes.shape()),
+  collectionDetails: PropTypes.shape(),
 };
 GameDetailsBody.defaultProps = {
   genres: null,

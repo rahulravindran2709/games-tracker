@@ -1,13 +1,19 @@
 import { createSelector } from 'reselect';
-import { complement, isEmpty, path, compose } from 'ramda';
+import { complement, isNil, path, compose, pick, when } from 'ramda';
 
+const isNotNil = complement(isNil);
 const getGameCollectionDetails = path(['gameDetails', 'collectionDetails']);
-const isNotEmpty = complement(isEmpty);
-const isGamePartOfCollection = compose(isNotEmpty, getGameCollectionDetails);
+const getGameDetails = path(['gameDetails', 'details']);
+const getGameIdAndName = pick(['id', 'name']);
+const getGameObject = compose(getGameIdAndName, getGameDetails);
+const getGameObjectIfPresent = when(compose(isNotNil, getGameDetails), getGameObject);
+const isGamePartOfCollection = compose(isNotNil, getGameCollectionDetails);
 const selector = createSelector(
-  [isGamePartOfCollection],
-  isGameInCollection => ({
+  [isGamePartOfCollection, getGameObjectIfPresent, getGameCollectionDetails],
+  (isGameInCollection, gameObject, collection) => ({
     isGameInCollection,
+    gameObject,
+    collection,
   }));
 
 export default selector;

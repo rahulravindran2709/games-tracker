@@ -54,7 +54,7 @@ const QuickInfoCard = ({ cover, classes, gameTitle, collectionDetails }) => {
 QuickInfoCard.propTypes = {
   classes: PropTypes.shape().isRequired,
   gameTitle: PropTypes.string,
-  collectionDetails: PropTypes.arrayOf(PropTypes.shape()),
+  collectionDetails: PropTypes.shape(),
 };
 QuickInfoCard.defaultProps = {
   collectionDetails: null,

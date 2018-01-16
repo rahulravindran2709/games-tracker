@@ -12,7 +12,7 @@ import Close from 'material-ui-icons/Close';
 import Timer from 'material-ui-icons/Timer';
 import { SpeedDial, SpeedDialItem } from 'react-material-speeddial';
 import { openAddGameToCollectionDialog,
-  openAddGameToWishlistDialog } from 'actions/dialogs';
+  openAddGameToWishlistDialog, openAddTimesheetEntryDialog } from 'actions/dialogs';
 import selector from './speeddial.selector';
 
 const styles = () => ({
@@ -83,6 +83,10 @@ class GameOptions extends React.Component {
   addToWishlist = () => {
     this.props.openAddGameToWishlistDlg();
   }
+  addTimesheetEntry = () => {
+    const { gameObject, collection, openAddTimesheetEntryDlg } = this.props;
+    openAddTimesheetEntryDlg(gameObject, collection);
+  }
   render() {
     const { classes, isGameInCollection } = this.props;
     const notInCollectionActions = {
@@ -90,7 +94,7 @@ class GameOptions extends React.Component {
       addToWishlist: this.addToWishlist,
     };
     const inCollectionActions = {
-      addTimesheetEntry: this.addToCollection,
+      addTimesheetEntry: this.addTimesheetEntry,
       removeFromCollection: this.addToWishlist,
     };
     return (<div className={classes.actions}>
@@ -105,13 +109,18 @@ class GameOptions extends React.Component {
 GameOptions.propTypes = {
   openAddGameToCollectionDlg: PropTypes.func.isRequired,
   openAddGameToWishlistDlg: PropTypes.func.isRequired,
+  openAddTimesheetEntryDlg: PropTypes.func.isRequired,
   classes: PropTypes.shape().isRequired,
   isGameInCollection: PropTypes.bool.isRequired,
+  gameObject: PropTypes.shape().isRequired,
+  collection: PropTypes.shape().isRequired,
 };
 const mapStateToProps = state => selector(state);
 const mapDispatchToProps = dispatch => ({
   openAddGameToCollectionDlg: () => dispatch(openAddGameToCollectionDialog()),
   openAddGameToWishlistDlg: () => dispatch(openAddGameToWishlistDialog()),
+  openAddTimesheetEntryDlg:
+  (game, collection) => dispatch(openAddTimesheetEntryDialog(game, collection)),
 });
 const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 const withStylesHOC = withStyles(styles);
