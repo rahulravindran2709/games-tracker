@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import renderIf from 'render-if';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
@@ -19,7 +20,7 @@ import selector from './addtimesheetentry.selector';
 const styles = theme => ({
 
 });
-
+const convertToMinutes = value => value / (1000 * 60 );
 const propTypes = {
   classes: PropTypes.shape().isRequired,
   closeDialog: PropTypes.func.isRequired,
@@ -45,19 +46,22 @@ class AddTimesheetDialog extends React.Component {
     const { startTime, endTime } = this.state;
     this.props.submitEntry({ gameId, collectionId, startTime, endTime });
   }
-  handleChange = prop => event => this.setState({
-    [prop]: event.target.value,
+  handleChange = prop => date => this.setState({
+    [prop]: date,
   });
   render() {
-    const { classes, open } = this.props;
+    const { classes, open, game } = this.props;
     const { startTime, endTime } = this.state;
+    if (!open) {
+      return null;
+    }
     return (<Dialog
       onClose={this.handleClose}
-      aria-labelledby="simple-dialog-title"
+      aria-labelledby="timesheet"
       open={open}
       onBackdropClick={this.handleClose}
     >
-      <DialogTitle id="simple-dialog-title">Add timesheet entry for game</DialogTitle>
+      <DialogTitle id="timesheet">Log time entry for {game.name}</DialogTitle>
       <DialogContent>
         <Grid container>
           <Grid item xs={12}>
@@ -73,6 +77,11 @@ class AddTimesheetDialog extends React.Component {
               onChange={this.handleChange('endTime')}
               label={'End time'}
             />
+          </Grid>
+          <Grid item xs={12}>
+            {renderIf((endTime - startTime) > 0)(() => (<DialogContentText>{`You spent a total of
+              ${convertToMinutes(endTime - startTime)} minutes being awesome`}
+            </DialogContentText>))}
           </Grid>
         </Grid>
       </DialogContent>
