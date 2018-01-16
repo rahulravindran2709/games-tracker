@@ -20,7 +20,7 @@ import selector from './addtimesheetentry.selector';
 const styles = theme => ({
 
 });
-const convertToMinutes = value => value / (1000 * 60 );
+const convertToMinutes = value => value / (1000 * 60);
 const propTypes = {
   classes: PropTypes.shape().isRequired,
   closeDialog: PropTypes.func.isRequired,
@@ -32,6 +32,26 @@ const propTypes = {
 
 const defaultProps = {
 
+};
+const TimesheetActions = ({ handleClose, handleSubmit }) => (<DialogActions>
+  <Button onClick={handleClose} color="primary">
+        Cancel
+      </Button>
+  <Button onClick={handleSubmit} color="primary">
+        Submit
+      </Button>
+</DialogActions>);
+TimesheetActions.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+};
+const TimetakenText = ({ timeTaken }) => (<Grid item xs={12}>
+  <DialogContentText>{`You spent a total of
+    ${convertToMinutes(timeTaken)} minutes being awesome`}
+  </DialogContentText>
+</Grid>);
+TimetakenText.propTypes = {
+  timeTaken: PropTypes.number.isRequired,
 };
 class AddTimesheetDialog extends React.Component {
   state = {
@@ -55,12 +75,7 @@ class AddTimesheetDialog extends React.Component {
     if (!open) {
       return null;
     }
-    return (<Dialog
-      onClose={this.handleClose}
-      aria-labelledby="timesheet"
-      open={open}
-      onBackdropClick={this.handleClose}
-    >
+    return (<Dialog onClose={this.handleClose} aria-labelledby="timesheet" open={open} onBackdropClick={this.handleClose}>
       <DialogTitle id="timesheet">Log time entry for {game.name}</DialogTitle>
       <DialogContent>
         <Grid container>
@@ -79,20 +94,12 @@ class AddTimesheetDialog extends React.Component {
             />
           </Grid>
           <Grid item xs={12}>
-            {renderIf((endTime - startTime) > 0)(() => (<DialogContentText>{`You spent a total of
-              ${convertToMinutes(endTime - startTime)} minutes being awesome`}
-            </DialogContentText>))}
+            {renderIf((endTime - startTime) > 0)(
+              () => (<TimetakenText timeTaken={endTime - startTime} />))}
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-        <Button onClick={this.handleSubmit} color="primary">
-              Submit
-            </Button>
-      </DialogActions>
+      <TimesheetActions handleClose={this.handleClose} handleSubmit={this.handleSubmit} />
     </Dialog>);
   }
 }
