@@ -24,6 +24,7 @@ const DateTimePicker = ({ value, onChange, label }) => (
       timeIcon={<AccessTime />}
       label={label}
       fullWidth
+      ampm={false}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
