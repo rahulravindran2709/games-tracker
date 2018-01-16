@@ -17,7 +17,7 @@ const propTypes = {
   selectedEsrb: PropTypes.shape(),
   selectedPegi: PropTypes.shape(),
   match: PropTypes.shape().isRequired,
-  gameCollection: PropTypes.arrayOf(PropTypes.shape()),
+  gameCollection: PropTypes.shape(),
 };
 const defaultProps = {
   gameDetails: null,
