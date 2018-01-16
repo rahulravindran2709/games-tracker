@@ -19,12 +19,10 @@ const getUserListBasedOnDialogType = ifElse(checkGameDialogTypeIsCollection,
   getMappedCollections, getMappedWishlists);
 const selector = createSelector(
   [getIsGameDialogOpen, getGameDialogType, getUserListBasedOnDialogType],
-  (open, dialogType, userList) => {
-    return {
-      open,
-      dialogType,
-      userList,
-    };
-  });
+  (open, dialogType, userList) => ({
+    open,
+    dialogType,
+    userList,
+  }));
 
 export default selector;

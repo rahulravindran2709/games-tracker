@@ -23,7 +23,10 @@ const styles = theme => ({
 const propTypes = {
   classes: PropTypes.shape().isRequired,
   closeDialog: PropTypes.func.isRequired,
+  submitEntry: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  game: PropTypes.shape().isRequired,
+  collection: PropTypes.shape().isRequired,
 };
 
 const defaultProps = {
@@ -38,7 +41,7 @@ class AddTimesheetDialog extends React.Component {
     this.props.closeDialog();
   };
   handleSubmit = () => {
-    const { gameId, collectionId } = this.props;
+    const { game: { id: gameId }, collection: { collectionId } } = this.props;
     const { startTime, endTime } = this.state;
     this.props.submitEntry({ gameId, collectionId, startTime, endTime });
   }
@@ -54,7 +57,7 @@ class AddTimesheetDialog extends React.Component {
       open={open}
       onBackdropClick={this.handleClose}
     >
-      <DialogTitle id="simple-dialog-title">Add timesheet for game</DialogTitle>
+      <DialogTitle id="simple-dialog-title">Add timesheet entry for game</DialogTitle>
       <DialogContent>
         <Grid container>
           <Grid item xs={12}>
@@ -77,7 +80,7 @@ class AddTimesheetDialog extends React.Component {
         <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-        <Button onClick={this.handleClose} color="primary">
+        <Button onClick={this.handleSubmit} color="primary">
               Submit
             </Button>
       </DialogActions>

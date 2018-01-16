@@ -5,8 +5,8 @@ import { getActionType } from './shared/utils';
 const initialState = {
   addTimesheet: {
     isOpen: false,
-    gameId: null,
-    collectionId: null,
+    gameDetails: null,
+    collectionDetails: null,
   },
   addGame: {
     isOpen: false,
@@ -25,7 +25,10 @@ const dialogs = (state = initialState, action) => {
         addGame: { ...state.addGame, isOpen: false, dialogType: '' } };
     case OPEN_ADD_TIMESHEET_DIALOG:
       return { ...state,
-        addTimesheet: { ...state.addTimesheet, isOpen: true } };
+        addTimesheet: { ...state.addTimesheet,
+          isOpen: true,
+          gameDetails: payload.gameDetails,
+          collectionDetails: payload.collectionDetails } };
     case CLOSE_ADD_TIMESHEET_DIALOG:
       return { ...state,
         addTimesheet: { ...state.addTimesheet, isOpen: false } };

@@ -1,5 +1,5 @@
 import { GET_GAME_BY_ID_FULFILLED } from 'actions/types';
-import { GET_GAME_COLLECTION_BY_USERID_FULFILLED  } from 'constants/game/actions'
+import { GET_GAME_COLLECTION_BY_USERID_FULFILLED } from 'constants/game/actions';
 import { getActionType, getPayloadData } from './shared/utils';
 
 const initialState = {
@@ -31,8 +31,9 @@ const game = (state = initialState, action) => {
       };
     }
     case GET_GAME_COLLECTION_BY_USERID_FULFILLED: {
+      const { Collections: [collection = null] } = data;
       return { ...state,
-        collectionDetails: data.Collections,
+        collectionDetails: collection,
       };
     }
     default:

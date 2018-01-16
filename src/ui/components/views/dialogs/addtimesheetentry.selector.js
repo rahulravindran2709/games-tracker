@@ -2,14 +2,14 @@ import { createSelector } from 'reselect';
 import { path } from 'ramda';
 
 const getIsTimesheetDialogOpen = path(['dialogs', 'addTimesheet', 'isOpen']);
-const getDialogGameId = path(['dialogs', 'addTimesheet', 'gameId']);
-const getDialogCollectionId = path(['dialogs', 'addTimesheet', 'collectionId']);
+const getDialogGameId = path(['dialogs', 'addTimesheet', 'gameDetails']);
+const getDialogCollectionId = path(['dialogs', 'addTimesheet', 'collectionDetails']);
 const selector = createSelector(
   [getIsTimesheetDialogOpen, getDialogGameId, getDialogCollectionId],
-  (open, gameId, collectionId) => ({
+  (open, game, collection) => ({
     open,
-    gameId,
-    collectionId,
+    game,
+    collection,
   }));
 
 export default selector;

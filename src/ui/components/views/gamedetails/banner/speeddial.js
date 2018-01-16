@@ -84,7 +84,8 @@ class GameOptions extends React.Component {
     this.props.openAddGameToWishlistDlg();
   }
   addTimesheetEntry = () => {
-    this.props.openAddTimesheetEntryDlg();
+    const { gameObject, collection, openAddTimesheetEntryDlg } = this.props;
+    openAddTimesheetEntryDlg(gameObject, collection);
   }
   render() {
     const { classes, isGameInCollection } = this.props;
@@ -111,12 +112,15 @@ GameOptions.propTypes = {
   openAddTimesheetEntryDlg: PropTypes.func.isRequired,
   classes: PropTypes.shape().isRequired,
   isGameInCollection: PropTypes.bool.isRequired,
+  gameObject: PropTypes.shape().isRequired,
+  collection: PropTypes.shape().isRequired,
 };
 const mapStateToProps = state => selector(state);
 const mapDispatchToProps = dispatch => ({
   openAddGameToCollectionDlg: () => dispatch(openAddGameToCollectionDialog()),
   openAddGameToWishlistDlg: () => dispatch(openAddGameToWishlistDialog()),
-  openAddTimesheetEntryDlg: () => dispatch(openAddTimesheetEntryDialog()),
+  openAddTimesheetEntryDlg:
+  (game, collection) => dispatch(openAddTimesheetEntryDialog(game, collection)),
 });
 const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 const withStylesHOC = withStyles(styles);

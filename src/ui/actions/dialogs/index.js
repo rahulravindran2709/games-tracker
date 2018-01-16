@@ -19,8 +19,12 @@ export const closeAddGameDialog = () => ({
   type: CLOSE_ADD_GAME_DIALOG,
 });
 
-export const openAddTimesheetEntryDialog = () => ({
+export const openAddTimesheetEntryDialog = (game, collection) => ({
   type: OPEN_ADD_TIMESHEET_DIALOG,
+  payload: {
+    gameDetails: game,
+    collectionDetails: collection,
+  },
 });
 
 export const closeAddTimesheetEntryDialog = () => ({
