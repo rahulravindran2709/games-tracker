@@ -1,10 +1,11 @@
-import { getTimesheetsByGameEntry } from '../controllers/api/timesheet';
+import { getTimesheetsByGameEntry, addTimesheet } from '../controllers/api/timesheet';
 import { getGamesInCollection, getGamesInWishlist,
    getGameMetaDataByCollection, addGameToCollection,
    addGameToWishlist,
  removeGamesInCollection,
  removeGamesInWishlist } from '../controllers/api/collection';
 import { gameCollectionPost } from '../validation/schemas/gamecollection';
+import { timesheetPost } from '../validation/schemas/timesheet';
 
 const routes = [{
   method: 'GET',
@@ -13,6 +14,20 @@ const routes = [{
   config: {
     description: 'Get all recorded timesheets for a game',
     notes: 'Get timesheets for a specific game played by user',
+    tags: ['api', 'user', 'collections', 'games', 'timesheets'],
+  },
+
+}, {
+  method: 'POST',
+  path: '/collections/{collectionid}/games/{gameid}/time',
+  handler: addTimesheet,
+  config: {
+    auth: false,
+    validate: {
+      payload: timesheetPost,
+    },
+    description: 'Create a new timesheet entry for a game',
+    notes: 'Dates need to b',
     tags: ['api', 'user', 'collections', 'games', 'timesheets'],
   },
 

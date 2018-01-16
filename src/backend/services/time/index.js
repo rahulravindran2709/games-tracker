@@ -1,5 +1,5 @@
 import { path } from 'ramda';
-import { getTimesheetEntriesByGameCollection } from './timesheet';
+import { getTimesheetEntriesByGameCollection, addTimesheetEntry } from './timesheet';
 
 const serverMethodOptions = {
   callback: false,
@@ -21,8 +21,15 @@ const register = (server, options, next) => {
       },
     },
   };
+  const addTimesheetOptions = {
+    bind: {
+      models: {
+        Game_Collection, Timesheet,
+      },
+    },
+  };
   server.method('getTimesheetsByGameEntry', getTimesheetEntriesByGameCollection, timesheetByGameCollectionOptions);
-
+  server.method('addTimesheetEntry', addTimesheetEntry, addTimesheetOptions);
   return next();
 };
 register.attributes = {

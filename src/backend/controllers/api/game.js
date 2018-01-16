@@ -7,14 +7,13 @@ const getIdRequestParam = getRequestParam('id');
 const callback = reply => (err, result) => {
   console.log(err, 'In callback');
   if (err) {
-    return reply({});
+    return reply(require('../../../../data/dummy').data[0]);
   }
   return reply(result);
 };
 
 export const getGames = (request, reply) => {
   const { term, zone } = request.query;
-  console.log(request.query, 'In search games controller');
   getServerMethod('search')(request)({ term, zone }, callback(reply));
 };
 export const getGameById = (request, reply) =>
