@@ -187,7 +187,7 @@ export function authenticateUser(credentials) {
     const session = generateNewSession();
     app.sessions[session.id] = session;
     const token = JWT.sign(session, secret);
-    return { token, user: pick(['email', 'first_name', 'last_name'])(user) };
+    return { token, user: pick(['email', 'first_name', 'last_name', 'id'])(user) };
   })
   .catch((err) => { throw Boom.badRequest(err.message); });
 }

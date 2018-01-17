@@ -1,4 +1,5 @@
 import { path } from 'ramda';
+import Boom from 'boom';
 
 export const getServerMethod = methodName => path(['server', 'methods', methodName]);
 export const getRequestParam = paramName => path(['params', paramName]);
@@ -9,3 +10,9 @@ export const getWishlistIdRequestParam = getRequestParam('wishlistid');
 export const getUserIdRequestParam = getRequestParam('userid');
 export const getPostBody = path(['payload']);
 export const getAuthCredentials = path(['auth', 'credentials']);
+export const callback = reply => (err, result) => {
+  if (err) {
+    return reply(Boom.badRequest(err));
+  }
+  return reply(result);
+};

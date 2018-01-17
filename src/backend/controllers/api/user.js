@@ -1,14 +1,6 @@
-import Boom from 'boom';
-import { getServerMethod, getIdRequestParam, getUserIdRequestParam, getGameIdRequestParam, getPostBody, getAuthCredentials } from '../shared/utils';
 
+import { getServerMethod, callback, getIdRequestParam, getUserIdRequestParam, getGameIdRequestParam, getPostBody, getAuthCredentials } from '../shared/utils';
 
-const callback = reply => (err, result) => {
-  if (err) {
-    console.log(err, 'In callback');
-    return reply(Boom.badRequest(err));
-  }
-  return reply(result);
-};
 
 export const authenticateUser = (request, reply) =>
   getServerMethod('authenticateUser')(request)(getPostBody(request)).then(data => reply({
