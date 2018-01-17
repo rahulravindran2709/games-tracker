@@ -73,13 +73,13 @@ class AddGameDialog extends React.Component {
   };
 
   render() {
-    const { classes, selectedValue, open, userList } = this.props;
+    const { classes, selectedValue, open, userList, dialogType } = this.props;
     if (!open) {
       return null;
     }
     return (
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open} onBackdropClick={this.handleClose}>
-        <DialogTitle id="simple-dialog-title">Add game to Collection</DialogTitle>
+        <DialogTitle id="simple-dialog-title">Add game to {dialogType}</DialogTitle>
         <div>
           <List>
             {userList.map(collection => (
