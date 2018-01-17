@@ -6,11 +6,11 @@ import { mapTimesheetApiObjectToModel } from '../../mappers/index';
 export function getTimesheetEntriesByGameCollection(collectionId, gameId) {
   console.log(`${collectionId};${gameId}`, 'In get timesheet entry by game ');
   const { Timesheet, Game_Collection } = this.models;
-  return Game_Collection.findAll({
+  return Game_Collection.findOne({
     attributes: ['game_id', 'collection_id'],
     include: [{
       model: Timesheet,
-      attributes: [['id', 'timesheetId'], 'timesheetIn', 'timesheetOut'],
+      attributes: [['id', 'timesheetId'], 'timesheetIn', 'timesheetOut', 'timeTaken'],
     }],
     where: {
       collection_id: collectionId,
