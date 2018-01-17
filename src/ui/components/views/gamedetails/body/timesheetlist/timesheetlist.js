@@ -44,14 +44,25 @@ function renderTimesheetRow({ timesheetId, timesheetIn, timesheetOut }) {
     />
   );
 }
-
-const Progress = () => (<CircularProgress color="accent" />);
+const progressStyles = () => ({
+  progress: {
+    textAlign: 'center',
+  },
+});
+let Progress = ({ classes }) => (<TableBody>
+  <TableRow>
+    <TableCell colSpan={6} className={classes.progress}>
+      <CircularProgress color="accent" />
+    </TableCell>
+  </TableRow>
+</TableBody>);
+Progress = withStyles(progressStyles)(Progress);
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       order: 'asc',
-      orderBy: 'calories',
+      orderBy: 'timesheetIn',
       selected: [],
       page: 0,
       rowsPerPage: 5,
@@ -107,42 +118,41 @@ class EnhancedTable extends React.Component {
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const renderProgressBar = renderIf(isNil(data));
     const renderTable = renderIf(!!data);
+    const count = data ? data.length : 0;
     const emptyRows = data ?
-    (rowsPerPage - Math.min(rowsPerPage, (data.length - page) * rowsPerPage)) : 0;
+    (rowsPerPage - Math.min(rowsPerPage, (count - page) * rowsPerPage)) : 0;
     return (
       <Paper className={classes.root}>
-        {renderProgressBar(() => <Progress />)}
-        {renderTable(() => (<Fragment><TimesheetToolbar numSelected={selected.length} />
-          <div className={classes.tableWrapper}>
-            <Table className={classes.table}>
-              <TimesheetTableHeader
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={this.handleSelectAllClick}
-                onRequestSort={this.handleRequestSort}
-                rowCount={data.length}
-              />
-              <TableBody>
-                {data.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
+        <TimesheetToolbar numSelected={selected.length} />
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table}>
+            <TimesheetTableHeader
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={this.handleSelectAllClick}
+              onRequestSort={this.handleRequestSort}
+              rowCount={count}
+            />
+            {renderProgressBar(() => <Progress />)}
+            {renderTable(() => (<TableBody>
+              {data.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
                 .map(renderTimesheetRow, this)}
-                {emptyRows > 0 && (
+              {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
-              </TableBody>
-              <TimesheetListFooter
-                length={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                handleChangePage={this.handleChangePage}
-                handleChangeRowsPerPage={this.handleChangeRowsPerPage}
-              />
-            </Table>
-          </div>
-        </Fragment>))}
-
+            </TableBody>))}
+            <TimesheetListFooter
+              length={count}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              handleChangePage={this.handleChangePage}
+              handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
+          </Table>
+        </div>
       </Paper>
     );
   }
