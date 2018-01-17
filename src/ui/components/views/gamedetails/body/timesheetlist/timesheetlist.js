@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import renderIf from 'render-if';
 import { withStyles } from 'material-ui/styles';

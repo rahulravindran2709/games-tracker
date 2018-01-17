@@ -8,7 +8,7 @@ import TimesheetList from './timesheetlist';
 import ExpandAction from './expandaction';
 
 const AllTimesheets = ({ isOpen }) => (
-  <Collapse in={isOpen} timeout="auto" unmountOnExit>
+  <Collapse in={isOpen} timeout={1000} unmountOnExit>
     <Typography paragraph type="body2">
           Last played: 27th September, 2017
         </Typography>
