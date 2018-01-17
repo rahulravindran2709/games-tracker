@@ -113,7 +113,10 @@ GameOptions.propTypes = {
   classes: PropTypes.shape().isRequired,
   isGameInCollection: PropTypes.bool.isRequired,
   gameObject: PropTypes.shape().isRequired,
-  collection: PropTypes.shape().isRequired,
+  collection: PropTypes.shape(),
+};
+GameOptions.defaultProps = {
+  collection: null,
 };
 const mapStateToProps = state => selector(state);
 const mapDispatchToProps = dispatch => ({

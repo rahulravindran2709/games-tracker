@@ -1,23 +1,13 @@
 import { GET_GAME_BY_ID_FULFILLED } from 'actions/types';
 import { GET_GAME_COLLECTION_BY_USERID_FULFILLED } from 'constants/game/actions';
+import { GET_TIMESHEETS_FULFILLED } from 'constants/timesheet/actions';
 import { getActionType, getPayloadData } from './shared/utils';
 
 const initialState = {
   details: null,
   collectionDetails: null,
   meta: {
-    timesheets: [{ id: 1, date: '27th September, 2017', timeLogged: 3 },
-    { id: 2, date: '22nd September, 2017', timeLogged: 2 },
-    { id: 3, date: '22nd September, 2017', timeLogged: 2 },
-    { id: 4, date: '22nd September, 2017', timeLogged: 1 },
-    { id: 5, date: '20th August, 2017', timeLogged: 3 },
-    { id: 6, date: '14th August, 2017', timeLogged: 4 },
-    { id: 7, date: '10th May, 2017', timeLogged: 2 },
-    { id: 8, date: '10th May, 2017', timeLogged: 3 },
-    { id: 9, date: '10th April, 2017', timeLogged: 5 },
-    { id: 10, date: '10th March, 2017', timeLogged: 3 },
-    { id: 11, date: '10th December, 2016', timeLogged: 10 },
-    { id: 12, date: '3rd September, 2017', timeLogged: 12 }],
+    timesheets: null,
   },
 };
 
@@ -34,6 +24,14 @@ const game = (state = initialState, action) => {
       const { Collections: [collection = null] } = data;
       return { ...state,
         collectionDetails: collection,
+      };
+    }
+    case GET_TIMESHEETS_FULFILLED: {
+      const { Timesheets = null } = data;
+      return { ...state,
+        meta: { ...state.meta,
+          timesheets: Timesheets,
+        },
       };
     }
     default:
