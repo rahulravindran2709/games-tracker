@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import renderIf from 'render-if';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
@@ -15,6 +16,7 @@ import Grid from 'material-ui/Grid';
 import DateTimePicker from 'components/core/datetimepicker';
 import { submitTimesheetEntry } from 'actions/timesheet';
 import { closeAddTimesheetEntryDialog } from 'actions/dialogs';
+import { addMessageToSnackbarQueue } from 'actions';
 import selector from './addtimesheetentry.selector';
 
 const styles = theme => ({
@@ -25,13 +27,15 @@ const propTypes = {
   classes: PropTypes.shape().isRequired,
   closeDialog: PropTypes.func.isRequired,
   submitEntry: PropTypes.func.isRequired,
+  showMessage: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  game: PropTypes.shape().isRequired,
-  collection: PropTypes.shape().isRequired,
+  game: PropTypes.shape(),
+  collection: PropTypes.shape(),
 };
 
 const defaultProps = {
-
+  collection: null,
+  game: null,
 };
 const TimesheetActions = ({ handleClose, handleSubmit }) => (<DialogActions>
   <Button onClick={handleClose} color="primary">
@@ -55,8 +59,8 @@ TimetakenText.propTypes = {
 };
 class AddTimesheetDialog extends React.Component {
   state = {
-    startTime: new Date(),
-    endTime: new Date(),
+    startTime: moment(),
+    endTime: moment(),
   }
   handleClose = () => {
     this.props.closeDialog();
@@ -64,7 +68,10 @@ class AddTimesheetDialog extends React.Component {
   handleSubmit = () => {
     const { game: { id: gameId }, collection: { collectionId } } = this.props;
     const { startTime, endTime } = this.state;
-    this.props.submitEntry({ gameId, collectionId, startTime, endTime });
+    const timeTaken = endTime - startTime;
+    this.props.submitEntry({ gameId, collectionId, startTime, endTime, timeTaken })
+    .then(this.handleClose)
+    .then(() => this.props.showMessage('Time entry added successfully'));
   }
   handleChange = prop => date => this.setState({
     [prop]: date,
@@ -110,6 +117,7 @@ const mapStateToProps = state => selector(state);
 const mapDispatchToProps = dispatch => ({
   closeDialog: () => dispatch(closeAddTimesheetEntryDialog()),
   submitEntry: data => dispatch(submitTimesheetEntry(data)),
+  showMessage: message => dispatch(addMessageToSnackbarQueue(message)),
 });
 const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 const withStylesHOC = withStyles(styles);

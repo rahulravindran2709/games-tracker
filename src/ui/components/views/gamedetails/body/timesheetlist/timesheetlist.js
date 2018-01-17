@@ -1,6 +1,6 @@
-import React from 'react';
-
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import renderIf from 'render-if';
 import { withStyles } from 'material-ui/styles';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
@@ -8,16 +8,17 @@ import keycode from 'keycode';
 import Table, {
   TableBody,
   TableCell,
-  TableFooter,
-  TablePagination,
   TableRow,
 } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
-
+import { CircularProgress } from 'material-ui/Progress';
+import { isNil } from 'ramda';
+import { getTimesheetEntries } from 'actions/timesheet';
 import { updateRowInSelectedList } from 'utils';
 import TimesheetTableHeader from './header';
 import TimesheetToolbar from './toolbar';
 import TimesheetRow from './timesheetrow';
+import TimesheetListFooter from './footer';
 
 const styles = theme => ({
   root: {
@@ -30,45 +31,21 @@ const styles = theme => ({
     overflowX: 'auto',
   },
 });
-function renderTimesheetRow({ id, date, timeLogged }) {
-  const isSelected = this.isSelected(id);
+function renderTimesheetRow({ timesheetId, timesheetIn, timesheetOut }) {
+  const isSelected = this.isSelected(timesheetId);
   return (
     <TimesheetRow
-      handleClick={event => this.handleClick(event, id)}
-      handleKeydown={event => this.handleKeyDown(event, id)}
+      handleClick={event => this.handleClick(event, timesheetId)}
+      handleKeydown={event => this.handleKeyDown(event, timesheetId)}
       isSelected={isSelected}
-      key={id}
-      date={date}
-      timeLogged={timeLogged}
+      key={timesheetId}
+      startTime={timesheetIn}
+      endTime={timesheetOut}
     />
   );
 }
 
-const TimesheetListFooter = (
-  { page, length, rowsPerPage, handleChangePage, handleChangeRowsPerPage }) => (<TableFooter>
-    <TableRow>
-      <TablePagination
-        count={length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        backIconButtonProps={{
-          'aria-label': 'Previous Page',
-        }}
-        nextIconButtonProps={{
-          'aria-label': 'Next Page',
-        }}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </TableRow>
-  </TableFooter>);
-TimesheetListFooter.propTypes = {
-  page: PropTypes.number.isRequired,
-  length: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-  handleChangePage: PropTypes.func.isRequired,
-  handleChangeRowsPerPage: PropTypes.func.isRequired,
-};
+const Progress = () => (<CircularProgress color="accent" />);
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -80,7 +57,9 @@ class EnhancedTable extends React.Component {
       rowsPerPage: 5,
     };
   }
-
+  componentDidMount() {
+    this.props.getTimesheetData(1, 2);
+  }
   handleRequestSort = (event, newOrderBy) => {
     const { data } = this.props;
     const { orderBy, order } = this.state;
@@ -126,38 +105,44 @@ class EnhancedTable extends React.Component {
   render() {
     const { classes, data } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, (data.length - page) * rowsPerPage);
+    const renderProgressBar = renderIf(isNil(data));
+    const renderTable = renderIf(!!data);
+    const emptyRows = data ?
+    (rowsPerPage - Math.min(rowsPerPage, (data.length - page) * rowsPerPage)) : 0;
     return (
       <Paper className={classes.root}>
-        <TimesheetToolbar numSelected={selected.length} />
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table}>
-            <TimesheetTableHeader
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={this.handleSelectAllClick}
-              onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
-            />
-            <TableBody>
-              {data.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
+        {renderProgressBar(() => <Progress />)}
+        {renderTable(() => (<Fragment><TimesheetToolbar numSelected={selected.length} />
+          <div className={classes.tableWrapper}>
+            <Table className={classes.table}>
+              <TimesheetTableHeader
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={this.handleSelectAllClick}
+                onRequestSort={this.handleRequestSort}
+                rowCount={data.length}
+              />
+              <TableBody>
+                {data.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
                 .map(renderTimesheetRow, this)}
-              {emptyRows > 0 && (
+                {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
-            </TableBody>
-            <TimesheetListFooter
-              length={data.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              handleChangePage={this.handleChangePage}
-              handleChangeRowsPerPage={this.handleChangeRowsPerPage}
-            />
-          </Table>
-        </div>
+              </TableBody>
+              <TimesheetListFooter
+                length={data.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                handleChangePage={this.handleChangePage}
+                handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+              />
+            </Table>
+          </div>
+        </Fragment>))}
+
       </Paper>
     );
   }
@@ -165,11 +150,18 @@ class EnhancedTable extends React.Component {
 
 EnhancedTable.propTypes = {
   classes: PropTypes.shape().isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape()),
+  getTimesheetData: PropTypes.func.isRequired,
+};
+EnhancedTable.defaultProps = {
+  data: null,
 };
 const mapStateToProps = ({ gameDetails }) => ({
   data: gameDetails.meta.timesheets,
 });
+const mapDispatchToProps = dispatch => ({
+  getTimesheetData: (collectionId, gameId) => dispatch(getTimesheetEntries(collectionId, gameId)),
+});
 const withStylesHOC = withStyles(styles);
-const connectHOC = connect(mapStateToProps);
+const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 export default compose(connectHOC, withStylesHOC)(EnhancedTable);

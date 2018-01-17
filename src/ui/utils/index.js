@@ -1,5 +1,6 @@
 import { STORAGE_NAME } from 'constants/auth';
 import { compose, prop } from 'ramda';
+import moment from 'moment';
 
 export const getAuthToken = () => {
   const authObject = localStorage.getItem(STORAGE_NAME);
@@ -29,3 +30,5 @@ export const updateRowInSelectedList = (id, selectedList) => {
   }
   return newSelected;
 };
+const DATE_FORMAT_LONG = 'Do MMM, YYYY HH:mm';
+export const formatDate = unformattedDate => moment(unformattedDate).format(DATE_FORMAT_LONG);

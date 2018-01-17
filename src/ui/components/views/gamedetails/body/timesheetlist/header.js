@@ -10,8 +10,9 @@ import Tooltip from 'material-ui/Tooltip';
 import Checkbox from 'material-ui/Checkbox';
 
 const columnData = [
-  { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
-  { id: 'timeInHours', numeric: true, disablePadding: true, label: 'Time in hours' },
+  { id: 'startTime', numeric: false, disablePadding: true, label: 'Start time' },
+  { id: 'endTime', numeric: false, disablePadding: true, label: 'End time' },
+  { id: 'timeSpent', numeric: true, disablePadding: true, label: 'Time spent' },
 ];
 const propTypes = {
   numSelected: PropTypes.number.isRequired,
