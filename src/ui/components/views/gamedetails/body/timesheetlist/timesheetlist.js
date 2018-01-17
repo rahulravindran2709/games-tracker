@@ -69,7 +69,8 @@ class EnhancedTable extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.getTimesheetData(1, 2);
+    const { gameId, collectionId } = this.props;
+    this.props.getTimesheetData(collectionId, gameId);
   }
   handleRequestSort = (event, newOrderBy) => {
     const { data } = this.props;
@@ -168,6 +169,8 @@ EnhancedTable.defaultProps = {
 };
 const mapStateToProps = ({ gameDetails }) => ({
   data: gameDetails.meta.timesheets,
+  gameId: gameDetails.details.id,
+  collectionId: gameDetails.collectionDetails.collectionId,
 });
 const mapDispatchToProps = dispatch => ({
   getTimesheetData: (collectionId, gameId) => dispatch(getTimesheetEntries(collectionId, gameId)),
