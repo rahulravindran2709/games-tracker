@@ -4,7 +4,6 @@ import { getServerMethod, getIdRequestParam, getUserIdRequestParam, getGameIdReq
 
 const callback = reply => (err, result) => {
   if (err) {
-    console.log(err, 'In callback');
     return reply(Boom.badRequest(err));
   }
   return reply(result);
