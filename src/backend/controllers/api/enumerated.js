@@ -1,13 +1,4 @@
-import Boom from 'boom';
-import { getServerMethod, getIdRequestParam } from '../shared/utils';
-
-
-const callback = reply => (err, result) => {
-  if (err) {
-    return reply(Boom.badRequest(err));
-  }
-  return reply(result);
-};
+import { getServerMethod, getIdRequestParam, callback } from '../shared/utils';
 
 export const getGenreById = (request, reply) =>
   getServerMethod('getGenreById')(request)(getIdRequestParam(request), callback(reply));
