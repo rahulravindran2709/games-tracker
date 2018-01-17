@@ -13,11 +13,14 @@ import selector from './dashboard.selector';
 const propTypes = {
   classes: PropTypes.shape().isRequired,
   metadata: PropTypes.shape().isRequired,
+  userId: PropTypes.number,
   collections: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   wishlists: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  loadUserGameData: PropTypes.func.isRequired,
+  loadUserData: PropTypes.func.isRequired,
 };
-
+const defaultProps = {
+  userId: null,
+};
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -35,8 +38,9 @@ class DashboardView extends React.Component {
       offset: 0,
     };
   }
-  componentWillMount() {
-    this.props.loadUserGameData(1);
+  componentDidMount() {
+    const { userId, loadUserData } = this.props;
+    loadUserData(userId);
   }
   render() {
     const { classes, metadata, collections, wishlists } = this.props;
@@ -53,9 +57,10 @@ const mapStateToProps = state => selector(state);
 
 const mapDispatchToProps = dispatch =>
   ({
-    loadUserGameData: userId => dispatch(loadUserGameData(userId)),
+    loadUserData: userId => dispatch(loadUserGameData(userId)),
   });
 DashboardView.propTypes = propTypes;
+DashboardView.defaultProps = defaultProps;
 const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 const withStylesHOC = withStyles(styles);
 export default compose(connectHOC, withStylesHOC)(DashboardView);
