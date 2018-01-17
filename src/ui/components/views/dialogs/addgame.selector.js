@@ -4,6 +4,7 @@ import { path, map, compose, ifElse, equals } from 'ramda';
 const getIsGameDialogOpen = path(['dialogs', 'addGame', 'isOpen']);
 const getGameDialogType = path(['dialogs', 'addGame', 'dialogType']);
 const isTypeCollection = equals('Collection');
+const isTypeWishlist = equals('Wishlist');
 const getUserCollections = path(['dashboard', 'collections']);
 const getUserWishlists = path(['dashboard', 'wishlists']);
 const getMappedCollections = compose(map(elem => ({
@@ -15,14 +16,17 @@ const getMappedWishlists = compose(map(elem => ({
   name: elem.wishlist_name,
 })), getUserWishlists);
 const checkGameDialogTypeIsCollection = compose(isTypeCollection, getGameDialogType);
+const checkGameDialogTypeIsWishlist = compose(isTypeWishlist, getGameDialogType);
 const getUserListBasedOnDialogType = ifElse(checkGameDialogTypeIsCollection,
-  getMappedCollections, getMappedWishlists);
+  getMappedCollections, ifElse(checkGameDialogTypeIsWishlist, getMappedWishlists, () => null));
+const getUserId = path(['auth', 'user', 'id']);
 const selector = createSelector(
-  [getIsGameDialogOpen, getGameDialogType, getUserListBasedOnDialogType],
-  (open, dialogType, userList) => ({
+  [getIsGameDialogOpen, getGameDialogType, getUserListBasedOnDialogType, getUserId],
+  (open, dialogType, userList, userId) => ({
     open,
     dialogType,
     userList,
+    userId,
   }));
 
 export default selector;

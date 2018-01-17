@@ -12,12 +12,14 @@ const getWishlists = compose(map(elem => ({
   url: 'http://via.placeholder.com/350x150',
 })), path(['dashboard', 'wishlists']));
 const getUserMetadata = path(['dashboard', 'metadata']);
+const getUserId = path(['auth', 'user', 'id']);
 const selector = createSelector(
-  [getCollections, getWishlists, getUserMetadata],
-  (collections, wishlists, metadata) => ({
+  [getCollections, getWishlists, getUserMetadata, getUserId],
+  (collections, wishlists, metadata, userId) => ({
     collections,
     wishlists,
     metadata,
+    userId,
   }));
 
 export default selector;
