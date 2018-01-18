@@ -12,6 +12,7 @@ import selector from './gamedetails.selector';
 
 const propTypes = {
   init: PropTypes.func.isRequired,
+  userId: PropTypes.number,
   gameDetails: PropTypes.shape(),
   selectedGenres: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   selectedEsrb: PropTypes.shape(),
@@ -21,14 +22,15 @@ const propTypes = {
 };
 const defaultProps = {
   gameDetails: null,
+  userId: null,
   selectedEsrb: {},
   selectedPegi: {},
 };
 
 class GameDetailsView extends React.Component {
   componentDidMount() {
-    const { init, match: { params: { id } } } = this.props;
-    init(1, id);
+    const { init, match: { params: { id } }, userId } = this.props;
+    init(userId, id);
   }
   shouldComponentUpdate(nextProps) {
     return ((nextProps.match.params.id !== this.props.match.params.id) || !!nextProps.gameDetails);

@@ -51,9 +51,12 @@ export const checkIfGamePartOfCollection = (userId, gameId) => (
     },
   }
 );
-export const gameDetailsInit = (userId, gameId) => dispatch =>
-  dispatch(getGameById(gameId))
-  .then(() => dispatch(checkIfGamePartOfCollection(userId, gameId)));
+export const gameDetailsInit = (userId, igdbGameId) => dispatch =>
+  dispatch(getGameById(igdbGameId))
+  .then(({ value: { data } }) => {
+    const { id: gameId } = data;
+    return dispatch(checkIfGamePartOfCollection(userId, gameId));
+  });
 
 export const closeSnackbar = () => ({
   type: CLOSE_MSG_SNACKBAR,
