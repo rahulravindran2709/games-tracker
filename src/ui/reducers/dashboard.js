@@ -1,6 +1,8 @@
 import { GET_USER_COLLECTIONS_FULFILLED,
   GET_USER_WISHLISTS_FULFILLED,
-  GET_USER_AGG_METADATA_FULFILLED } from 'constants/collections/actions';
+  GET_USER_AGG_METADATA_FULFILLED,
+  CREATE_COLLECTION_FULFILLED,
+ } from 'constants/collections/actions';
 import { getActionType, getPayloadData } from './shared/utils';
 
 
@@ -21,6 +23,10 @@ const dashboard = (state = initialState, action) => {
       return { ...state, wishlists: data[0].Wishlists };
     case GET_USER_AGG_METADATA_FULFILLED:
       return { ...state, metadata: data };
+    case CREATE_COLLECTION_FULFILLED: {
+      const { collection_id } = data[0][0];
+      return { ...state, collections: state.collections.concat({ collection_id }) };
+    }
     default:
       return state;
   }
