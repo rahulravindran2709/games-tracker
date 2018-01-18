@@ -3,6 +3,7 @@ import { path, pathOr, curry, __, map, evolve, innerJoin, propOr, toString, prop
 
 const getGameCollectionDetails = path(['gameDetails', 'collectionDetails']);
 const getGameDetails = pathOr({}, ['gameDetails', 'details']);
+const getUserId = path(['auth', 'user', 'id']);
 const getGenres = pathOr([], ['enums', 'genres']);
 const getEsrbRatings = pathOr([], ['enums', 'esrb']);
 const getPegiRatings = pathOr([], ['enums', 'pegi']);
@@ -21,8 +22,9 @@ const joinByGenre = innerJoin(
 const findEsrbById = id => elem => propEq('esrb_rating_id', toString(id))(elem);
 const findPegiById = id => elem => propEq('pegi_rating_id', toString(id))(elem);
 const selector = createSelector(
-  [getGameDetails, getGenres, getEsrbRatings, getPegiRatings, getGameCollectionDetails],
-  (gameDetails, genres, esrbRatings, pegiRatings, gameCollection) => ({
+  [getGameDetails, getGenres, getEsrbRatings, getPegiRatings, getGameCollectionDetails,
+    getUserId],
+  (gameDetails, genres, esrbRatings, pegiRatings, gameCollection, userId) => ({
     gameDetails,
     selectedGenres: joinByGenre(genreIdsAsInteger(genres), genresFromGameDetails(gameDetails)),
     selectedEsrb: compose(find(__, esrbRatings),
@@ -30,6 +32,7 @@ const selector = createSelector(
     selectedPegi: compose(find(__, pegiRatings),
       findPegiById, getPegiRatingFromGameDetails)(gameDetails),
     gameCollection,
+    userId,
   }));
 
 export default selector;
