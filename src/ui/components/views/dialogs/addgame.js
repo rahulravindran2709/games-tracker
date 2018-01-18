@@ -4,7 +4,7 @@ import renderIf from 'render-if';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
-import { getUserListBasedOnType, addNewUserListBasedOnType } from 'actions/collections';
+import { getUserListBasedOnType, addNewUserListBasedOnType, addGameToExistingListBasedOnType } from 'actions/collections';
 import { closeAddGameDialog } from 'actions/dialogs';
 import { COLLECTION, WISHLIST } from 'constants/collections';
 import List, { ListItem } from 'material-ui/List';
@@ -44,7 +44,7 @@ class AddGameDialog extends React.Component {
     this.setState({
       newListName: '',
     });
-    this.props.closeAddGameDialog(this.props.selectedValue);
+    this.props.closeDialog(this.props.selectedValue);
   };
   handleListNameChange = (evt) => {
     this.setState({
@@ -52,8 +52,9 @@ class AddGameDialog extends React.Component {
     });
   }
   handleListItemClick = (collection) => {
-    const { addGameToExistingList, gameId } = this.props;
-    closeAddGameDialog(collection.collectionId, gameId);
+    const { addGameToExistingList, gameId, closeDialog, dialogType } = this.props;
+    addGameToExistingList(collection.id, gameId, dialogType)
+    .then(() => closeDialog());
   };
   handleAddButtonClick = () => {
     const { addGameToNewList, dialogType, userId, gameId } = this.props;
@@ -104,14 +105,14 @@ AddGameDialog.propTypes = {
   selectedValue: PropTypes.string,
   open: PropTypes.bool.isRequired,
   userList: PropTypes.arrayOf(PropTypes.shape()),
-  dialogType: PropTypes.oneOf(TYPES).isRequired,
+  dialogType: PropTypes.oneOf(TYPES),
   getUserList: PropTypes.func.isRequired,
   showMessage: PropTypes.func.isRequired,
-  closeAddGameDialog: PropTypes.func.isRequired,
   userId: PropTypes.number,
   gameId: PropTypes.number,
   addGameToNewList: PropTypes.func.isRequired,
   addGameToExistingList: PropTypes.func.isRequired,
+  closeDialog: PropTypes.func.isRequired,
 };
 
 AddGameDialog.defaultProps = {
@@ -124,7 +125,9 @@ const mapDispatchToProps = dispatch => ({
   getUserList: (userId, listType) => dispatch(getUserListBasedOnType(userId, listType)),
   addGameToNewList: (collectionName, userId, gameId, listType) =>
     dispatch(addNewUserListBasedOnType(collectionName, userId, gameId, listType)),
-  closeAddGameDialog: () => dispatch(closeAddGameDialog()),
+  addGameToExistingList: (collectionId, gameId, listType) =>
+    dispatch(addGameToExistingListBasedOnType(collectionId, gameId, listType)),
+  closeDialog: () => dispatch(closeAddGameDialog()),
   showMessage: message => dispatch(addMessageToSnackbarQueue(message)),
 });
 const connectHOC = connect(mapStateToProps, mapDispatchToProps);

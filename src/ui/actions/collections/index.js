@@ -82,11 +82,15 @@ export const addNewUserListBasedOnType = (listName, userId, gameId, listType) =>
     return dispatch(createNewCollection(listName, userId))
     .then(({ value: { data } }) => {
       const { collection_id } = data[0][0];
-      console.log(collection_id, 'Collection id received');
-      console.log(gameId, 'Game id received');
       return dispatch(addGameToCollection(collection_id, gameId));
     });
-    // .then(() =>);
+  }
+  return null;
+};
+
+export const addGameToExistingListBasedOnType = (listId, gameId, listType) => (dispatch) => {
+  if (listType === COLLECTION) {
+    return dispatch(addGameToCollection(listId, gameId));
   }
   return null;
 };
