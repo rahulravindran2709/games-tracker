@@ -4,7 +4,7 @@ import { getGamesInCollection, getGamesInWishlist,
    addGameToWishlist,
  removeGamesInCollection,
  removeGamesInWishlist } from '../controllers/api/collection';
-import { gameCollectionPost } from '../validation/schemas/gamecollection';
+import { gameCollectionPutParam } from '../validation/schemas/gamecollection';
 import { timesheetPost } from '../validation/schemas/timesheet';
 
 const routes = [{
@@ -59,8 +59,9 @@ const routes = [{
   handler: addGameToCollection,
   config: {
     validate: {
-      payload: gameCollectionPost,
+      params: gameCollectionPutParam,
     },
+    auth: false,
     description: 'Add a game to a collection',
     notes: 'Add games to collection',
     tags: ['api', 'user', 'collections', 'games'],
