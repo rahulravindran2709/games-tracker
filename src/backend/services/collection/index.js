@@ -21,7 +21,7 @@ const register = (server, options, next) => {
     Game_Wishlist, Collection, Wishlist, Game, Timesheet } = getDatabaseModels(server);
   const getGameMetadataOptions = { ...serverMethodOptions,
     bind: { models: { Game_Collection, Timesheet } } };
-  const addGameCollectionOptions = { bind: { models: { Collection, Game } } };
+  const addGameCollectionOptions = { bind: { models: { Collection, Game, Game_Collection } } };
   const addGameWishlistOptions = { bind: { models: { Wishlist, Game } } };
   const removeGameInCollectionOptions = { bind: { models: { Game_Collection } } };
   const removeGameInWishlistOptions = { bind: { models: { Game_Wishlist } } };

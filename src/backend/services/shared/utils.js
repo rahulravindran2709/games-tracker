@@ -45,7 +45,7 @@ export const getDBErrorMessage = (error) => {
   console.log(error, 'Error');
   const sqlErrorLog = `${name}:${parent && parent.code}:${sql}`;
   console.log(sqlErrorLog);
-  return (errorProcessorMap[name])(error);
+  return ((errorProcessorMap[name]) && (errorProcessorMap[name])(error)) || error;
 };
 
 const addModelToOptions = objOf('models');
