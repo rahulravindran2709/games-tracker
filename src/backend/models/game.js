@@ -25,10 +25,29 @@ module.exports = (sequelize, DataTypes) => {
     firstReleaseDate: {
       type: DataTypes.DATE,
     },
+    rating: {
+      type: DataTypes.DOUBLE,
+    },
+    ratingCount: {
+      type: DataTypes.INTEGER,
+    },
+    developers: {
+      type: DataTypes.ARRAY,
+    },
+    publishers: {
+      type: DataTypes.ARRAY,
+    },
+    genres: {
+      type: DataTypes.ARRAY,
+    },
+    platforms: {
+      type: DataTypes.ARRAY,
+    },
   });
   Game.associate = (models) => {
     Game.belongsToMany(models.Collection, { through: models.Game_Collection, foreignKey: 'game_id' });
     Game.belongsToMany(models.Wishlist, { through: models.Game_Wishlist, foreignKey: 'game_id' });
+    Game.hasMany(models.Game_Images, { foreignKey: 'game_id', sourceKey: 'id' });
   };
   return Game;
 };

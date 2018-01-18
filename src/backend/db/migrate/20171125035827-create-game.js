@@ -40,6 +40,24 @@ module.exports = {
       allowNull: false,
       type: Sequelize.DATE,
     },
+    rating: {
+      type: Sequelize.DOUBLE,
+    },
+    ratingCount: {
+      type: Sequelize.INTEGER,
+    },
+    developers: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    publishers: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    genres: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    platforms: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
   }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable('Games'),
 };
