@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import renderIf from 'render-if';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
-import { getUserCollections, getUserWishlists, addGameToCollection } from 'actions/collections';
+import { getUserListBasedOnType, addNewUserListBasedOnType } from 'actions/collections';
 import { closeAddGameDialog } from 'actions/dialogs';
-import Avatar from 'material-ui/Avatar';
-import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
+import { COLLECTION, WISHLIST } from 'constants/collections';
+import List, { ListItem } from 'material-ui/List';
 import Dialog, { DialogTitle } from 'material-ui/Dialog';
-import PersonIcon from 'material-ui-icons/Person';
-import AddIcon from 'material-ui-icons/Add';
+import Divider from 'material-ui/Divider';
+import TextField from 'material-ui/TextField';
 import blue from 'material-ui/colors/blue';
+import { addMessageToSnackbarQueue } from 'actions';
 import selector from './addgame.selector';
+import { AddNewListButton, UserListItem, EmptyListText } from './addgame.components';
 
 const styles = {
   avatar: {
@@ -19,78 +22,76 @@ const styles = {
     color: blue[600],
   },
 };
+const TYPES = [COLLECTION, WISHLIST];
 
-const AddNewCollectionButton = ({ onTouchTap }) => (
-  <ListItem button onClick={onTouchTap}>
-    <ListItemAvatar>
-      <Avatar>
-        <AddIcon />
-      </Avatar>
-    </ListItemAvatar>
-    <ListItemText primary="Add new collection" />
-  </ListItem>);
-
-AddNewCollectionButton.propTypes = {
-  onTouchTap: PropTypes.func.isRequired,
-};
-
-
-const UserListItem = ({ collection, avatarClassName, handleItemClick }) => (
-  <ListItem
-    button
-    onClick={handleItemClick}
-    key={collection.id}
-  >
-    <ListItemAvatar>
-      <Avatar className={avatarClassName}>
-        <PersonIcon />
-      </Avatar>
-    </ListItemAvatar>
-    <ListItemText primary={collection.name} />
-  </ListItem>);
-
-UserListItem.propTypes = {
-  collection: PropTypes.shape(),
-  avatarClassName: PropTypes.string.isRequired,
-  handleItemClick: PropTypes.func,
-};
-UserListItem.defaultProps = {
-  collection: null,
-  handleItemClick: null,
-};
 class AddGameDialog extends React.Component {
+  state = {
+    newListName: '',
+  }
   componentDidMount() {
-    const { userId } = this.props;
-    this.props.getUserCollectionsList(userId);
-    this.props.getUserWishlistsList(userId);
+    const { userId, getUserList, dialogType } = this.props;
+    getUserList(userId, dialogType);
+  }
+  componentWillReceiveProps(nextProps) {
+    const { userId: newUserId, dialogType: newDialogType } = nextProps;
+    const { userId: oldUserId, dialogType: oldDialogType } = this.props;
+    if ((newUserId && newUserId !== oldUserId)
+    || (newDialogType && newDialogType !== oldDialogType)) {
+      this.props.getUserList(newUserId, newDialogType);
+    }
   }
   handleClose = () => {
+    this.setState({
+      newListName: '',
+    });
     this.props.closeAddGameDialog(this.props.selectedValue);
   };
-
-  handleListItemClick = (value) => {
-    this.props.closeAddGameDialog(value);
+  handleListNameChange = (evt) => {
+    this.setState({
+      newListName: evt.target.value,
+    });
+  }
+  handleListItemClick = (collection) => {
+    const { addGameToExistingList, gameId } = this.props;
+    closeAddGameDialog(collection.collectionId, gameId);
   };
-
+  handleAddButtonClick = () => {
+    const { addGameToNewList, dialogType, userId, gameId } = this.props;
+    const { newListName } = this.state;
+    if (!newListName) {
+      return;
+    }
+    addGameToNewList(newListName, userId, gameId, dialogType)
+    .then(() => this.props.showMessage('Game added successfully'))
+    .then(this.handleClose);
+  }
   render() {
     const { classes, selectedValue, open, userList, dialogType } = this.props;
+    const { newListName } = this.state;
     if (!open) {
       return null;
     }
+    const renderIfNoListItems = renderIf(!userList || userList.length === 0);
     return (
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={open} onBackdropClick={this.handleClose}>
         <DialogTitle id="simple-dialog-title">Add game to {dialogType}</DialogTitle>
         <div>
           <List>
-            {userList.map(collection => (
+            {userList && userList.map(listItem => (
               <UserListItem
                 avatarClassName={classes.avatar}
-                handleItemClick={() => this.handleListItemClick(collection)}
-                key={collection.id}
-                collection={collection}
+                handleItemClick={() => this.handleListItemClick(listItem)}
+                key={listItem.id}
+                collection={listItem}
               />
             ))}
-            <AddNewCollectionButton onTouchTap={() => this.handleListItemClick('addAccount')} />
+            {renderIfNoListItems(() => <EmptyListText dialogType={dialogType} />)}
+            <Divider />
+            <ListItem><TextField label={'Name'} value={newListName} onChange={this.handleListNameChange} /></ListItem>
+            <AddNewListButton
+              onTouchTap={this.handleAddButtonClick}
+              listType={dialogType}
+            />
           </List>
         </div>
       </Dialog>
@@ -103,23 +104,28 @@ AddGameDialog.propTypes = {
   selectedValue: PropTypes.string,
   open: PropTypes.bool.isRequired,
   userList: PropTypes.arrayOf(PropTypes.shape()),
-  dialogType: PropTypes.string.isRequired,
-  getUserCollectionsList: PropTypes.func.isRequired,
-  getUserWishlistsList: PropTypes.func.isRequired,
+  dialogType: PropTypes.oneOf(TYPES).isRequired,
+  getUserList: PropTypes.func.isRequired,
+  showMessage: PropTypes.func.isRequired,
   closeAddGameDialog: PropTypes.func.isRequired,
   userId: PropTypes.number,
+  gameId: PropTypes.number,
+  addGameToNewList: PropTypes.func.isRequired,
+  addGameToExistingList: PropTypes.func.isRequired,
 };
 
 AddGameDialog.defaultProps = {
   userList: [],
   userId: null,
+  gameId: null,
 };
 const mapStateToProps = state => selector(state);
 const mapDispatchToProps = dispatch => ({
-  getUserCollectionsList: userId => dispatch(getUserCollections(userId)),
-  getUserWishlistsList: userId => dispatch(getUserWishlists(userId)),
-  addGameToCollection: selectedCollection => dispatch(addGameToCollection(selectedCollection)),
+  getUserList: (userId, listType) => dispatch(getUserListBasedOnType(userId, listType)),
+  addGameToNewList: (collectionName, userId, gameId, listType) =>
+    dispatch(addNewUserListBasedOnType(collectionName, userId, gameId, listType)),
   closeAddGameDialog: () => dispatch(closeAddGameDialog()),
+  showMessage: message => dispatch(addMessageToSnackbarQueue(message)),
 });
 const connectHOC = connect(mapStateToProps, mapDispatchToProps);
 const withStylesHOC = withStyles(styles);
