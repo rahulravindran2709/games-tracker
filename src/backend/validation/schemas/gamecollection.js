@@ -4,5 +4,7 @@ export const gameCollectionPost = {
   playthroughs: Joi.string().required(),
 };
 
-export const gameCollectionPut = {
+export const gameCollectionPutParam = {
+  collectionid: Joi.number().required(),
+  gameid: Joi.number().required(),
 };

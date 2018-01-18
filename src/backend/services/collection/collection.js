@@ -1,6 +1,7 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
 import { reduce, props, apply, prop, compose, subtract, evolve, head } from 'ramda';
+import Boom from 'boom';
 import { getWhereSelectorIfParamNotEmpty, isNotEmpty, getDBErrorMessage } from '../shared/utils';
 
 const getTotalTimePlayed = reduce((accum, current) => {
@@ -42,18 +43,26 @@ export function getGameMetaDataByCollection(collectionId, gameId) {
   }) : {});
 }
 
-export function addGameToCollection(collectionId, gameId, gameCollectionBody) {
-  const { Collection } = this.models;
-  console.log(`Adding ${gameId} to collection ${collectionId} ${gameCollectionBody}`);
+export function addGameToCollection(collectionId, gameId, gameCollectionBody = {
+  playthroughs: 0,
+}) {
+  const { Collection, Game } = this.models;
+  console.log(`Adding game ${gameId} to collection ${collectionId} ${gameCollectionBody}`);
   return Collection.findById(collectionId).then((collectionObject) => {
     if (!collectionObject) {
-      throw new Error('Collection not found');
+      throw Boom.badRequest('Collection not found');
     }
-    return collectionObject.addGame(gameId, { through: gameCollectionBody })
+    return Game.findById(gameId)
+    .then((gameModel) => {
+      if (!gameModel) {
+        throw Boom.badRequest('Game not found');
+      }
+      return collectionObject.addGame(gameId, { through: gameCollectionBody });
+    })
     .catch((error) => {
       const errorMessage = getDBErrorMessage(error);
-      console.log(errorMessage, 'An error occurred while adding game to collection')
-      throw new Error(errorMessage);
+      console.log(errorMessage, 'An error occurred while adding game to collection');
+      throw Boom.badRequest(errorMessage);
     });
   });
 }
@@ -63,12 +72,12 @@ export function addGameToWishlist(wishlistId, gameId) {
   console.log(`Adding ${gameId} to collection ${wishlistId}`);
   return Wishlist.findById(wishlistId).then((wishlistObject) => {
     if (!wishlistObject) {
-      throw new Error('Collection not found');
+      throw Boom.badRequest('Wishlist not found');
     }
     return wishlistObject.addGame(gameId).catch((error) => {
       const errorMessage = getDBErrorMessage(error);
       console.log(errorMessage, 'An error occurred while adding game to collection')
-      throw new Error(errorMessage);
+      throw Boom.badRequest(errorMessage);
     });
   });
 }

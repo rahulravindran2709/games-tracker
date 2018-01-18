@@ -1,8 +1,10 @@
 import { reduce, pick, compose, identity, complement, merge,
-  objOf, assoc, ifElse, isEmpty, map, propOr, path } from 'ramda';
+  objOf, assoc, ifElse, isEmpty, map, propOr, path, head } from 'ramda';
 
 const FK_ERROR_TYPE = 'SequelizeForeignKeyConstraintError';
 const UNIQ_ERROR_TYPE = 'SequelizeUniqueConstraintError';
+const VALIDATION_TYPE = 'SequelizeValidationError';
+const AGGREGRATE = 'AggregateError';
 
 const transformToEmptyObject = () => identity({});
 const getWhereAttr = field => value =>
@@ -24,9 +26,13 @@ const processUniqKeyConstraintMessage = compose(reduce((accum, currentError) => 
   return accum.concat(currentErrMsg);
 }, ''), propOr([], 'errors'));
 
+const processValidationMessage = propOr([], 'errors');
+const processAggregrateError = compose(propOr([], 'errors'), head);
 const errorProcessorMap = {
   [FK_ERROR_TYPE]: processFKeyConstraintMessage,
   [UNIQ_ERROR_TYPE]: processUniqKeyConstraintMessage,
+  [VALIDATION_TYPE]: processValidationMessage,
+  [AGGREGRATE]: processAggregrateError,
 };
 
 export const getDBErrorMessage = (error) => {
@@ -37,7 +43,7 @@ export const getDBErrorMessage = (error) => {
   // TODO sql write the failed sql to dbError.log
   const { name, sql, parent } = error;
   console.log(error, 'Error');
-  const sqlErrorLog = `${name}:${parent.code}:${sql}`;
+  const sqlErrorLog = `${name}:${parent && parent.code}:${sql}`;
   console.log(sqlErrorLog);
   return (errorProcessorMap[name])(error);
 };
