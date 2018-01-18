@@ -11,6 +11,7 @@ const initialState = {
   addGame: {
     isOpen: false,
     dialogType: '',
+    gameDetails: null,
   },
 };
 const dialogs = (state = initialState, action) => {
@@ -19,7 +20,10 @@ const dialogs = (state = initialState, action) => {
   switch (type) {
     case OPEN_ADD_GAME_DIALOG:
       return { ...state,
-        addGame: { ...state.addGame, isOpen: true, dialogType: payload.dialogType } };
+        addGame: { ...state.addGame,
+          isOpen: true,
+          dialogType: payload.dialogType,
+          gameDetails: payload.gameDetails } };
     case CLOSE_ADD_GAME_DIALOG:
       return { ...state,
         addGame: { ...state.addGame, isOpen: false, dialogType: '' } };

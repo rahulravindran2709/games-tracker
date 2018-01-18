@@ -1,5 +1,5 @@
 import { GET_USER_COLLECTIONS, GET_USER_WISHLISTS, GET_USER_AGG_METADATA,
-CREATE_COLLECTION } from 'constants/collections/actions';
+CREATE_COLLECTION, ADD_GAME_TO_COLLECTION } from 'constants/collections/actions';
 import { GET_USER_COLLECTIONS as GET_USER_COLLECTIONS_URL,
    GET_USER_WISHLISTS as GET_USER_WISHLISTS_URL,
  GET_USER_AGG_METADATA as GET_USER_AGG_METADATA_URL,
@@ -59,7 +59,8 @@ dispatch({
   payload: {
     auth: true,
     method: PUT,
-    requestName: `${ADD_GAME_TO_COLLECTION_URL(collectionId, gameId)}`,
+    requestName: ADD_GAME_TO_COLLECTION,
+    url: `${ADD_GAME_TO_COLLECTION_URL(collectionId, gameId)}`,
   },
 });
 export const loadUserGameData = userId => (dispatch) => {
@@ -79,6 +80,12 @@ export const getUserListBasedOnType = (userId, listType) => (dispatch) => {
 export const addNewUserListBasedOnType = (listName, userId, gameId, listType) => (dispatch) => {
   if (listType === COLLECTION) {
     return dispatch(createNewCollection(listName, userId))
+    .then(({ value: { data } }) => {
+      const { collection_id } = data[0][0];
+      console.log(collection_id, 'Collection id received');
+      console.log(gameId, 'Game id received');
+      return dispatch(addGameToCollection(collection_id, gameId));
+    });
     // .then(() =>);
   }
   return null;

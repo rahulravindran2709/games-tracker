@@ -77,7 +77,8 @@ SpeedDialGameInCollection.defaultProps = {
 };
 class GameOptions extends React.Component {
   addToCollection = () => {
-    this.props.openAddGameToCollectionDlg();
+    const { gameObject, openAddGameToCollectionDlg } = this.props;
+    openAddGameToCollectionDlg(gameObject);
   }
 
   addToWishlist = () => {
@@ -120,8 +121,8 @@ GameOptions.defaultProps = {
 };
 const mapStateToProps = state => selector(state);
 const mapDispatchToProps = dispatch => ({
-  openAddGameToCollectionDlg: () => dispatch(openAddGameToCollectionDialog()),
-  openAddGameToWishlistDlg: () => dispatch(openAddGameToWishlistDialog()),
+  openAddGameToCollectionDlg: gameObject => dispatch(openAddGameToCollectionDialog(gameObject)),
+  openAddGameToWishlistDlg: gameObject => dispatch(openAddGameToWishlistDialog(gameObject)),
   openAddTimesheetEntryDlg:
   (game, collection) => dispatch(openAddTimesheetEntryDialog(game, collection)),
 });

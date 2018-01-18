@@ -2,10 +2,11 @@ import { OPEN_ADD_GAME_DIALOG, CLOSE_ADD_GAME_DIALOG,
  OPEN_ADD_TIMESHEET_DIALOG, CLOSE_ADD_TIMESHEET_DIALOG } from 'constants/dialogs/actions';
 import { COLLECTION, WISHLIST } from 'constants/collections/'
 
-export const openAddGameToCollectionDialog = () => ({
+export const openAddGameToCollectionDialog = (game) => ({
   type: OPEN_ADD_GAME_DIALOG,
   payload: {
     dialogType: COLLECTION,
+    gameDetails: game,
   },
 });
 
