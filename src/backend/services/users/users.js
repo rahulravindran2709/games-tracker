@@ -90,8 +90,7 @@ export function getGameCollectionByUser(userId, gameId) {
   console.log(userId, gameId, 'In get gameCollectionByUser');
   const { User, Game, Collection } = this.models;
   const whereSelector = getWhereSelectorIfParamNotEmpty('id')(userId);
-  const gameWhereSelector = getWhereSelectorIfParamNotEmpty('game_id')(gameId);
-  console.log(Collection, 'model')
+  const gameWhereSelector = getWhereSelectorIfParamNotEmpty('service_game_id')(gameId);
   return User.findOne({
     attributes: [['id', 'userId']],
     include: [{
@@ -119,18 +118,17 @@ export function addNewUser(user) {
   const hashPr = generateHash(userModelObject.password);
   return hashPr.then((hash) => {
     const userModelWithHashPass = { ...userModelObject, password: hash };
-    console.log(userModelWithHashPass);
     return User.create(userModelWithHashPass);
   });
 }
 
 export function updateUser(id, user) {
-  console.log(user, 'New user');
+  console.log(user, 'Updated user');
   const { User } = this.models;
   const userModelObject = mapUserApiObjectToModel(user);
   return User.findById(id)
   .then(userFromDb => User.update(userModelObject, { where: { id } }))
-  .catch(err => console.error(err.message, 'Something broke'));
+  .catch((err) => { throw Boom.badRequest(err); });
 }
 
 export function createUserCollection(userId, collection) {
@@ -140,12 +138,12 @@ export function createUserCollection(userId, collection) {
   return Collection.create(collectionModelObject)
   .then((collectionModel) => {
     if (!collectionModel) {
-      throw new Error('Insert failed');
+      throw Boom.BadRequest('Collection creation failed');
     }
     return User.findById(userId).then(userModelFromDB =>
       userModelFromDB.addCollection(collectionModel));
   })
-    .catch(error => console.error(error, 'Error occurred'));
+    .catch((error) => { throw Boom.badRequest(error); });
 }
 
 export function createUserWishlist(userId, wishlist) {
@@ -155,12 +153,12 @@ export function createUserWishlist(userId, wishlist) {
   return Wishlist.create(wishlistModelObject)
   .then((wishlistModel) => {
     if (!wishlistModel) {
-      throw new Error('Insert failed');
+      throw Boom.BadRequest('Wishlist creation failed');
     }
     return User.findById(userId).then(userModelFromDB =>
       userModelFromDB.addWishlist(wishlistModel));
   })
-    .catch(error => console.error(error, 'Error occurred'));
+    .catch((error) => { throw Boom.badRequest(error); });
 }
 const generateNewSession = () => ({
   valid: true,

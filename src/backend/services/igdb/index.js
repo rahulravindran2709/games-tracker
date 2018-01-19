@@ -1,28 +1,14 @@
 import { path } from 'ramda';
-import { getGames, getGameById, getGenreById } from './igdb';
+import { getGames, getGameById, getGenreById, getGameImagesByGameId, getGameLinksByGameId } from './igdb';
+import { constructGetGameOptions, constructSearchOptions, constructGetGameLinkOptions, constructGetGameImageOptions } from './igdb.config';
 
-const serverMethodOptions = {
-  callback: false,
-  cache: {
-    cache: 'diskCache',
-    expiresIn: 30 * 1000,
-    generateTimeout: 10000,
-  },
-};
 const register = (server, options, next) => {
-  const { Game } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
-  server.method('search', getGames, { ...serverMethodOptions,
-    generateKey: params => (`${params.term || ''}${params.zone || ''}`) });
-  const geGameByIdOptions = {
-    ...serverMethodOptions,
-    bind: {
-      models: {
-        Game,
-      },
-    },
-  };
-  server.method('getGameById', getGameById, geGameByIdOptions);
-  server.method('getGenreGameById', getGenreById, serverMethodOptions);
+  const models = path(['plugins', 'datastore', 'DatabaseModels'])(server);
+  server.method('search', getGames, constructSearchOptions());
+  server.method('getGameById', getGameById, constructGetGameOptions(models));
+  server.method('getGenreGameById', getGenreById, constructGetGameOptions(models));
+  server.method('getGameImagesByGameId', getGameImagesByGameId, constructGetGameImageOptions(models));
+  server.method('getGameLinksByGameId', getGameLinksByGameId, constructGetGameLinkOptions(models));
   return next();
 };
 register.attributes = {

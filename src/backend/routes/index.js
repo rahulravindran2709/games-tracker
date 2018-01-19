@@ -2,6 +2,7 @@ import apiRoutes from './api';
 import enumeratedRoutes from './enumerated';
 import userRoutes from './users';
 import collectionRoutes from './collection';
+import gameRoutes from './game';
 
 
 module.exports = {
@@ -9,4 +10,5 @@ module.exports = {
   enumerated: enumeratedRoutes,
   user: userRoutes,
   collection: collectionRoutes,
+  game: gameRoutes,
 };

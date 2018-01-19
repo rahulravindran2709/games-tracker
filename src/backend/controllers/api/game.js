@@ -1,13 +1,10 @@
-import { path } from 'ramda';
 
-const getServerMethod = methodName => path(['server', 'methods', methodName]);
-const getRequestParam = paramName => path(['params', paramName]);
-const getIdRequestParam = getRequestParam('id');
+import { getServerMethod, getIdRequestParam, getGameIdRequestParam } from '../shared/utils';
+
 
 const callback = reply => (err, result) => {
-  console.log(err, 'In callback');
   if (err) {
-    return reply(require('../../../../data/dummy').data[0]);
+    return reply(err);
   }
   return reply(result);
 };
@@ -22,6 +19,11 @@ export const getGameById = (request, reply) =>
 export const getGameGenreById = (request, reply) =>
   getServerMethod('getGenreGameById')(request)(getIdRequestParam(request), callback(reply));
 
+export const getGameImagesByGameId = (request, reply) =>
+  getServerMethod('getGameImagesByGameId')(request)(getGameIdRequestParam(request), request.query.type, callback(reply));
+
+export const getGameLinksByGameId = (request, reply) =>
+  getServerMethod('getGameLinksByGameId')(request)(getGameIdRequestParam(request), callback(reply));
 export default {
   getGames,
   getGameById,

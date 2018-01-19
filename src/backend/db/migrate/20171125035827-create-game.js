@@ -7,27 +7,28 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    game_id: {
+    service_game_id: {
       allowNull: false,
       type: Sequelize.INTEGER,
+      unique: true,
     },
     name: {
       allowNull: false,
       type: Sequelize.STRING,
     },
-    game_createdAt: {
+    service_createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
     },
-    game_updatedAt: {
+    service_updatedAt: {
       allowNull: false,
       type: Sequelize.DATE,
     },
     summary: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     storyline: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     firstReleaseDate: {
       type: Sequelize.DATE,
@@ -39,6 +40,39 @@ module.exports = {
     updatedAt: {
       allowNull: false,
       type: Sequelize.DATE,
+    },
+    rating: {
+      type: Sequelize.DOUBLE,
+    },
+    ratingCount: {
+      type: Sequelize.INTEGER,
+    },
+    developers: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    publishers: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    genres: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    platforms: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    relatedGames: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    pegi: {
+      type: Sequelize.INTEGER,
+    },
+    esrb: {
+      type: Sequelize.INTEGER,
+    },
+    steamAppId: {
+      type: Sequelize.STRING,
+    },
+    timeToBeat: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
   }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable('Games'),
