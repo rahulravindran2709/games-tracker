@@ -143,3 +143,12 @@ export function getGameImagesByGameId(gameId, type) {
     },
   });
 }
+
+export function getGameLinksByGameId(gameId) {
+  const { Game_Links } = this.models;
+  const gameidWhereSelector = getWhereSelectorIfParamNotEmpty('game_id')(gameId);
+  return Game_Links.findAll({
+    attributes: ['id', 'url', 'type'],
+    ...gameidWhereSelector,
+  });
+}

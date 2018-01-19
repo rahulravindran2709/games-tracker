@@ -21,6 +21,9 @@ export const getGameGenreById = (request, reply) =>
 
 export const getGameImagesByGameId = (request, reply) =>
   getServerMethod('getGameImagesByGameId')(request)(getGameIdRequestParam(request), request.query.type, callback(reply));
+
+export const getGameLinksByGameId = (request, reply) =>
+  getServerMethod('getGameLinksByGameId')(request)(getGameIdRequestParam(request), callback(reply));
 export default {
   getGames,
   getGameById,

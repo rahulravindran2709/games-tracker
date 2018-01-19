@@ -1,5 +1,5 @@
 import { path } from 'ramda';
-import { getGames, getGameById, getGenreById, getGameImagesByGameId } from './igdb';
+import { getGames, getGameById, getGenreById, getGameImagesByGameId, getGameLinksByGameId } from './igdb';
 
 const serverMethodOptions = {
   callback: false,
@@ -29,9 +29,19 @@ const register = (server, options, next) => {
       },
     },
   };
+
+  const getLinkOptions = {
+    ...serverMethodOptions,
+    bind: {
+      models: {
+        Game_Links,
+      },
+    },
+  };
   server.method('getGameById', getGameById, geGameByIdOptions);
   server.method('getGenreGameById', getGenreById, serverMethodOptions);
   server.method('getGameImagesByGameId', getGameImagesByGameId, getImageOptions);
+  server.method('getGameLinksByGameId', getGameLinksByGameId, getLinkOptions);
   return next();
 };
 register.attributes = {
