@@ -3,8 +3,10 @@ import { push } from 'react-router-redux';
 import { CALL_API, GET } from 'middlewares/api';
 import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR,
   CLEAR_MSG_SNACKBAR } from 'constants/common/actions';
-import { GET_GAME_COLLECTION_BY_USERID } from 'constants/game/actions';
-import { GET_GAME_COLLECTION_BY_USERID as GAME_COLLECTION_URL } from 'constants/game/urls';
+import { GET_GAME_COLLECTION_BY_USERID, GET_GAME_IMAGES_BY_ID, GET_GAME_LINKS_BY_ID } from 'constants/game/actions';
+import { GET_GAME_COLLECTION_BY_USERID as GAME_COLLECTION_URL,
+GET_GAME_IMAGES_BY_ID as GET_GAME_IMAGES_BY_ID_URL,
+GET_GAME_LINKS_BY_ID as GET_GAME_LINKS_BY_ID_URL } from 'constants/game/urls';
 
 import { TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
@@ -40,6 +42,31 @@ export const getGameById = id =>
   },
 });
 
+export const getGameImagesById = (id, type) =>
+({
+  type: CALL_API,
+  payload: {
+    auth: true,
+    method: GET,
+    requestName: GET_GAME_IMAGES_BY_ID,
+    url: `${GET_GAME_IMAGES_BY_ID_URL(id)}`,
+    params: {
+      type,
+    },
+  },
+});
+
+export const getGameLinkById = id =>
+({
+  type: CALL_API,
+  payload: {
+    auth: true,
+    method: GET,
+    requestName: GET_GAME_LINKS_BY_ID,
+    url: `${GET_GAME_LINKS_BY_ID_URL(id)}`,
+  },
+});
+
 export const checkIfGamePartOfCollection = (userId, gameId) => (
   {
     type: CALL_API,
@@ -55,7 +82,9 @@ export const gameDetailsInit = (userId, igdbGameId) => dispatch =>
   dispatch(getGameById(igdbGameId))
   .then(({ value: { data } }) => {
     const { id: gameId } = data;
-    return dispatch(checkIfGamePartOfCollection(userId, gameId));
+    return dispatch(checkIfGamePartOfCollection(userId, gameId))
+    .then(() => dispatch(getGameImagesById(gameId, 'Screenshot')))
+    .then(() => dispatch(getGameLinkById(gameId)));
   });
 
 export const closeSnackbar = () => ({
