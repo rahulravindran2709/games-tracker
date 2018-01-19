@@ -25,10 +25,10 @@ module.exports = {
       type: Sequelize.DATE,
     },
     summary: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     storyline: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     firstReleaseDate: {
       type: Sequelize.DATE,
@@ -60,6 +60,18 @@ module.exports = {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
     relatedGames: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    pegi: {
+      type: Sequelize.INTEGER,
+    },
+    esrb: {
+      type: Sequelize.INTEGER,
+    },
+    steamAppId: {
+      type: Sequelize.STRING,
+    },
+    timeToBeat: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
   }),

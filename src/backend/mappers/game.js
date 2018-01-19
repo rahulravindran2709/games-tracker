@@ -1,8 +1,8 @@
 const gameMap = {
   id: 'service_game_id',
   name: 'name',
-  created_at: 'game_createdAt',
-  updated_at: 'game_updatedAt',
+  created_at: 'service_createdAt',
+  updated_at: 'service_updatedAt',
   summary: 'summary',
   storyline: 'storyline',
   rating: 'rating',

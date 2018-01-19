@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
     },
     summary: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     storyline: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     firstReleaseDate: {
       type: DataTypes.DATE,
@@ -44,11 +44,24 @@ module.exports = (sequelize, DataTypes) => {
     platforms: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
     },
+    pegi: {
+      type: DataTypes.INTEGER,
+    },
+    esrb: {
+      type: DataTypes.INTEGER,
+    },
+    steamAppId: {
+      type: DataTypes.STRING,
+    },
+    timeToBeat: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+    },
   });
   Game.associate = (models) => {
     Game.belongsToMany(models.Collection, { through: models.Game_Collection, foreignKey: 'game_id' });
     Game.belongsToMany(models.Wishlist, { through: models.Game_Wishlist, foreignKey: 'game_id' });
     Game.hasMany(models.Game_Images, { foreignKey: 'game_id', sourceKey: 'id' });
+    Game.hasMany(models.Game_Links, { foreignKey: 'game_id', sourceKey: 'id' });
   };
   return Game;
 };

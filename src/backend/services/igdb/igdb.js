@@ -1,8 +1,10 @@
 import igdb from 'igdb-api-node';
 import Boom from 'boom';
 import moment from 'moment';
-import { head, compose, pick, mergeAll, prop, objOf } from 'ramda';
-import { getBodyFromServiceResponse, getWhereSelectorIfParamNotEmpty } from '../shared/utils';
+import { head, compose, pick, pathOr, prop, objOf, omit } from 'ramda';
+import { mapGameApiObjectToModel } from '../../mappers';
+import { getBodyFromServiceResponse, getWhereSelectorIfParamNotEmpty, getDBErrorMessage } from '../shared/utils';
+import { OMITTED_FIELDS_GAME, COMPLEX_FIELDS_GAME } from '../shared/constants';
 
 global['3scaleKey'] = '422b0b250799d114e611860b340af41d';
 const client = igdb();
@@ -13,6 +15,22 @@ const createSearchOptions = (options) => {
     offset: 0,
   };
   return { ...defaultSearchOptions, ...options.search };
+};
+const buildGameModelObject = (apiResponseObject) => {
+  // Omit complex fields
+  const simpleFieldsOnly = omit(OMITTED_FIELDS_GAME)(apiResponseObject)
+  const modelObject = mapGameApiObjectToModel(simpleFieldsOnly);
+  // screenshots
+  // Ratings
+  modelObject.esrb = pathOr(null, ['esrb', 'rating'])(apiResponseObject);
+  modelObject.pegi = pathOr(null, ['pegi', 'rating'])(apiResponseObject);
+  // time to time_to_beat
+  const timeToBeat = pathOr({}, ['time_to_beat'])(apiResponseObject);
+  modelObject.timeToBeat = [timeToBeat.normally, timeToBeat.hastly, timeToBeat.completely];
+  // Websites
+  // Steam appid
+  modelObject.steamAppId = pathOr('', ['external', 'steam'])(apiResponseObject);
+  return modelObject;
 };
 export const getGames = (searchCriteria) => {
   console.log(searchCriteria, 'In search games');
@@ -49,20 +67,35 @@ export function getGameById(igdbGameId) {
     console.log('Calling igdb');
     const igdbCall = client.games({ ids: [igdbGameId] })
     .then(response => compose(head, getBodyFromServiceResponse)(response))
-    .catch(() => require('../../../../data/dummy').data[0]);
+    .catch(() => {
+      const data = require('../../../../data/dummy').data[0];
+      return { ...data, id: igdbGameId };
+    });
     // Case 2: There is no row in our table for given game id
     // Insert row into table
     if (!gameObject) {
+      console.log('Case 2');
       return igdbCall.then((igdbGameObject) => {
-        return Game.create(igdbGameObject)
+        const modelObject = buildGameModelObject(igdbGameObject)
+        return Game.create(modelObject);
+      })
+      .catch((err) => {
+        throw Boom.badRequest(err);
       });
     }
     // Case 3: Row exists but is outdated
     // Check if the igdb updated date from the response is same as the one in our db
-    if (checkIfUpdatedDateOld(gameObject.service_updatedAt)) {
-      return igdbCall.then();
+    if (gameObject && checkIfUpdatedDateOld(gameObject.service_updatedAt)) {
+      return igdbCall.then((igdbGameObject) => {
+        // return Game.update
+      }).catch((err) => { throw Boom.badRequest(err); });
     }
     throw Boom.badRequest('Invalid scenario');
+  })
+  .catch((err) => {
+    const message = getDBErrorMessage(err);
+    console.log(message, 'IN main catch');
+    throw Boom.badRequest(message);
   });
   /* return client.games({ ids: [igdbGameId] })
   .then((response) => {
