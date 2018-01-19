@@ -57,26 +57,14 @@ export const getGames = (searchCriteria) => {
   });
 };
 const checkIfUpdatedDateOld = updatedDate => moment().diff(moment(updatedDate), 'days') >= 365;
-export function getGameById(igdbGameId) {
-  console.log(igdbGameId, 'In get game by id');
-  const { Game, Game_Images, Game_Links } = this.models;
-  const whereSelector = getWhereSelectorIfParamNotEmpty('service_game_id')(igdbGameId);
-  const includes = {
-    include: [{
-      model: Game_Images,
-    }, {
-      model: Game_Links,
-    }] };
-  return Game.findOne({
-    ...whereSelector,
-  })
-  .then((gameObject) => {
+const processGetGameResponse = ({ Game, Game_Images, Game_Links }, igdbGameId) => (gameObject) => {
+  const includes = { include: [{ model: Game_Images }, { model: Game_Links }] };
     // Case 1: Game id is found and is up to date
-    if (gameObject && !checkIfUpdatedDateOld(gameObject.service_updatedAt)) {
-      return gameObject;
-    }
-    console.log('Calling igdb');
-    const igdbCall = client.games({ ids: [igdbGameId] })
+  if (gameObject && !checkIfUpdatedDateOld(gameObject.service_updatedAt)) {
+    return gameObject;
+  }
+  console.log('Calling igdb');
+  const igdbCall = client.games({ ids: [igdbGameId] })
     .then(response => compose(head, getBodyFromServiceResponse)(response))
     // TODO Remove this later
     .catch(() => {
@@ -85,27 +73,34 @@ export function getGameById(igdbGameId) {
     });
     // Case 2: There is no row in our table for given game id
     // Insert row into table
-    if (!gameObject) {
-      console.log('Case 2');
-      return igdbCall.then((igdbGameObject) => {
-        const modelObject = buildGameModelObject(igdbGameObject);
-        return Game.create(modelObject, {
-          include: includes.include,
-        });
-      })
+  if (!gameObject) {
+    console.log('Case 2');
+    return igdbCall.then((igdbGameObject) => {
+      const modelObject = buildGameModelObject(igdbGameObject);
+      return Game.create(modelObject, {
+        include: includes.include,
+      });
+    })
       .catch((err) => {
         throw Boom.badRequest(err);
       });
-    }
+  }
     // Case 3: Row exists but is outdated
     // Check if the igdb updated date from the response is same as the one in our db
-    if (gameObject && checkIfUpdatedDateOld(gameObject.service_updatedAt)) {
-      return igdbCall.then((igdbGameObject) => {
+  if (gameObject && checkIfUpdatedDateOld(gameObject.service_updatedAt)) {
+    return igdbCall.then((igdbGameObject) => {
         // return Game.update
-      }).catch((err) => { throw Boom.badRequest(err); });
-    }
-    throw Boom.badRequest('Invalid scenario');
-  })
+    }).catch((err) => { throw Boom.badRequest(err); });
+  }
+  throw Boom.badRequest('Invalid scenario');
+};
+export function getGameById(igdbGameId) {
+  console.log(igdbGameId, 'In get game by id');
+  const { Game } = this.models;
+  const whereSelector = getWhereSelectorIfParamNotEmpty('service_game_id')(igdbGameId);
+
+  return Game.findOne({ ...whereSelector })
+  .then(processGetGameResponse(this.models, igdbGameId))
   .then((response) => {
     const plainResponse = response.get({ plain: true });
     return omit(OMITTED_FIELDS_GAME_RESPONSE)(plainResponse);
