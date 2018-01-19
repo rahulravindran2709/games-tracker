@@ -1,5 +1,5 @@
 
-import { getServerMethod, getIdRequestParam } from '../shared/utils';
+import { getServerMethod, getIdRequestParam, getGameIdRequestParam } from '../shared/utils';
 
 
 const callback = reply => (err, result) => {
@@ -19,6 +19,8 @@ export const getGameById = (request, reply) =>
 export const getGameGenreById = (request, reply) =>
   getServerMethod('getGenreGameById')(request)(getIdRequestParam(request), callback(reply));
 
+export const getGameImagesByGameId = (request, reply) =>
+  getServerMethod('getGameImagesByGameId')(request)(getGameIdRequestParam(request), request.query.type, callback(reply));
 export default {
   getGames,
   getGameById,

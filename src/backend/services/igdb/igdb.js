@@ -112,32 +112,8 @@ export function getGameById(igdbGameId) {
   })
   .catch((err) => {
     const message = getDBErrorMessage(err);
-    console.log(message, 'IN main catch');
     throw Boom.badRequest(message);
   });
-  /* return client.games({ ids: [igdbGameId] })
-  .then((response) => {
-    const gameObject = compose(head, getBodyFromServiceResponse)(response);
-    const whereSelector = getWhereSelectorIfParamNotEmpty('game_id')(igdbGameId);
-    const defaultObject = pickRelevantFields(gameObject);
-    return Game.findCreateFind({
-      ...whereSelector,
-      defaults: {
-        name: defaultObject.name,
-        game_createdAt: defaultObject.created_at,
-        game_updatedAt: defaultObject.updated_at,
-      },
-    })
-    .then(([modelObject, wasInserted]) => {
-      const igdbSubset = compose(objOf('igdbGameId'), prop('id'))(gameObject);
-      const dbSubset = pick(['id'])(modelObject);
-      return mergeAll([gameObject, dbSubset, igdbSubset]);
-    });
-  })
-  .catch((error) => {
-    console.log(error, 'Error occurred');
-    throw Boom.badRequest(error);
-  }); */
 }
 
 export const getGenreById = (id) => {
@@ -154,3 +130,16 @@ export const getGenreById = (id) => {
       throw error;
     });
 };
+
+export function getGameImagesByGameId(gameId, type) {
+  const { Game_Images } = this.models;
+  const gameidWhereSelector = getWhereSelectorIfParamNotEmpty('game_id')(gameId);
+  const typeWhereSelector = getWhereSelectorIfParamNotEmpty('image_type')(type);
+  return Game_Images.findAll({
+    attributes: ['id', 'url', 'width', 'height'],
+    where: {
+      ...gameidWhereSelector.where,
+      ...typeWhereSelector.where,
+    },
+  });
+}

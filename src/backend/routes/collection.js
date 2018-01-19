@@ -22,7 +22,6 @@ const routes = [{
   path: '/collections/{collectionid}/games/{gameid}/time',
   handler: addTimesheet,
   config: {
-    auth: false,
     validate: {
       payload: timesheetPost,
     },
@@ -61,7 +60,6 @@ const routes = [{
     validate: {
       params: gameCollectionPutParam,
     },
-    auth: false,
     description: 'Add a game to a collection',
     notes: 'Add games to collection',
     tags: ['api', 'user', 'collections', 'games'],
