@@ -43,9 +43,8 @@ const GameDetailsBody = (props) => {
   const { classes, details, genres, collectionDetails } = props;
   const renderProgress = renderIf(!details || isEmpty(details));
   const renderIfNotEmpty = renderIf(details && !isEmpty(details));
-  const { name, developers, publishers, summary, screenshots,
-    first_release_date, rating, rating_count: ratingCount,
-  cover } = details;
+  const { developers, publishers, summary, screenshots,
+    first_release_date, rating, rating_count: ratingCount } = details;
   return (<div><Grid container className={classes.details} justify={'center'}>
     <Grid item md={6}>
       {renderProgress(<div className={classes.progress}><LinearProgress color="accent" /></div>)}
@@ -57,7 +56,7 @@ const GameDetailsBody = (props) => {
   </Grid>
     <Grid container justify={'flex-end'} className={classes.meta}>
       <Grid item xs={3}>
-        <QuickInfoCard cover={cover} gameTitle={name} collectionDetails={collectionDetails} /></Grid>
+        <QuickInfoCard collectionDetails={collectionDetails} /></Grid>
       <Grid item xs={6}><PlaytimeCard /><ScreenshotSection screenshots={screenshots} /></Grid>
       <Grid item md={3}><RatingsCard score={rating} ratingCount={ratingCount} /></Grid>
     </Grid>
