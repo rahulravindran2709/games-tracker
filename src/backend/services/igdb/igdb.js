@@ -3,8 +3,8 @@ import Boom from 'boom';
 import moment from 'moment';
 import { head, compose, pick, pathOr, map, assoc, omit, concat } from 'ramda';
 import { mapGameApiObjectToModel } from '../../mappers';
-import { getBodyFromServiceResponse, getWhereSelectorIfParamNotEmpty, getDBErrorMessage } from '../shared/utils';
-import { OMITTED_FIELDS_GAME } from '../shared/constants';
+import { getBodyFromServiceResponse, getWhereSelectorIfParamNotEmpty, getDBErrorMessage, getTypeFromCategoryCode } from '../shared/utils';
+import { OMITTED_FIELDS_GAME, OMITTED_FIELDS_GAME_RESPONSE } from '../shared/constants';
 
 global['3scaleKey'] = '422b0b250799d114e611860b340af41d';
 const client = igdb();
@@ -31,6 +31,10 @@ const buildGameModelObject = (apiResponseObject) => {
   const timeToBeat = pathOr({}, ['time_to_beat'])(apiResponseObject);
   modelObject.timeToBeat = [timeToBeat.normally, timeToBeat.hastly, timeToBeat.completely];
   // Websites
+  modelObject.Game_Links = map(({ url, category }) => ({
+    url,
+    type: getTypeFromCategoryCode(category),
+  }))(apiResponseObject.websites);
   // Steam appid
   modelObject.steamAppId = pathOr('', ['external', 'steam'])(apiResponseObject);
   return modelObject;
@@ -65,7 +69,6 @@ export function getGameById(igdbGameId) {
     }] };
   return Game.findOne({
     ...whereSelector,
-    include: includes.include,
   })
   .then((gameObject) => {
     // Case 1: Game id is found and is up to date
@@ -75,6 +78,7 @@ export function getGameById(igdbGameId) {
     console.log('Calling igdb');
     const igdbCall = client.games({ ids: [igdbGameId] })
     .then(response => compose(head, getBodyFromServiceResponse)(response))
+    // TODO Remove this later
     .catch(() => {
       const data = require('../../../../data/dummy').data[0];
       return { ...data, id: igdbGameId };
@@ -101,6 +105,10 @@ export function getGameById(igdbGameId) {
       }).catch((err) => { throw Boom.badRequest(err); });
     }
     throw Boom.badRequest('Invalid scenario');
+  })
+  .then((response) => {
+    const plainResponse = response.get({ plain: true });
+    return omit(OMITTED_FIELDS_GAME_RESPONSE)(plainResponse);
   })
   .catch((err) => {
     const message = getDBErrorMessage(err);

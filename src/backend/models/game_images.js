@@ -1,10 +1,18 @@
 
 module.exports = (sequelize, DataTypes) => {
   const GameImages = sequelize.define('Game_Images', {
-    image_type: DataTypes.STRING,
-    width: DataTypes.INTEGER,
-    height: DataTypes.INTEGER,
-    url: DataTypes.BLOB,
+    image_type: {
+      type: DataTypes.STRING,
+    },
+    width: {
+      type: DataTypes.INTEGER,
+    },
+    height: {
+      type: DataTypes.INTEGER,
+    },
+    url: {
+      type: DataTypes.STRING,
+    },
   });
   return GameImages;
 };

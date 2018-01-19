@@ -56,6 +56,9 @@ module.exports = (sequelize, DataTypes) => {
     timeToBeat: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
     },
+    relatedGames: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+    },
   });
   Game.associate = (models) => {
     Game.belongsToMany(models.Collection, { through: models.Game_Collection, foreignKey: 'game_id' });

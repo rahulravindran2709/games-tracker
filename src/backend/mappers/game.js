@@ -10,5 +10,7 @@ const gameMap = {
   developers: 'developers',
   publishers: 'publishers',
   genres: 'genres',
+  games: 'relatedGames',
+  first_release_date: 'firstReleaseDate',
 };
 export default gameMap;

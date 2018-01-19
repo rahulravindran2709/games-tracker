@@ -52,3 +52,10 @@ const addModelToOptions = objOf('models');
 const constructBindOptions = objOf('bind');
 export const constructMethodOptions = options =>
 compose(merge(options), constructBindOptions, addModelToOptions);
+const categoryMap = {
+  3: 'Wikipedia',
+  13: 'Steam',
+  2: 'Wikia',
+  1: 'Website',
+};
+export const getTypeFromCategoryCode = code => categoryMap[code] || categoryMap[1];
