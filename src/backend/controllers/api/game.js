@@ -1,13 +1,10 @@
-import { path } from 'ramda';
 
-const getServerMethod = methodName => path(['server', 'methods', methodName]);
-const getRequestParam = paramName => path(['params', paramName]);
-const getIdRequestParam = getRequestParam('id');
+import { getServerMethod, getIdRequestParam } from '../shared/utils';
+
 
 const callback = reply => (err, result) => {
-  console.log(err, 'In callback');
   if (err) {
-    return reply(require('../../../../data/dummy').data[0]);
+    return reply(err);
   }
   return reply(result);
 };

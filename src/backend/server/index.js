@@ -72,7 +72,7 @@ server.register([
 
 
 /* Common plugin registration */
-  .then(() => server.register([{ register: Blipp }]))
+  .then(() => server.register([{ register: Blipp, options: { showAuth: true } }]))
   .then(() => server.start())
   .then(() => server.connections.forEach(connection => server.log(['startup'], `Server running at: ${connection.info.uri}`)))
   .catch(err => console.error(err, 'Error occurred while trying to start server'));

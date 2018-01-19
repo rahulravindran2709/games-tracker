@@ -7,19 +7,20 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    game_id: {
+    service_game_id: {
       allowNull: false,
       type: Sequelize.INTEGER,
+      unique: true,
     },
     name: {
       allowNull: false,
       type: Sequelize.STRING,
     },
-    game_createdAt: {
+    service_createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
     },
-    game_updatedAt: {
+    service_updatedAt: {
       allowNull: false,
       type: Sequelize.DATE,
     },
@@ -56,6 +57,9 @@ module.exports = {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
     platforms: {
+      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    relatedGames: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
   }),

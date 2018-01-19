@@ -1,4 +1,6 @@
 import igdb from 'igdb-api-node';
+import Boom from 'boom';
+import moment from 'moment';
 import { head, compose, pick, mergeAll, prop, objOf } from 'ramda';
 import { getBodyFromServiceResponse, getWhereSelectorIfParamNotEmpty } from '../shared/utils';
 
@@ -31,10 +33,38 @@ export const getGames = (searchCriteria) => {
 };
 const pickRelevantFields = pick(['id', 'name',
   'created_at', 'updated_at', 'summary', 'first_release_date']);
+const checkIfUpdatedDateOld = updatedDate => moment().diff(moment(updatedDate), 'days') >= 365;
 export function getGameById(igdbGameId) {
   console.log(igdbGameId, 'In get game by id');
   const { Game } = this.models;
-  return client.games({ ids: [igdbGameId] })
+  const whereSelector = getWhereSelectorIfParamNotEmpty('service_game_id')(igdbGameId);
+  return Game.findOne({
+    ...whereSelector,
+  })
+  .then((gameObject) => {
+    // Case 1: Game id is found and is up to date
+    if (gameObject && !checkIfUpdatedDateOld(gameObject.service_updatedAt)) {
+      return gameObject;
+    }
+    console.log('Calling igdb');
+    const igdbCall = client.games({ ids: [igdbGameId] })
+    .then(response => compose(head, getBodyFromServiceResponse)(response))
+    .catch(() => require('../../../../data/dummy').data[0]);
+    // Case 2: There is no row in our table for given game id
+    // Insert row into table
+    if (!gameObject) {
+      return igdbCall.then((igdbGameObject) => {
+        return Game.create(igdbGameObject)
+      });
+    }
+    // Case 3: Row exists but is outdated
+    // Check if the igdb updated date from the response is same as the one in our db
+    if (checkIfUpdatedDateOld(gameObject.service_updatedAt)) {
+      return igdbCall.then();
+    }
+    throw Boom.badRequest('Invalid scenario');
+  });
+  /* return client.games({ ids: [igdbGameId] })
   .then((response) => {
     const gameObject = compose(head, getBodyFromServiceResponse)(response);
     const whereSelector = getWhereSelectorIfParamNotEmpty('game_id')(igdbGameId);
@@ -55,8 +85,8 @@ export function getGameById(igdbGameId) {
   })
   .catch((error) => {
     console.log(error, 'Error occurred');
-    throw error;
-  });
+    throw Boom.badRequest(error);
+  }); */
 }
 
 export const getGenreById = (id) => {

@@ -1,18 +1,19 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Game = sequelize.define('Game', {
-    game_id: {
+    service_game_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
+      unique: true,
     },
     name: {
       type: DataTypes.STRING,
     },
-    game_createdAt: {
+    service_createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
     },
-    game_updatedAt: {
+    service_updatedAt: {
       allowNull: false,
       type: DataTypes.DATE,
     },
@@ -32,16 +33,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     developers: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
     },
     publishers: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
     },
     genres: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
     },
     platforms: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
     },
   });
   Game.associate = (models) => {

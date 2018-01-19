@@ -3,6 +3,7 @@ import userMap from './user';
 import collectionMap from './collection';
 import wishlistMap from './wishlist';
 import timesheetMap from './timesheet';
+import gameMap from './game';
 
 const createMappedFieldArray = mapperObject => fieldArr =>
   [propOr(fieldArr[0], fieldArr[0], mapperObject), fieldArr[1]];
@@ -12,3 +13,4 @@ export const mapUserApiObjectToModel = mapApiObjectToModel(userMap);
 export const mapCollectionApiObjectToModel = mapApiObjectToModel(collectionMap);
 export const mapWishlistApiObjectToModel = mapApiObjectToModel(wishlistMap);
 export const mapTimesheetApiObjectToModel = mapApiObjectToModel(timesheetMap);
+export const mapGameApiObjectToModel = mapApiObjectToModel(gameMap);

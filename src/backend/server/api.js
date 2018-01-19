@@ -1,4 +1,3 @@
-import cors from 'hapi-cors';
 import authJwt from 'hapi-auth-jwt2';
 import datastore from '../datastore';
 import serviceRegistry from '../plugins/serviceregistry';
@@ -27,13 +26,11 @@ const initialiseApiRoutes = (server, routeObject) => () => {
   server.route(routeObject.enumerated);
   server.route(routeObject.user);
   server.route(routeObject.collection);
+  server.route(routeObject.game);
 };
 function register(server, options, next) {
   server.log(['plugin', 'info', 'api'], 'Registering the api server plugin');
-
   const configurationObject = getConfiguration(server);
-  const corsOptions = configurationObject.get('apiServer:cors');
-  // server.register([{ register: cors, options: corsOptions }])
   server.register([
     { register: authJwt },
   ])
