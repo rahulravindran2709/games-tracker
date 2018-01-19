@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import renderIf from 'render-if';
 import { connect } from 'react-redux';
+import Paper from 'material-ui/Paper';
 import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
@@ -12,23 +13,28 @@ import StarBorderIcon from 'material-ui-icons/StarBorder';
 import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
+  paper: {
+    marginTop: theme.spacing.unit,
+    padding: theme.spacing.unit * 2,
+  },
   root: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    marginTop: theme.spacing.unit * 2,
     background: theme.palette.background.paper,
   },
   gridList: {
     flexWrap: 'nowrap',
     transform: 'translateZ(0)',
+    width: '100%',
   },
   title: {
     color: theme.palette.primary[200],
   },
   headline: {
     textAlign: 'left',
+    marginBottom: theme.spacing.unit,
   },
   titleBar: {
     background:
@@ -37,7 +43,7 @@ const styles = theme => ({
 });
 const renderProgress = screenshots => renderIf(!screenshots || screenshots.length === 0);
 const renderScreenshots = screenshots => renderIf(screenshots && screenshots.length > 0);
-const ScreenshotSection = ({ screenshots, classes }) => (
+const ScreenshotSection = ({ screenshots, classes }) => (<Paper className={classes.paper}>
   <div className={classes.root}>
     <Grid container>
       <Grid item xs={12}>
@@ -48,7 +54,7 @@ const ScreenshotSection = ({ screenshots, classes }) => (
     {renderScreenshots(screenshots)(<GridList className={classes.gridList} cols={2.5}>
       {screenshots && screenshots.map(screenshot => (
         <GridListTile key={screenshot.id}>
-          <img src={screenshot.url} alt={screenshot.url} />
+          <img src={screenshot.url} alt={screenshot.url} height={screenshot.height} />
           <GridListTileBar
             title={'test'}
             classes={{
@@ -64,7 +70,7 @@ const ScreenshotSection = ({ screenshots, classes }) => (
         </GridListTile>
         ))}
     </GridList>)}
-  </div>
+  </div></Paper>
 );
 ScreenshotSection.propTypes = {
   screenshots: PropTypes.arrayOf(PropTypes.shape()),
