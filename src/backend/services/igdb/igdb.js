@@ -1,10 +1,10 @@
 import igdb from 'igdb-api-node';
 import Boom from 'boom';
 import moment from 'moment';
-import { head, compose, pick, pathOr, prop, objOf, omit } from 'ramda';
+import { head, compose, pick, pathOr, map, assoc, omit, concat } from 'ramda';
 import { mapGameApiObjectToModel } from '../../mappers';
 import { getBodyFromServiceResponse, getWhereSelectorIfParamNotEmpty, getDBErrorMessage } from '../shared/utils';
-import { OMITTED_FIELDS_GAME, COMPLEX_FIELDS_GAME } from '../shared/constants';
+import { OMITTED_FIELDS_GAME } from '../shared/constants';
 
 global['3scaleKey'] = '422b0b250799d114e611860b340af41d';
 const client = igdb();
@@ -18,9 +18,12 @@ const createSearchOptions = (options) => {
 };
 const buildGameModelObject = (apiResponseObject) => {
   // Omit complex fields
-  const simpleFieldsOnly = omit(OMITTED_FIELDS_GAME)(apiResponseObject)
+  const simpleFieldsOnly = omit(OMITTED_FIELDS_GAME)(apiResponseObject);
   const modelObject = mapGameApiObjectToModel(simpleFieldsOnly);
-  // screenshots
+  const createCover = assoc('image_type', 'Cover')(apiResponseObject.cover);
+  // screenshots // Cover image
+  modelObject.Game_Images = compose(concat([createCover]),
+  map(assoc('image_type', 'Screenshot')))(apiResponseObject.screenshots);
   // Ratings
   modelObject.esrb = pathOr(null, ['esrb', 'rating'])(apiResponseObject);
   modelObject.pegi = pathOr(null, ['pegi', 'rating'])(apiResponseObject);
@@ -49,15 +52,20 @@ export const getGames = (searchCriteria) => {
     throw error;
   });
 };
-const pickRelevantFields = pick(['id', 'name',
-  'created_at', 'updated_at', 'summary', 'first_release_date']);
 const checkIfUpdatedDateOld = updatedDate => moment().diff(moment(updatedDate), 'days') >= 365;
 export function getGameById(igdbGameId) {
   console.log(igdbGameId, 'In get game by id');
-  const { Game } = this.models;
+  const { Game, Game_Images, Game_Links } = this.models;
   const whereSelector = getWhereSelectorIfParamNotEmpty('service_game_id')(igdbGameId);
+  const includes = {
+    include: [{
+      model: Game_Images,
+    }, {
+      model: Game_Links,
+    }] };
   return Game.findOne({
     ...whereSelector,
+    include: includes.include,
   })
   .then((gameObject) => {
     // Case 1: Game id is found and is up to date
@@ -76,8 +84,10 @@ export function getGameById(igdbGameId) {
     if (!gameObject) {
       console.log('Case 2');
       return igdbCall.then((igdbGameObject) => {
-        const modelObject = buildGameModelObject(igdbGameObject)
-        return Game.create(modelObject);
+        const modelObject = buildGameModelObject(igdbGameObject);
+        return Game.create(modelObject, {
+          include: includes.include,
+        });
       })
       .catch((err) => {
         throw Boom.badRequest(err);

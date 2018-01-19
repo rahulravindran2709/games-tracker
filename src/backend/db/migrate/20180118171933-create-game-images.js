@@ -21,7 +21,7 @@ module.exports = {
       type: Sequelize.INTEGER,
     },
     url: {
-      type: Sequelize.BLOB,
+      type: Sequelize.STRING,
     },
     createdAt: {
       allowNull: false,

@@ -10,14 +10,14 @@ const serverMethodOptions = {
   },
 };
 const register = (server, options, next) => {
-  const { Game } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
+  const { Game, Game_Links, Game_Images } = path(['plugins', 'datastore', 'DatabaseModels'])(server);
   server.method('search', getGames, { ...serverMethodOptions,
     generateKey: params => (`${params.term || ''}${params.zone || ''}`) });
   const geGameByIdOptions = {
     ...serverMethodOptions,
     bind: {
       models: {
-        Game,
+        Game, Game_Links, Game_Images,
       },
     },
   };
