@@ -52,11 +52,12 @@ class RatingsCard extends React.Component {
     const { isOpen } = this.state;
     const renderProgressBar = renderIf((isNil(score) || isNil(ratingCount)));
     const renderContent = renderIf(score && ratingCount);
+    const ratingStarCount = score ? ((score * 5) / 100) : 0;
     return (<Card>
       <CardHeader title="User reviews" subheader="Ordered by date" />
       <CardContent>
         {renderProgressBar(<Progress />)}
-        {renderContent(<div><Rating value={4} />
+        {renderContent(<div><Rating value={ratingStarCount} />
           <Typography type="subheading" className={classes.shadow}>
             <span className="ratings-text">{score && score.toFixed(2)}/100 <span className="reviews-number">({ratingCount} ratings)</span></span>
           </Typography></div>)}

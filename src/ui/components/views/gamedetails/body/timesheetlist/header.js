@@ -12,7 +12,7 @@ import Checkbox from 'material-ui/Checkbox';
 const columnData = [
   { id: 'startTime', numeric: false, disablePadding: true, label: 'Start time' },
   { id: 'endTime', numeric: false, disablePadding: true, label: 'End time' },
-  { id: 'timeSpent', numeric: true, disablePadding: true, label: 'Time spent' },
+  { id: 'timeSpent', numeric: false, disablePadding: true, label: 'Time spent' },
 ];
 const propTypes = {
   numSelected: PropTypes.number.isRequired,

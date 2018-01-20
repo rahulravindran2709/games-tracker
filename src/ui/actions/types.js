@@ -1,5 +1,3 @@
-import { PENDING, FULFILLED, REJECTED } from 'redux-promise-middleware';
-
 export const LOGIN_STARTED = 'LOGIN_STARTED';
 export const LOGIN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
@@ -10,6 +8,3 @@ export const SEARCH_PENDING = 'SEARCH_PENDING';
 export const SEARCH_REJECTED = 'SEARCH_REJECTED';
 export const SEARCH_FULFILLED = 'SEARCH_FULFILLED';
 export const GET_GAME_BY_ID = 'GET_GAME_BY_ID';
-export const GET_GAME_BY_ID_PENDING = `${GET_GAME_BY_ID}_${PENDING}`;
-export const GET_GAME_BY_ID_FULFILLED = `${GET_GAME_BY_ID}_${FULFILLED}`;
-export const GET_GAME_BY_ID_REJECTED = `${GET_GAME_BY_ID}_${REJECTED}`;

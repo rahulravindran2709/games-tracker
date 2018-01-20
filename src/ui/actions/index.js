@@ -3,8 +3,12 @@ import { push } from 'react-router-redux';
 import { CALL_API, GET } from 'middlewares/api';
 import { ADD_MSG_SNACKBAR, DISPLAY_MSG_SNACKBAR, CLOSE_MSG_SNACKBAR,
   CLEAR_MSG_SNACKBAR } from 'constants/common/actions';
-import { GET_GAME_COLLECTION_BY_USERID } from 'constants/game/actions';
-import { GET_GAME_COLLECTION_BY_USERID as GAME_COLLECTION_URL } from 'constants/game/urls';
+import { GET_GAME_COLLECTION_BY_USERID, GET_GAME_SCREENSHOTS_BY_ID,
+  GET_GAME_COVER_BY_ID, GET_GAME_LINKS_BY_ID, GET_GAME_METADATA_BY_ID } from 'constants/game/actions';
+import { GET_GAME_COLLECTION_BY_USERID as GAME_COLLECTION_URL,
+GET_GAME_IMAGES_BY_ID as GET_GAME_IMAGES_BY_ID_URL,
+GET_GAME_LINKS_BY_ID as GET_GAME_LINKS_BY_ID_URL,
+GET_GAME_METADATA_BY_ID as GET_GAME_METADATA_BY_ID_URL } from 'constants/game/urls';
 
 import { TOGGLE_DRAWER, SEARCH, SEARCH_FULFILLED, GET_GAME_BY_ID } from './types';
 
@@ -40,6 +44,45 @@ export const getGameById = id =>
   },
 });
 
+export const getGameScreenshotsById = id =>
+({
+  type: CALL_API,
+  payload: {
+    auth: true,
+    method: GET,
+    requestName: GET_GAME_SCREENSHOTS_BY_ID,
+    url: `${GET_GAME_IMAGES_BY_ID_URL(id)}`,
+    params: {
+      type: 'Screenshot',
+    },
+  },
+});
+
+export const getGameCoverById = id =>
+({
+  type: CALL_API,
+  payload: {
+    auth: true,
+    method: GET,
+    requestName: GET_GAME_COVER_BY_ID,
+    url: `${GET_GAME_IMAGES_BY_ID_URL(id)}`,
+    params: {
+      type: 'Cover',
+    },
+  },
+});
+
+export const getGameLinkById = id =>
+({
+  type: CALL_API,
+  payload: {
+    auth: true,
+    method: GET,
+    requestName: GET_GAME_LINKS_BY_ID,
+    url: `${GET_GAME_LINKS_BY_ID_URL(id)}`,
+  },
+});
+
 export const checkIfGamePartOfCollection = (userId, gameId) => (
   {
     type: CALL_API,
@@ -51,11 +94,29 @@ export const checkIfGamePartOfCollection = (userId, gameId) => (
     },
   }
 );
+export const getGameMetaData = (collectionId, gameId) => (
+  {
+    type: CALL_API,
+    payload: {
+      auth: true,
+      method: GET,
+      requestName: GET_GAME_METADATA_BY_ID,
+      url: GET_GAME_METADATA_BY_ID_URL(collectionId, gameId),
+    },
+  }
+);
 export const gameDetailsInit = (userId, igdbGameId) => dispatch =>
   dispatch(getGameById(igdbGameId))
   .then(({ value: { data } }) => {
     const { id: gameId } = data;
-    return dispatch(checkIfGamePartOfCollection(userId, gameId));
+    return Promise.all([
+      dispatch(getGameScreenshotsById(gameId)),
+      dispatch(getGameLinkById(gameId))])
+      .then(() => dispatch(checkIfGamePartOfCollection(userId, gameId)))
+      .then(({ value: { data: collectionData } }) => {
+        const { Collections: [{ collectionId }] } = collectionData;
+        return dispatch(getGameMetaData(collectionId, gameId));
+      });
   });
 
 export const closeSnackbar = () => ({

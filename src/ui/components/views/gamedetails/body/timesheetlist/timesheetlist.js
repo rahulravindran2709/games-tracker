@@ -31,7 +31,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
 });
-function renderTimesheetRow({ timesheetId, timesheetIn, timesheetOut }) {
+function renderTimesheetRow({ timesheetId, timesheetIn, timesheetOut, timeTaken }) {
   const isSelected = this.isSelected(timesheetId);
   return (
     <TimesheetRow
@@ -41,6 +41,7 @@ function renderTimesheetRow({ timesheetId, timesheetIn, timesheetOut }) {
       key={timesheetId}
       startTime={timesheetIn}
       endTime={timesheetOut}
+      timeTaken={timeTaken}
     />
   );
 }
