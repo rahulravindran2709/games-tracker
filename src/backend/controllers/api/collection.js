@@ -3,7 +3,6 @@ import { getServerMethod, getIdRequestParam, getWishlistIdRequestParam,
 
 const callback = reply => (err, result) => {
   if (err) {
-    console.log(err.message, 'Error occurred');
     return reply(err);
   }
   return reply(result);
