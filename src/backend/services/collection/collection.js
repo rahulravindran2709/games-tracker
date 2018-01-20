@@ -15,16 +15,11 @@ export function getGameMetaDataByCollection(collectionId, gameId) {
     include: [{
       model: Game_Collection,
       attributes: ['playthroughs'],
-      where: {
-        collection_id: collectionId,
-        game_id: gameId,
-      },
+      where: { collection_id: collectionId, game_id: gameId },
     }],
   })
   .then((response) => {
-    if (!response || response.length === 0) {
-      return {};
-    }
+    if (!response || response.length === 0) { return {}; }
     const plainResponse = response[0].get({ plain: true });
     const getPlaythroughs = pathOr(0, ['Game_Collection']);
     const omitField = omit('Game_Collection');
