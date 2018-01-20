@@ -16,14 +16,18 @@ import selector from './playtimecard.selector';
 const AllTimesheets = ({ isOpen, lastPlayed }) => (
   <Collapse in={isOpen} timeout={1000} unmountOnExit>
     {
-      renderIf(lastPlayed)((<Typography paragraph type="body2">
+      renderIf(lastPlayed)(() => (<Typography paragraph type="body2">
             Last played: {moment(lastPlayed).fromNow()}
       </Typography>))
     }
     <TimesheetList />
   </Collapse>);
 AllTimesheets.propTypes = {
+  lastPlayed: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
+};
+AllTimesheets.defaultProps = {
+  lastPlayed: null,
 };
 const styles = () => ({ });
 const propTypes = {
@@ -38,11 +42,10 @@ const defaultProps = {
 const renderEmptyCardContent = metadata => renderIf(isEmpty(metadata));
 const renderCardContent = metadata => renderIf(metadata !== null);
 const PlaytimeCardContent = ({ playthroughs, totalTimeSpent }) => (<CardContent>
+  {renderIf(playthroughs > 0)(() => <Typography type="subheading">{playthroughs} completed playthroughs</Typography>)}
+  {renderIf(playthroughs === 0)(() => <Typography type="subheading">You havent completed this game yet. Get to it!</Typography>)}
   <Typography type="subheading">
-    {playthroughs} completed playthroughs
-  </Typography>
-  <Typography type="subheading">
-    You spent a total of {totalTimeSpent} on this game
+    You spent a total of {moment.duration(parseInt(totalTimeSpent, 10)).as('hours').toFixed(2)} hours on this game
   </Typography>
 </CardContent>);
 const EmptyCardContent = () => (<CardContent>
@@ -63,7 +66,6 @@ class PlaytimeCard extends React.Component {
   render() {
     const { classes, metadata } = this.props;
     const { isOpen } = this.state;
-
     return (<Card>
       <CardHeader title="Your effort" subheader="Ordered by date" />
       {renderEmptyCardContent(metadata)(() => (<EmptyCardContent />))}

@@ -32,3 +32,4 @@ export const updateRowInSelectedList = (id, selectedList) => {
 };
 const DATE_FORMAT_LONG = 'Do MMM, YYYY HH:mm';
 export const formatDate = unformattedDate => moment(unformattedDate).format(DATE_FORMAT_LONG);
+export const convertToHoursDuration = time => moment.duration(parseInt(time, 10)).as('hours').toFixed(2);

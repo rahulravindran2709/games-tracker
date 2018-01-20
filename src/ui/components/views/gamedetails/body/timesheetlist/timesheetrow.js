@@ -5,7 +5,7 @@ import {
   TableCell,
   TableRow,
 } from 'material-ui/Table';
-import { formatDate } from 'utils';
+import { formatDate, convertToHoursDuration } from 'utils';
 
 const TimesheetRow = (
   { isSelected, handleClick, handleKeydown, startTime, endTime, timeTaken }) => (
@@ -23,7 +23,7 @@ const TimesheetRow = (
       </TableCell>
       <TableCell padding="none">{formatDate(startTime)}</TableCell>
       <TableCell padding="none">{formatDate(endTime)}</TableCell>
-      <TableCell padding="none">{timeTaken}</TableCell>
+      <TableCell padding="none">{convertToHoursDuration(timeTaken)}</TableCell>
     </TableRow>);
 TimesheetRow.propTypes = {
   isSelected: PropTypes.bool.isRequired,
