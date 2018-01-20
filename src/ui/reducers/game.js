@@ -3,6 +3,7 @@ import { GET_GAME_BY_ID_FULFILLED,
   GET_GAME_SCREENSHOTS_BY_ID_FULFILLED,
   GET_GAME_COVER_BY_ID_FULFILLED,
   GET_GAME_LINKS_BY_ID_FULFILLED,
+  GET_GAME_METADATA_BY_ID_FULFILLED,
  } from 'constants/game/actions';
 import { GET_TIMESHEETS_FULFILLED } from 'constants/timesheet/actions';
 import { getActionType, getPayloadData } from './shared/utils';
@@ -13,6 +14,7 @@ const initialState = {
   screenshots: null,
   links: null,
   meta: {
+    stats: null,
     timesheets: null,
   },
 };
@@ -45,6 +47,13 @@ const game = (state = initialState, action) => {
     case GET_GAME_LINKS_BY_ID_FULFILLED: {
       return { ...state,
         links: data,
+      };
+    }
+    case GET_GAME_METADATA_BY_ID_FULFILLED: {
+      return { ...state,
+        meta: { ...state.meta,
+          stats: data,
+        },
       };
     }
     case GET_TIMESHEETS_FULFILLED: {
