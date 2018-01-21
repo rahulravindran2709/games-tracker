@@ -19,12 +19,14 @@ const propTypes = {
   selectedPegi: PropTypes.shape(),
   match: PropTypes.shape().isRequired,
   gameCollection: PropTypes.shape(),
+  cover: PropTypes.shape(),
 };
 const defaultProps = {
   gameDetails: null,
   userId: null,
   selectedEsrb: {},
   selectedPegi: {},
+  cover: null,
 };
 
 class GameDetailsView extends React.Component {
@@ -36,11 +38,13 @@ class GameDetailsView extends React.Component {
     return ((nextProps.match.params.id !== this.props.match.params.id) || !!nextProps.gameDetails);
   }
   render() {
-    const { gameDetails, selectedGenres, selectedEsrb, selectedPegi, gameCollection } = this.props;
+    const { gameDetails, cover, selectedGenres, selectedEsrb, selectedPegi, gameCollection
+    } = this.props;
     return (<Paper>
       <div className="game-details">
         <GameDetailsBanner
           details={gameDetails}
+          cover={cover}
           selectedEsrb={selectedEsrb}
           selectedPegi={selectedPegi}
         />
