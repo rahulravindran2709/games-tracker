@@ -44,9 +44,7 @@ const getCoverStyle = (cover) => {
     backgroundImage: `url("${coverUrl}")`,
   };
 };
-const GameDetailsBanner = ({ classes, details: {
-  name, cover,
-}, selectedEsrb: { rating: esrbRating = '' }, selectedPegi: { rating: pegiRating = '' } }) => (<div className={classes.banner} style={getCoverStyle(cover)}>
+const GameDetailsBanner = ({ classes, details: { name }, cover, selectedEsrb: { rating: esrbRating = '' }, selectedPegi: { rating: pegiRating = '' } }) => (<div className={classes.banner} style={getCoverStyle(cover)}>
   <div className={classes.header}>
     <Grid container className={classes.root}>
       <Grid item md={6}>
@@ -85,11 +83,13 @@ GameDetailsBanner.propTypes = {
   details: PropTypes.shape().isRequired,
   selectedEsrb: PropTypes.shape(),
   selectedPegi: PropTypes.shape(),
+  cover: PropTypes.shape(),
 };
 
 GameDetailsBanner.defaultProps = {
   selectedEsrb: {},
   selectedPegi: {},
+  cover: null,
 };
 
 const stylesHOC = withStyles(styles);
