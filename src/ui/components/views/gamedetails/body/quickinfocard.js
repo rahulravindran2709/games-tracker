@@ -22,6 +22,13 @@ const styles = {
 };
 
 const getImageCoverUrl = url => url && url.replace('t_thumb', 't_cover_big');
+const renderCollectionName = collectionName => () => (<Typography component="p">
+  Part of {collectionName}
+</Typography>);
+const anchorOrigin = { vertical: 'bottom',
+  horizontal: 'center' };
+const transformOrigin = { vertical: 'center',
+  horizontal: 'center' };
 class QuickInfoCard extends React.Component {
   state = {
     open: false,
@@ -46,46 +53,29 @@ class QuickInfoCard extends React.Component {
     });
   }
   render() {
-    const { classes, cover, gameTitle, gameId, collectionName, links } = this.props;
+    const { classes, cover, gameTitle, collectionName, links } = this.props;
     const { anchorEl, open } = this.state;
-    return (
-      <div>
-        <Card className={classes.card}>
-          {renderIf(cover)(() => (<CardMedia
-            className={classes.media}
-            image={getImageCoverUrl(cover.url)}
-            title={gameTitle}
-          />))}
-          <CardContent>
-            <Typography type="headline" component="h2">
-              {gameTitle}
-            </Typography>
-            {
-              renderIf(!!collectionName)(() =>
-              (<Typography component="p">
-                  Part of {collectionName}
-              </Typography>))
-            }
-          </CardContent>
-          <Actions onWebsiteLinkClick={this.handleWebsiteClick} />
-        </Card>
-        <Popover
-          open={open}
-          anchorEl={anchorEl}
-          anchorReference={'anchorEl'}
-          onClose={this.handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'center',
-            horizontal: 'center',
-          }}
-        >
-          <WebsiteLinks websites={links} />
-        </Popover>
-      </div>
+    return (<div><Card className={classes.card}>
+      {renderIf(cover)(() => (<CardMedia
+        className={classes.media}
+        image={getImageCoverUrl(cover.url)}
+        title={gameTitle}
+      />))}
+      <CardContent>
+        <Typography type="headline" component="h2">{gameTitle}</Typography>
+        {renderIf(!!collectionName)(renderCollectionName(collectionName))}
+      </CardContent>
+      <Actions onWebsiteLinkClick={this.handleWebsiteClick} />
+    </Card>
+      <Popover
+        open={open}
+        anchorEl={anchorEl}
+        anchorReference={'anchorEl'}
+        onClose={this.handleClose}
+        anchorOrigin={anchorOrigin}
+        transformOrigin={transformOrigin}
+      >
+        <WebsiteLinks websites={links} /></Popover></div>
     );
   }
 }
@@ -104,7 +94,7 @@ QuickInfoCard.defaultProps = {
   gameTitle: '',
   gameId: null,
   cover: null,
-  link: null,
+  links: null,
   collectionName: null,
 };
 const withStylesHOC = withStyles(styles);
