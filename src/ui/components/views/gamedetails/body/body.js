@@ -21,6 +21,7 @@ const styles = theme => ({
     flexGrow: 1,
     paddingTop: theme.spacing.unit * 2,
     backgroundColor: theme.palette.primary[900],
+    paddingBottom: theme.spacing.unit * 2,
     color: '#fff',
   },
   progress: {
