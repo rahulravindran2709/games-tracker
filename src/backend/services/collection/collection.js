@@ -1,46 +1,34 @@
 /* NOTE Do not use arrow functions here as
 they cannot be bound to different context while creating them as server methods */
-import { reduce, props, apply, prop, compose, subtract, evolve, head, pick, objOf } from 'ramda';
+import { compose, head, pick, objOf, converge, pathOr, omit, merge } from 'ramda';
 import Boom from 'boom';
-import { getWhereSelectorIfParamNotEmpty, isNotEmpty, getDBErrorMessage } from '../shared/utils';
+import { getDBErrorMessage } from '../shared/utils';
 
-const getTotalTimePlayed = reduce((accum, current) => {
-  const currentPlainObject = current.get({ plain: true });
-  const parseTimesheetDates = evolve({
-    timesheetIn: Date.parse,
-    timesheetOut: Date.parse,
-  });
-  const getTimesInOrder = props(['timesheetOut', 'timesheetIn']);
-  const timeDifference = compose(apply(subtract),
-  getTimesInOrder, parseTimesheetDates)(currentPlainObject);
-  return accum + timeDifference;
-}, 0);
-
-const getLastPlayed = compose(prop('timesheetOut'), head);
 export function getGameMetaDataByCollection(collectionId, gameId) {
   const { Game_Collection, Timesheet } = this.models;
-  console.log(`${collectionId} - ${gameId}`, 'In get metadata by collection');
+  const { sequelize } = Game_Collection;
+  console.log(`${collectionId} - ${gameId} `, 'In get metadata by collection');
   return Timesheet.findAll({
-    attributes: ['timesheetIn', 'timesheetOut'],
-    order: [['timesheetOut', 'DESC']],
+    attributes: [[sequelize.fn('SUM', sequelize.col('timeTaken')), 'totalTimeTaken'], [sequelize.fn('MAX', sequelize.col('timesheetOut')), 'lastPlayed']],
+    group: ['gameCollectionId', 'Game_Collection.id'],
+    sort: ['timeSheetOut'],
     include: [{
-      attributes: ['playthroughs'],
       model: Game_Collection,
-      where: {
-        collection_id: collectionId,
-        game_id: gameId,
-      },
+      attributes: ['playthroughs'],
+      where: { collection_id: collectionId, game_id: gameId },
     }],
   })
-  .then(response => isNotEmpty(response) ? ({
-    totalTimePlayed: getTotalTimePlayed(response),
-    lastPlayed: getLastPlayed(response),
-    collectionId,
-    gameId,
-    ...response[0].Game_Collection.get({
-      plain: true,
-    }),
-  }) : {});
+  .then((response) => {
+    if (!response || response.length === 0) { return {}; }
+    const plainResponse = response[0].get({ plain: true });
+    const getPlaythroughs = pathOr(0, ['Game_Collection']);
+    const omitField = omit('Game_Collection');
+    const flattenedResponse = converge(merge, [omitField, getPlaythroughs])(plainResponse);
+    return flattenedResponse;
+  })
+  .catch((err) => {
+    throw Boom.badRequest(err);
+  });
 }
 
 export function addGameToCollection(collectionId, gameId, gameCollectionBody = {

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     timeTaken: DataTypes.BIGINT,
   });
   Timesheet.associate = (models) => {
-    // Timesheet.belongsTo(models.Game_Collection, { foreignKey: 'gameCollectionId' });
+    Timesheet.belongsTo(models.Game_Collection, { foreignKey: 'gameCollectionId' });
   };
 
   return Timesheet;

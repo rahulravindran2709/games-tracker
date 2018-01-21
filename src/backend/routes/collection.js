@@ -46,6 +46,7 @@ const routes = [{
   path: '/collections/{collectionid}/games/{gameid}',
   handler: getGameMetaDataByCollection,
   config: {
+    auth: false,
     description: 'Get metadata for a specific game in a collection',
     notes: 'Get games in collection',
     tags: ['api', 'user', 'collections', 'games'],
