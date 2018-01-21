@@ -14,7 +14,7 @@ const descriptionMap = {
 };
 export const WebsiteLinks = ({ websites }) => (<List dense>
   {
-    websites && websites.map((website) => (<ListItem key={website.id} button>
+    websites && websites.map(website => (<ListItem key={website.id} button>
       <a target={'_blank'} href={website.url}><ListItemText
         primary={website.type}
         secondary={descriptionMap[website.type] || ''}
@@ -25,6 +25,9 @@ export const WebsiteLinks = ({ websites }) => (<List dense>
 WebsiteLinks.propTypes = {
   websites: PropTypes.arrayOf(PropTypes.shape()),
 };
+WebsiteLinks.defaultProps = {
+  websites: null,
+};
 export const Actions = ({ onWebsiteLinkClick }) => (<CardActions>
   <Button dense color="primary">
       Share
@@ -33,3 +36,7 @@ export const Actions = ({ onWebsiteLinkClick }) => (<CardActions>
       Visit Website
     </Button>
 </CardActions>);
+
+Actions.propTypes = {
+  onWebsiteLinkClick: PropTypes.func.isRequired,
+};
