@@ -47,9 +47,7 @@ class DashboardView extends React.Component {
     return (<div className={classes.container}>
       <Banner userName={'Rahul'} />
       <Meta metadata={metadata} />
-      <Paper>
-        <Body collections={collections} wishlists={wishlists} />
-      </Paper>
+      <Body collections={collections} wishlists={wishlists} />
     </div>);
   }
 }
