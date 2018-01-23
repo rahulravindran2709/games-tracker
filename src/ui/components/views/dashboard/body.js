@@ -25,21 +25,24 @@ const renderUserLists = userLists => (userLists.map(
   userListItem => (<Grid item md={6}>
     <UserListSingle itemData={userListItem} />
   </Grid>)));
+
+const HeaderText = ({ text }) => (<Grid item md={12}>
+  <Typography type="headline">{text}</Typography>
+</Grid>);
+HeaderText.propTypes = {
+  text: PropTypes.string.isRequired,
+};
 const DashboardBody = ({ classes, collections, wishlists }) => (
   <div className={classes.root}>
     <Paper className={classes.paper}>
       <Grid container className={classes.meta}>
-        <Grid item md={12}>
-          <Typography type="headline">{'Collections'}</Typography>
-        </Grid>
+        <HeaderText text={'Collections'} />
         {renderUserLists(collections)}
       </Grid>
     </Paper>
     <Paper className={classes.paper}>
       <Grid container className={classes.meta}>
-        <Grid item md={12}>
-          <Typography type="headline">{'Wishlists'}</Typography>
-        </Grid>
+        <HeaderText text={'Wishlists'} />
         {renderUserLists(wishlists)}
       </Grid>
     </Paper>
