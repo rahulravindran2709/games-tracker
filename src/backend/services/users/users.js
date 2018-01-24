@@ -34,9 +34,7 @@ export function getUserCollectionsByUserId(id) {
         include: [{
           attributes: ['id', 'width', 'height', 'url'],
           model: Game_Images,
-          where: {
-            image_type: 'Cover',
-          },
+          where: { image_type: 'Cover' },
         }],
       }],
     }],
