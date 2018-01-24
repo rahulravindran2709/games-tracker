@@ -24,6 +24,7 @@ const routes = [
     path: '/users/{id}/collections',
     handler: getUserCollections,
     config: {
+      auth: false,
       description: 'Get all collections associated to a user',
       notes: 'Get active collections',
       tags: ['api', 'user', 'collections'],

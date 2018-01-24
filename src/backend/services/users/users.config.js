@@ -10,8 +10,8 @@ const serverMethodOptions = {
   bind: {},
 };
 const constructMethodOptionsWithDefault = constructMethodOptions(serverMethodOptions);
-export const constructUserCollectionMethodOptions = ({ User, Collection }) =>
-  constructMethodOptionsWithDefault({ User, Collection });
+export const constructUserCollectionMethodOptions = ({ User, Collection, Game, Game_Images }) =>
+  constructMethodOptionsWithDefault({ User, Collection, Game, Game_Images });
 
 export const constructUserMethodOptions = ({ User }) =>
   constructMethodOptionsWithDefault({ User });

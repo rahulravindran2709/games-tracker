@@ -18,16 +18,25 @@ export function getUserById(id) {
 }
 
 export function getUserCollectionsByUserId(id) {
-  console.log(id, 'Inside getUserCollections');
-  const { User, Collection } = this.models;
+  const { User, Collection, Game, Game_Images } = this.models;
   const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
   return User.findAll({ include: [
     {
       attributes: ['collection_name', ['id', 'collection_id']],
       model: Collection,
-      through: {
-        attributes: [],
-      },
+      through: { attributes: [] },
+      include: [{
+        model: Game,
+        attributes: ['id', 'service_game_id', 'name'],
+        through: {
+          attributes: ['playthroughs'],
+        },
+        include: [{
+          attributes: ['id', 'width', 'height', 'url'],
+          model: Game_Images,
+          where: { image_type: 'Cover' },
+        }],
+      }],
     }],
     attributes: [['id', 'user_id']],
     ...whereSelector,
@@ -43,7 +52,7 @@ export function getUserWishlistsByUserId(id) {
       attributes: ['wishlist_name', ['id', 'wishlist_id']],
       model: Wishlist,
       through: {
-        attributes: [],
+        attributes: ['id', 'service_game_id', 'name'],
       },
     }],
     attributes: [['id', 'user_id']],
