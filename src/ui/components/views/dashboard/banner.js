@@ -20,7 +20,7 @@ const DashboardBanner = ({ classes, userName }) => (
     <Grid item md={12}>
       <div className="banner">
         <div className="header">
-          <Typography type="display2" gutterBottom className="shadow text">{userName + '\'s gaming life'}</Typography>
+          <Typography type="display2" gutterBottom className="shadow text">{`${userName}'s gaming life`}</Typography>
         </div>
       </div>
     </Grid>

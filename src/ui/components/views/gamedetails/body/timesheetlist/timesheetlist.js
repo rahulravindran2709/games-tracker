@@ -58,6 +58,12 @@ let Progress = ({ classes }) => (<TableBody>
   </TableRow>
 </TableBody>);
 Progress = withStyles(progressStyles)(Progress);
+const EmptyRow = ({ emptyRows }) => (<TableRow style={{ height: 49 * emptyRows }}>
+  <TableCell colSpan={6} />
+</TableRow>);
+EmptyRow.propTypes = {
+  emptyRows: PropTypes.number.isRequired,
+};
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -124,38 +130,29 @@ class EnhancedTable extends React.Component {
     const emptyRows = data ?
     (rowsPerPage - Math.min(rowsPerPage, (count - page) * rowsPerPage)) : 0;
     return (
-      <Paper className={classes.root}>
-        <TimesheetToolbar numSelected={selected.length} />
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table}>
-            <TimesheetTableHeader
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={this.handleSelectAllClick}
-              onRequestSort={this.handleRequestSort}
-              rowCount={count}
-            />
-            {renderProgressBar(() => <Progress />)}
-            {renderTable(() => (<TableBody>
-              {data.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
+      <Paper className={classes.root}><TimesheetToolbar numSelected={selected.length} />
+        <div className={classes.tableWrapper}><Table className={classes.table}>
+          <TimesheetTableHeader
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={this.handleSelectAllClick}
+            onRequestSort={this.handleRequestSort}
+            rowCount={count}
+          />
+          {renderProgressBar(() => <Progress />)}
+          {renderTable(() => (<TableBody>
+            {data.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
                 .map(renderTimesheetRow, this)}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>))}
-            <TimesheetListFooter
-              length={count}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              handleChangePage={this.handleChangePage}
-              handleChangeRowsPerPage={this.handleChangeRowsPerPage}
-            />
-          </Table>
-        </div>
-      </Paper>
+            {emptyRows > 0 && (<EmptyRow emptyRows={emptyRows} />)}</TableBody>))}
+          <TimesheetListFooter
+            length={count}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            handleChangePage={this.handleChangePage}
+            handleChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+        </Table></div></Paper>
     );
   }
 }
