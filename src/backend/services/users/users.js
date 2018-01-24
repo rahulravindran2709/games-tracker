@@ -18,16 +18,13 @@ export function getUserById(id) {
 }
 
 export function getUserCollectionsByUserId(id) {
-  console.log(id, 'Inside getUserCollections');
   const { User, Collection, Game, Game_Images } = this.models;
   const whereSelector = getWhereSelectorIfParamNotEmpty('id')(id);
   return User.findAll({ include: [
     {
       attributes: ['collection_name', ['id', 'collection_id']],
       model: Collection,
-      through: {
-        attributes: [],
-      },
+      through: { attributes: [] },
       include: [{
         model: Game,
         attributes: ['id', 'service_game_id', 'name'],
