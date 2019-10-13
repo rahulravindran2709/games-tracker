@@ -6,3 +6,4 @@ const reducer = combineReducers({
 });
 
 export default reducer;
+export type AppState = ReturnType<typeof reducer>;
