@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { Message } from '@games-tracker-workspace/api-interfaces';
-import Button from '@material-ui/core/Button';
+
+import Dashboard from './dashboard/dashboard';
+import Details from './details/details';
 
 export const App = () => {
   const [m, setMessage] = useState<Message>({ message: '' });
@@ -12,20 +15,14 @@ export const App = () => {
   }, []);
 
   return (
-    <>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Welcome to games-tracker!</h1>
-        <img
-          width="450"
-          src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png"
-          alt="alternativetext"
-        />
-      </div>
-      <Button variant="contained" color="primary">
-      Hello World
-    </Button>
-      <div>{m.message}</div>
-    </>
+    <Switch>
+      <Route path="/details">
+        <Details />
+      </Route>
+      <Route path="/">
+        <Dashboard />
+      </Route>
+    </Switch>
   );
 };
 
