@@ -16,7 +16,7 @@ export function dashboardReducer(
   const { type, payload } = action;
   switch (type) {
     case 'GET_DASHBOARD':
-      return { ...state };
+      return { ...state, recentlyPlayed: payload.recentlyPlayed };
     default:
       return { ...state };
   }

@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './app';
-import { store } from './store';
+import configureStore, { history } from './store';
+
+const store = configureStore({});
 
 function Root(props) {
   return (
     <Provider store={store}>
-      <Router>
+      <ConnectedRouter history={history}>
         <App />
-      </Router>
+      </ConnectedRouter>
     </Provider>
   );
 }
