@@ -1,6 +1,0 @@
-import { FULFILLED } from 'redux-promise-middleware';
-
-export const ADD_TIMESHEET_ENTRY = 'ADD_TIMESHEET_ENTRY';
-export const UPDATE_TIMESHEET_ENTRY = 'UPDATE_TIMESHEET_ENTRY';
-export const GET_TIMESHEETS = 'GET_TIMESHEETS';
-export const GET_TIMESHEETS_FULFILLED = `${GET_TIMESHEETS}_${FULFILLED}`;

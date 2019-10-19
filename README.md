@@ -1,79 +1,76 @@
-# Games Tracker
-[![Known Vulnerabilities](https://snyk.io/test/github/rahulravindran2709/games-tracker/bde28c64569cb77d1afc4b6dfdb55c90eb713de1/badge.svg)](https://snyk.io/test/github/rahulravindran2709/games-tracker/bde28c64569cb77d1afc4b6dfdb55c90eb713de1)
-[![Maintainability](https://api.codeclimate.com/v1/badges/e712264f6339422a5ede/maintainability)](https://codeclimate.com/github/rahulravindran2709/games-tracker/maintainability)
+# GamesTrackerWorkspace
 
-This app is to enable tracking of the hours being spent by people playing their favorite games. Uses a free to use game API provided by IGDB to enable users to search their favorite games and record hours spent conquering it.
+This project was generated using [Nx](https://nx.dev).
 
+<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
 
-## Getting Started
+🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
 
-```sh
-$ git clone https://github.com/rahulravindran2709/games-tracker.git
-```
+## Adding capabilities to your workspace
 
+Nx supports many plugins which add capabilities for developing different types of applications and different tools.
 
+These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
 
-### Prerequisites
-- [node.js](http://nodejs.org)
-- yarn
-  ```sh
-  $ npm install -g yarn
-  ```
-- A browser that doesn't suck ;)
+Below are some plugins which you can add to your workspace:
 
+- [React](https://reactjs.org)
+  - `npm install --save-dev @nrwl/react`
+- Web (no framework frontends)
+  - `npm install --save-dev @nrwl/web`
+- [Angular](https://angular.io)
+  - `npm install --save-dev @nrwl/angular`
+- [Nest](https://nestjs.com)
+  - `npm install --save-dev @nrwl/nest`
+- [Express](https://expressjs.com)
+  - `npm install --save-dev @nrwl/express`
+- [Node](https://nodejs.org)
+  - `npm install --save-dev @nrwl/node`
 
-### Installing
-```sh
-$ yarn install
-$ yarn run start
-```
+## Generate an application
 
-## Running the tests
-```sh
-$ yarn run test
-```
-## Deployment
-TODO
+Run `nx g @nrwl/react:app my-app` to generate an application.
 
-## Built With
+> You can use any of the plugins above to generate applications as well.
 
-###Front end
-  * [React.js](https://facebook.github.io/react/) - The UI layer
-  * [Redux](http://redux.js.org) - State management for the front end
-  * [React router](https://reacttraining.com/react-router/) - For view navigation
-  * [Ramda.js](http://ramdajs.com) - The FP toolkit
-  * [Recompose](https://github.com/acdlite/recompose) - The React HOC toolkit
-  * [Material UI](http://material-ui.com) - UI components inspired by Google's material design
+When using Nx, you can create multiple applications and libraries in the same workspace.
 
-###Back end
-  * [Hapi.js](https://hapijs.com) - API endpoints plus web server
-  * [sequelize](http://docs.sequelizejs.com/) - ORM framework
-  * [postgresql](https://www.postgresql.org/) - Postgresql for storing time tracking and user data
+## Generate a library
 
-###Tools
-  * [webpack](https://webpack.js.org) - For module bundling and asset optimization
-  * [babel](https://babeljs.io) - Transpiler for ES6 code (FE and BE ) plus react JSX syntax
+Run `nx g @nrwl/react:lib my-lib` to generate a library.
 
+> You can also use any of the plugins above to generate libraries as well.
 
-## Contributing
-Currently a solo venture
+Libraries are sharable across libraries and applications. They can be imported from `@games-tracker-workspace/mylib`.
 
+## Development server
 
-## Versioning
+Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
-  Using [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/rahulravindran2709/games-tracker/tags).
+## Code scaffolding
 
-  ## Authors
+Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
 
-  * **Rahul Ravindran**
+## Build
 
-See also the list of [contributors](https://github.com/rahulravindran2709/games-tracker/contributors) who participated in this project.
+Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## License
+## Running unit tests
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
 
-## Acknowledgments
+Run `nx affected:test` to execute the unit tests affected by a change.
 
-* My blinding love for games
-* The kind people at [IGDB](http://igdb.com/api) for offering a free API to play with
+## Running end-to-end tests
+
+Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+
+Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+
+## Understand your workspace
+
+Run `nx dep-graph` to see a diagram of the dependencies of your projects.
+
+## Further help
+
+Visit the [Nx Documentation](https://nx.dev) to learn more.

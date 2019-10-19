@@ -1,26 +1,39 @@
 {
-"extends":"airbnb",
-"env": {
-  "browser": true,
-  "es6": true,
-  "node": true,
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
-"settings": {
-        "import/resolver": {
-        "webpack": "webpack.config.js"
+  "plugins": ["@typescript-eslint", "@nrwl/nx"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-parameter-properties": "off",
+    "@nrwl/nx/enforce-module-boundaries": [
+      "error",
+      {
+        "allow": [],
+        "depConstraints": [
+          { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "off"
+      }
     }
-  },
-"parser": "babel-eslint",
-"globals": {
-    "beforeEach": true,
-    "describe": true,
-    "expect": true,
-    "it": true,
-    "xdescribe": true,
-    "xit": true,
-    "__DEV__": true,
-  },
-"rules": {
-  "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
-  }
+  ]
 }
