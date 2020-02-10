@@ -8,12 +8,6 @@
     "nx.json": "*"
   },
   "projects": {
-    "games-tracker": {
-      "tags": []
-    },
-    "games-tracker-e2e": {
-      "tags": []
-    },
     "api": {
       "tags": []
     },
