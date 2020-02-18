@@ -5,14 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Grow from '@material-ui/core/Grow';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import { getDaysInMonth } from 'date-fns';
+import Button from '@material-ui/core/Button';
 import CustomPicker from './custompicker/custom-picker';
 
 
@@ -90,6 +84,7 @@ export const Timelog = (props: TimelogProps) => {
               />
             </FormControl>
             <CustomPicker onDateSelect={handleCompletionDateChange} />
+            <Button variant={'contained'} color={'primary'}>Save Progress</Button>
           </Paper>
         </div>
       </Grow>
