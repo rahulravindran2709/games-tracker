@@ -11,6 +11,7 @@ import SynopsisContent from './synopsis/synopsis';
 import CreditContent from './credits/credits';
 import MediaContent from './media/media';
 import SidebarContent from './sidebar/sidebar';
+import Timelog from './timelog/timelog';
 import './details.css';
 
 
@@ -62,6 +63,9 @@ export const Details = (props: DetailsProps) => {
       </div>
       <Grid container>
         <Grid item xs={12}>
+          <Timelog />
+        </Grid>
+        <Grid item xs={12}>
           <Grid container justify="center">
             <Tabs
               value={value}
@@ -79,7 +83,7 @@ export const Details = (props: DetailsProps) => {
         <Grid item xs={9}>
           <Paper variant={'outlined'} className={classes.tabContent}>
             <Switch>
-              <Route path="/details/synopsis" render={() => (<SynopsisContent />)} />
+              <Route path={"/details/synopsis"} render={() => (<SynopsisContent />)} />
               <Route path="/details/media" render={() => (<MediaContent />)} />
               <Route path="/details/credits" render={() => (<CreditContent />)} />
             </Switch>

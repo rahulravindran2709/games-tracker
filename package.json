@@ -26,9 +26,12 @@
   },
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "1.x",
     "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.42",
+    "@material-ui/pickers": "^3.2.10",
+    "date-fns": "^2.9.0",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-router-dom": "5.1.2"
@@ -50,7 +53,7 @@
     "@types/react": "16.9.1",
     "@types/react-dom": "16.8.5",
     "@types/react-redux": "^7.1.4",
-    "@types/react-router-dom": "5.0.1",
+    "@types/react-router-dom": "5.1.2",
     "@typescript-eslint/eslint-plugin": "2.0.0-alpha.4",
     "@typescript-eslint/parser": "2.0.0-alpha.4",
     "dotenv": "6.2.0",
