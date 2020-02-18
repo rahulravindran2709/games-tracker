@@ -8,16 +8,16 @@
     "nx.json": "*"
   },
   "projects": {
-    "games-tracker": {
-      "tags": []
-    },
-    "games-tracker-e2e": {
-      "tags": []
-    },
     "api": {
       "tags": []
     },
     "api-interfaces": {
+      "tags": []
+    },
+    "user-ui": {
+      "tags": []
+    },
+    "user-ui-e2e": {
       "tags": []
     }
   }
